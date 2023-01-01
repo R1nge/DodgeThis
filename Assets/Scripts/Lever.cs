@@ -9,7 +9,6 @@ public class Lever : MonoBehaviour
     public float GetRot()
     {
         var rot = transform.rotation.eulerAngles.z;
-        print("Before " + rot);
         if (transform.rotation.eulerAngles.z < 180)
         {
             rot = -transform.rotation.eulerAngles.z;
@@ -23,8 +22,7 @@ public class Lever : MonoBehaviour
         {
             rot = 0;
         }
-
-        print(rot);
+        
         return rot;
     }
 
@@ -34,7 +32,6 @@ public class Lever : MonoBehaviour
         transform.Rotate(Vector3.forward, xRot * rotSpeed);
         var rot = transform.rotation.eulerAngles;
         rot.z = Mathf.Clamp(rot.z, min, max);
-        print(rot.z);
         transform.rotation = Quaternion.Euler(rot);
     }
 }
