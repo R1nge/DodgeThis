@@ -1,8 +1,11 @@
 ﻿using System;
 using UnityEngine;
 
-public class DropButton : MonoBehaviour
+namespace Crane
 {
-    public event Action OnButtonPressed;
-    private void OnMouseDown() => OnButtonPressed?.Invoke();
+    public class DropButton : MonoBehaviour
+    {
+        public event Action OnButtonPressed;
+        private void OnMouseDown() => OnButtonPressed?.Invoke();
+    }
 }

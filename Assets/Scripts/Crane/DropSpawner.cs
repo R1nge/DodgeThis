@@ -1,38 +1,41 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class DropSpawner : MonoBehaviour
+namespace Crane
 {
-    [SerializeField] private GameObject[] drops;
-    [SerializeField] private Transform spawnPoint;
-    private DropButton _dropButton;
-    private bool _hasDrop;
-
-    private void Awake()
+    public class DropSpawner : MonoBehaviour
     {
-        _dropButton = FindObjectOfType<DropButton>();
-        _dropButton.OnButtonPressed += OnButtonPressed;
-        SpawnDrop();
-    }
+        [SerializeField] private GameObject[] drops;
+        [SerializeField] private Transform spawnPoint;
+        private DropButton _dropButton;
+        private bool _hasDrop;
 
-    private void OnButtonPressed()
-    {
-        if (!_hasDrop) return;
-        StartCoroutine(Wait_c());
-    }
+        private void Awake()
+        {
+            _dropButton = FindObjectOfType<DropButton>();
+            _dropButton.OnButtonPressed += OnButtonPressed;
+            SpawnDrop();
+        }
 
-    private IEnumerator Wait_c()
-    {
-        _hasDrop = false;
-        yield return new WaitForSeconds(3f);
-        SpawnDrop();
-    }
+        private void OnButtonPressed()
+        {
+            if (!_hasDrop) return;
+            StartCoroutine(Wait_c());
+        }
 
-    private void SpawnDrop()
-    {
-        Instantiate(drops[Random.Range(0, drops.Length)], spawnPoint);
-        _hasDrop = true;
-    }
+        private IEnumerator Wait_c()
+        {
+            _hasDrop = false;
+            yield return new WaitForSeconds(3f);
+            SpawnDrop();
+        }
 
-    private void OnDestroy() => _dropButton.OnButtonPressed -= OnButtonPressed;
+        private void SpawnDrop()
+        {
+            Instantiate(drops[Random.Range(0, drops.Length)], spawnPoint);
+            _hasDrop = true;
+        }
+
+        private void OnDestroy() => _dropButton.OnButtonPressed -= OnButtonPressed;
+    }
 }

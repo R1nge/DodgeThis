@@ -1,38 +1,41 @@
 ﻿using System;
 using UnityEngine;
 
-public class Lever : MonoBehaviour
+namespace Crane
 {
-    [SerializeField] private float rotSpeed;
-    [SerializeField] private float min, max;
-
-    public Vector2 GetRot()
+    public class Lever : MonoBehaviour
     {
-        var rot = transform.rotation.eulerAngles.z;
+        [SerializeField] private float rotSpeed;
+        [SerializeField] private float min, max;
 
-        if (transform.rotation.eulerAngles.z < 180)
+        public Vector2 GetRot()
         {
-            rot = -transform.rotation.eulerAngles.z;
+            var rot = transform.rotation.eulerAngles.z;
+
+            if (transform.rotation.eulerAngles.z < 180)
+            {
+                rot = -transform.rotation.eulerAngles.z;
+            }
+            else if (Math.Abs(transform.rotation.eulerAngles.z - 180) < 20f)
+            {
+                rot = 0;
+            }
+
+            if (Math.Abs(rot - 1) < .2f || Math.Abs(rot - (-1)) < 20f)
+            {
+                rot = 0;
+            }
+
+            return new Vector2(rot, 0).normalized;
         }
-        else if (Math.Abs(transform.rotation.eulerAngles.z - 180) < 20f)
+
+        private void OnMouseDrag()
         {
-            rot = 0;
+            float xRot = Input.GetAxis("Mouse Y") * rotSpeed;
+            transform.Rotate(Vector3.forward, xRot * rotSpeed);
+            var rot = transform.rotation.eulerAngles;
+            rot.z = Mathf.Clamp(rot.z, min, max);
+            transform.rotation = Quaternion.Euler(rot);
         }
-
-        if (Math.Abs(rot - 1) < .2f || Math.Abs(rot - (-1)) < 20f)
-        {
-            rot = 0;
-        }
-
-        return new Vector2(rot, 0).normalized;
-    }
-
-    private void OnMouseDrag()
-    {
-        float xRot = Input.GetAxis("Mouse Y") * rotSpeed;
-        transform.Rotate(Vector3.forward, xRot * rotSpeed);
-        var rot = transform.rotation.eulerAngles;
-        rot.z = Mathf.Clamp(rot.z, min, max);
-        transform.rotation = Quaternion.Euler(rot);
     }
 }
