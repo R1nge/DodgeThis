@@ -1,20 +1,45 @@
-﻿using System;
+﻿using Unity.Netcode;
 using UnityEngine;
 
 namespace Character
 {
-    public class CharacterCamera : MonoBehaviour
+    public class CharacterCamera : NetworkBehaviour
     {
         [SerializeField] private float lookSpeed = 2.0f;
         [SerializeField] private float lookXLimit = 90.0f;
         [SerializeField] private Camera playerCamera;
-        [SerializeField] private bool canMove = true;
+        [SerializeField] private NetworkVariable<bool> canMove;
         private float _rotationX;
 
+        [ServerRpc(RequireOwnership = false)]
+        public void StunServerRpc() => canMove.Value = false;
+
+        [ServerRpc(RequireOwnership = false)]
+        public void ResetStunServerRpc() => canMove.Value = true;
+
+        private void Awake()
+        {
+            canMove = new NetworkVariable<bool>(true);
+        }
+
+        public override void OnNetworkSpawn()
+        {
+            if (!IsOwner)
+            {
+                playerCamera.enabled = false;
+                playerCamera.GetComponent<AudioListener>().enabled = false;
+            }
+            else
+            {
+                playerCamera.enabled = true;
+                playerCamera.GetComponent<AudioListener>().enabled = true;
+            }
+        }
 
         private void Update()
         {
-            if (canMove)
+            if (!IsOwner) return;
+            if (canMove.Value)
             {
                 _rotationX += -Input.GetAxis("Mouse Y") * lookSpeed;
                 _rotationX = Mathf.Clamp(_rotationX, -lookXLimit, lookXLimit);
