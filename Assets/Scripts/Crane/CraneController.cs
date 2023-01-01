@@ -3,6 +3,7 @@
 public class CraneController : MonoBehaviour
 {
     [SerializeField] private float movementSpeed;
+    [SerializeField] private Vector2 limitX, limitZ;
     [SerializeField] private Transform spawnPoint;
     [SerializeField] private Lever leverX, leverZ;
     [SerializeField] private DropButton dropButton;
@@ -29,7 +30,13 @@ public class CraneController : MonoBehaviour
 
     private void Update()
     {
-        spawnPoint.transform.position += new Vector3(leverX.GetRot(), 0, leverZ.GetRot()) * movementSpeed;
+        var position = spawnPoint.transform.position;
+        position += new Vector3(leverX.GetRot(), 0, leverZ.GetRot()) * movementSpeed;
+        var pos = position;
+        pos.x = Mathf.Clamp(position.x, limitX.x, limitX.y);
+        pos.z = Mathf.Clamp(position.z, limitZ.x, limitZ.y);
+        position = pos;
+        spawnPoint.transform.position = position;
     }
 
     private void OnDestroy()
