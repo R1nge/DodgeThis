@@ -187,7 +187,8 @@ MonoBehaviour:
   runningSpeed: 11.5
   jumpSpeed: 8
   gravity: 20
-  canMove: 1
+  canMove:
+    m_InternalValue: 0
 --- !u!114 &5048112513200222310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,7 +204,8 @@ MonoBehaviour:
   lookSpeed: 2
   lookXLimit: 90
   playerCamera: {fileID: 5048112512563178279}
-  canMove: 1
+  canMove:
+    m_InternalValue: 0
 --- !u!114 &5048112513200222309
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,6 +232,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5e65aa471d8406b922f2892671f68bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stunVfx: {fileID: 520124562191836316, guid: 9422326a6fcfc684f8c0bebea36c894f, type: 3}
+  yOffset: -0.65
 --- !u!114 &-8200742113559816197
 MonoBehaviour:
   m_ObjectHideFlags: 0
