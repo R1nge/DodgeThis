@@ -31,7 +31,7 @@ public class CraneController : MonoBehaviour
     private void Update()
     {
         var position = spawnPoint.transform.position;
-        position += new Vector3(leverX.GetRot(), 0, leverZ.GetRot()) * movementSpeed;
+        position += new Vector3(leverX.GetRot().x, 0, leverZ.GetRot().x) * movementSpeed;
         var pos = position;
         pos.x = Mathf.Clamp(position.x, limitX.x, limitX.y);
         pos.z = Mathf.Clamp(position.z, limitZ.x, limitZ.y);

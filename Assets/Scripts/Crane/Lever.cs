@@ -6,9 +6,10 @@ public class Lever : MonoBehaviour
     [SerializeField] private float rotSpeed;
     [SerializeField] private float min, max;
 
-    public float GetRot()
+    public Vector2 GetRot()
     {
         var rot = transform.rotation.eulerAngles.z;
+
         if (transform.rotation.eulerAngles.z < 180)
         {
             rot = -transform.rotation.eulerAngles.z;
@@ -22,8 +23,8 @@ public class Lever : MonoBehaviour
         {
             rot = 0;
         }
-        
-        return rot;
+
+        return new Vector2(rot, 0).normalized;
     }
 
     private void OnMouseDrag()

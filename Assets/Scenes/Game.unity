@@ -265,7 +265,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1fc8857dcca4aea9954f4c368512142, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 0.00025
+  movementSpeed: 0.05
   limitX: {x: -5.5, y: -2}
   limitZ: {x: -0.8, y: 4}
   spawnPoint: {fileID: 814380482}
