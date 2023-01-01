@@ -6,6 +6,7 @@ namespace Character
     public class CharacterStun : NetworkBehaviour
     {
         [SerializeField] private GameObject stunVfx;
+        [SerializeField] private GameObject stunSound;
         [SerializeField] private float yOffset;
         private CharacterMovement _characterMovement;
         private CharacterCamera _characterCamera;
@@ -23,6 +24,7 @@ namespace Character
             _characterMovement.StunServerRpc();
             _characterCamera.StunServerRpc();
             SpawnVfxServerRpc();
+            SpawnSoundServerRpc();
             Invoke(nameof(ResetStunServerRpc), 10f);
         }
 
@@ -34,6 +36,13 @@ namespace Character
             _vfx = Instantiate(stunVfx, pos, Quaternion.identity);
             _vfx.GetComponent<NetworkObject>().Spawn(true);
             _vfx.transform.parent = transform;
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        private void SpawnSoundServerRpc()
+        {
+            var sound = Instantiate(stunSound, transform.position, Quaternion.identity);
+            sound.GetComponent<NetworkObject>().Spawn(true);
         }
 
 

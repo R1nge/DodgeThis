@@ -233,6 +233,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stunVfx: {fileID: 520124562191836316, guid: 9422326a6fcfc684f8c0bebea36c894f, type: 3}
+  stunSound: {fileID: 384225995048421470, guid: 86c08cf365530824f89563c6569b6657, type: 3}
   yOffset: -0.65
 --- !u!114 &-8200742113559816197
 MonoBehaviour:
