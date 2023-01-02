@@ -6,7 +6,7 @@ namespace Character.Tps
     public class CharacterMovementTpsRB : NetworkBehaviour
     {
         [SerializeField] private float movementSpeed;
-        [SerializeField] private float rotationSpeed;
+        [SerializeField] private NetworkVariable<float> rotationSpeed;
         private NetworkVariable<bool> _canMove;
         private Vector3 _movementDirection;
         private Rigidbody _rigidbody;
@@ -27,8 +27,18 @@ namespace Character.Tps
         {
             if (!IsOwner) return;
             if (!_canMove.Value) return;
-            Rotate();
-            Move();
+            if (IsOwnedByServer)
+            {
+                Rotate();
+                Move();
+            }
+            else
+            {
+                var axis = new Vector2(Input.GetAxis("Vertical"), Input.GetAxis("Horizontal")) * movementSpeed;
+                _movementDirection = Vector3.forward * axis.x + Vector3.right * axis.y;
+                RotateServerRpc(_movementDirection);
+                MoveServerRpc(_movementDirection);
+            }
         }
 
         private void Move()
@@ -39,6 +49,13 @@ namespace Character.Tps
                 new Vector3(_movementDirection.x, _rigidbody.velocity.y, _movementDirection.z);
         }
 
+        [ServerRpc]
+        private void MoveServerRpc(Vector3 dir)
+        {
+            _rigidbody.velocity =
+                new Vector3(dir.x, _rigidbody.velocity.y, dir.z);
+        }
+
         private void Rotate()
         {
             if (_movementDirection.x != 0 || _movementDirection.z != 0)
@@ -46,7 +63,19 @@ namespace Character.Tps
                 var targetRot =
                     Quaternion.LookRotation(new Vector3(_movementDirection.x, 0, _movementDirection.z), Vector3.up);
                 transform.rotation =
-                    Quaternion.RotateTowards(transform.rotation, targetRot, rotationSpeed * Time.deltaTime);
+                    Quaternion.RotateTowards(transform.rotation, targetRot, rotationSpeed.Value * Time.deltaTime);
+            }
+        }
+
+        [ServerRpc]
+        private void RotateServerRpc(Vector3 dir)
+        {
+            if (dir.x != 0 || dir.z != 0)
+            {
+                var targetRot =
+                    Quaternion.LookRotation(new Vector3(dir.x, 0, dir.z), Vector3.up);
+                transform.rotation =
+                    Quaternion.RotateTowards(transform.rotation, targetRot, rotationSpeed.Value * Time.deltaTime);
             }
         }
     }

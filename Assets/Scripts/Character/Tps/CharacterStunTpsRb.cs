@@ -8,7 +8,6 @@ namespace Character.Tps
 
         private void Awake()
         {
-            
             _characterMovementTpsRb = GetComponent<CharacterMovementTpsRB>();
         }
 
