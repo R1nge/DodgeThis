@@ -19,6 +19,7 @@ namespace Character.Tps
             {
                 if (hit.transform.TryGetComponent(out CharacterStun stun))
                 {
+                    //TODO: fix player can stun himself
                     stun.StunServerRpc();
                     AttackServerRpc();
                     Invoke(nameof(ResetAttackServerRpc), 2f);
@@ -26,7 +27,7 @@ namespace Character.Tps
             }
         }
 
-        [ServerRpc]
+        [ServerRpc(RequireOwnership = false)]
         private void AttackServerRpc() => _canAttack.Value = false;
 
         [ServerRpc(RequireOwnership = false)]

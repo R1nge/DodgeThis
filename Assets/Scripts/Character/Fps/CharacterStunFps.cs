@@ -4,12 +4,12 @@ namespace Character.Fps
 {
     public class CharacterStunFps : CharacterStun
     {
-        private CharacterMovementFps _characterMovementFps;
+        private CharacterMovementFpsCC _characterMovementFpsCc;
         private CharacterCameraFps _characterCameraFps;
 
         private void Awake()
         {
-            _characterMovementFps = GetComponent<CharacterMovementFps>();
+            _characterMovementFpsCc = GetComponent<CharacterMovementFpsCC>();
             _characterCameraFps = GetComponent<CharacterCameraFps>();
         }
 
@@ -17,7 +17,7 @@ namespace Character.Fps
         public override void StunServerRpc()
         {
             base.StunServerRpc();
-            _characterMovementFps.StunServerRpc();
+            _characterMovementFpsCc.StunServerRpc();
             _characterCameraFps.StunServerRpc();
         }
 
@@ -25,7 +25,7 @@ namespace Character.Fps
         protected override void ResetStunServerRpc()
         {
             base.ResetStunServerRpc();
-            _characterMovementFps.ResetStunServerRpc();
+            _characterMovementFpsCc.ResetStunServerRpc();
             _characterCameraFps.ResetStunServerRpc();
         }
     }

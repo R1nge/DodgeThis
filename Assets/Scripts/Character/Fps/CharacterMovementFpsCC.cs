@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Character.Fps
 {
-    public class CharacterMovementFps : NetworkBehaviour
+    public class CharacterMovementFpsCC : NetworkBehaviour
     {
         [SerializeField] private float walkingSpeed = 7.5f;
         [SerializeField] private float runningSpeed = 11.5f;

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3592521047622849154}
   - component: {fileID: 3592521047622849152}
   m_Layer: 0
-  m_Name: DropSpawner
+  m_Name: DropSpawnerCrane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

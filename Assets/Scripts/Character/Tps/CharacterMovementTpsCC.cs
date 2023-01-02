@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Character.Tps
 {
-    public class CharacterMovementTps : NetworkBehaviour
+    public class CharacterMovementTpsCC : NetworkBehaviour
     {
         [SerializeField] private NetworkVariable<float> speed;
         [SerializeField] private float rotationSpeed;
@@ -53,7 +53,6 @@ namespace Character.Tps
             {
                 _moveDirection.y -= gravity * Time.deltaTime;
             }
-
 
             _characterController.Move(_moveDirection * Time.deltaTime);
         }

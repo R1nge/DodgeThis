@@ -4,25 +4,25 @@ namespace Character.Tps
 {
     public class CharacterStunTps : CharacterStun
     {
-        private CharacterMovementTps _characterMovementTps;
+        private CharacterMovementTpsCC _characterMovementTpsCc;
 
         private void Awake()
         {
-            _characterMovementTps = GetComponent<CharacterMovementTps>();
+            _characterMovementTpsCc = GetComponent<CharacterMovementTpsCC>();
         }
 
         [ServerRpc(RequireOwnership = false)]
         public override void StunServerRpc()
         {
             base.StunServerRpc();
-            _characterMovementTps.StunServerRpc();
+            _characterMovementTpsCc.StunServerRpc();
         }
 
         [ServerRpc(RequireOwnership = false)]
         protected override void ResetStunServerRpc()
         {
             base.ResetStunServerRpc();
-            _characterMovementTps.ResetStunServerRpc();
+            _characterMovementTpsCc.ResetStunServerRpc();
         }
     }
 }
