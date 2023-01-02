@@ -1,25 +1,29 @@
 ﻿using System.Collections;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace NumbersFloor
 {
-    public class Tile : MonoBehaviour
+    public class Tile : NetworkBehaviour
     {
         [SerializeField] private Materials materials;
-        private int _currentNumber;
+        private NetworkVariable<int> _currentNumber;
         private BoxCollider _boxCollider;
         private MeshRenderer _meshRenderer;
-        
+
 
         private void Awake()
         {
             _meshRenderer = GetComponent<MeshRenderer>();
             _boxCollider = GetComponent<BoxCollider>();
+            _currentNumber = new NetworkVariable<int>();
         }
 
         private void Start()
         {
-            _currentNumber = Random.Range(3, 9);
+            if (!IsServer) return;
+            _currentNumber.OnValueChanged += (_, newValue) => { UpdateClientRpc(newValue); };
+            _currentNumber.Value = Random.Range(3, 9);
             StartCoroutine(DecreaseNumber());
         }
 
@@ -28,66 +32,78 @@ namespace NumbersFloor
             while (enabled)
             {
                 yield return new WaitForSeconds(1);
-                _currentNumber--;
+                _currentNumber.Value--;
 
-                if (_currentNumber == 9)
-                {
-                    _meshRenderer.material = materials.GetMaterial(9);
-                    _meshRenderer.material.color = materials.Purple;
-                }
-                else if (_currentNumber == 8)
-                {
-                    _meshRenderer.material = materials.GetMaterial(8);
-                    _meshRenderer.material.color = materials.DarkBlue;
-                }
-                else if (_currentNumber == 7)
-                {
-                    _meshRenderer.material = materials.GetMaterial(7);
-                    _meshRenderer.material.color = materials.Blue;
-                }
-                else if (_currentNumber == 6)
-                {
-                    _meshRenderer.material = materials.GetMaterial(6);
-                    _meshRenderer.material.color = materials.LightBlue;
-                }
-                else if (_currentNumber == 5)
-                {
-                    _meshRenderer.material = materials.GetMaterial(5);
-                    _meshRenderer.material.color = materials.Emerald;
-                }
-                else if (_currentNumber == 4)
-                {
-                    _meshRenderer.material = materials.GetMaterial(4);
-                    _meshRenderer.material.color = materials.LightGreen;
-                }
-                else if (_currentNumber == 3)
-                {
-                    _meshRenderer.material = materials.GetMaterial(3);
-                    _meshRenderer.material.color = materials.YellowGreen;
-                }
-                else if (_currentNumber == 2)
-                {
-                    _meshRenderer.material = materials.GetMaterial(2);
-                    _meshRenderer.material.color = materials.Orange;
-                }
-                else if (_currentNumber == 1)
-                {
-                    _meshRenderer.material = materials.GetMaterial(1);
-                    _meshRenderer.material.color = materials.DarkOrange;
-                }
-                else if (_currentNumber == 0)
-                {
-                    _meshRenderer.material = materials.GetMaterial(0);
-                    _meshRenderer.material.color = materials.Red;
-                }
-
-                if (_currentNumber <= 0)
+                if (_currentNumber.Value <= 0)
                 {
                     _boxCollider.enabled = false;
+                    DisableColliderClientRpc();
                     yield return new WaitForSeconds(1);
                     _boxCollider.enabled = true;
-                    _currentNumber = Random.Range(3, 9);
+                    EnableColliderClientRpc();
+                    _currentNumber.Value = Random.Range(3, 9);
                 }
+            }
+        }
+
+        [ClientRpc]
+        private void DisableColliderClientRpc() => _boxCollider.enabled = false;
+
+        [ClientRpc]
+        private void EnableColliderClientRpc() => _boxCollider.enabled = true;
+
+        [ClientRpc]
+        private void UpdateClientRpc(int val)
+        {
+            if (val == 9)
+            {
+                _meshRenderer.material = materials.GetMaterial(9);
+                _meshRenderer.material.color = materials.Purple;
+            }
+            else if (val == 8)
+            {
+                _meshRenderer.material = materials.GetMaterial(8);
+                _meshRenderer.material.color = materials.DarkBlue;
+            }
+            else if (val == 7)
+            {
+                _meshRenderer.material = materials.GetMaterial(7);
+                _meshRenderer.material.color = materials.Blue;
+            }
+            else if (val == 6)
+            {
+                _meshRenderer.material = materials.GetMaterial(6);
+                _meshRenderer.material.color = materials.LightBlue;
+            }
+            else if (val == 5)
+            {
+                _meshRenderer.material = materials.GetMaterial(5);
+                _meshRenderer.material.color = materials.Emerald;
+            }
+            else if (val == 4)
+            {
+                _meshRenderer.material = materials.GetMaterial(4);
+                _meshRenderer.material.color = materials.LightGreen;
+            }
+            else if (val == 3)
+            {
+                _meshRenderer.material = materials.GetMaterial(3);
+                _meshRenderer.material.color = materials.YellowGreen;
+            }
+            else if (val == 2)
+            {
+                _meshRenderer.material = materials.GetMaterial(2);
+                _meshRenderer.material.color = materials.Orange;
+            }
+            else if (val == 1)
+            {
+                _meshRenderer.material = materials.GetMaterial(1);
+                _meshRenderer.material.color = materials.DarkOrange;
+            }
+            else if (val == 0)
+            {
+                _meshRenderer.material = materials.GetMaterial(0);
+                _meshRenderer.material.color = materials.Red;
             }
         }
     }

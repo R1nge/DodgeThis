@@ -3,29 +3,20 @@ using UnityEngine;
 
 namespace Character
 {
-    public class CharacterStun : NetworkBehaviour
+    public abstract class CharacterStun : NetworkBehaviour
     {
         [SerializeField] private GameObject stunVfx;
         [SerializeField] private GameObject stunSound;
+        [SerializeField] private float stunDuration;
         [SerializeField] private float yOffset;
-        private CharacterMovement _characterMovement;
-        private CharacterCamera _characterCamera;
         private GameObject _vfx;
 
-        private void Awake()
-        {
-            _characterMovement = GetComponent<CharacterMovement>();
-            _characterCamera = GetComponent<CharacterCamera>();
-        }
-
         [ServerRpc(RequireOwnership = false)]
-        public void StunServerRpc()
+        public virtual void StunServerRpc()
         {
-            _characterMovement.StunServerRpc();
-            _characterCamera.StunServerRpc();
             SpawnVfxServerRpc();
             SpawnSoundServerRpc();
-            Invoke(nameof(ResetStunServerRpc), 10f);
+            Invoke(nameof(ResetStunServerRpc), stunDuration);
         }
 
         [ServerRpc(RequireOwnership = false)]
@@ -47,11 +38,6 @@ namespace Character
 
 
         [ServerRpc(RequireOwnership = false)]
-        private void ResetStunServerRpc()
-        {
-            _characterMovement.ResetStunServerRpc();
-            _characterCamera.ResetStunServerRpc();
-            Destroy(_vfx);
-        }
+        protected virtual void ResetStunServerRpc() => Destroy(_vfx);
     }
 }

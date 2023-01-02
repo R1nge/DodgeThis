@@ -1,28 +1,27 @@
-﻿using System;
-using Unity.Netcode;
+﻿using Unity.Netcode;
 using UnityEngine;
 
-namespace Character
+namespace Character.Fps
 {
-    public class CharacterMovement : NetworkBehaviour
+    public class CharacterMovementFps : NetworkBehaviour
     {
         [SerializeField] private float walkingSpeed = 7.5f;
         [SerializeField] private float runningSpeed = 11.5f;
         [SerializeField] private float jumpSpeed = 8.0f;
         [SerializeField] private float gravity = 20.0f;
-        [SerializeField] private NetworkVariable<bool> canMove;
+        private NetworkVariable<bool> _canMove;
         private Vector3 _moveDirection = Vector3.zero;
         private CharacterController _characterController;
 
         [ServerRpc(RequireOwnership = false)]
-        public void StunServerRpc() => canMove.Value = false;
+        public void StunServerRpc() => _canMove.Value = false;
 
         [ServerRpc(RequireOwnership = false)]
-        public void ResetStunServerRpc() => canMove.Value = true;
+        public void ResetStunServerRpc() => _canMove.Value = true;
 
         private void Awake()
         {
-            canMove = new NetworkVariable<bool>(true);
+            _canMove = new NetworkVariable<bool>(true);
         }
 
         private void Start()
@@ -37,13 +36,14 @@ namespace Character
             Vector3 right = transform.TransformDirection(Vector3.right);
 
             bool isRunning = Input.GetKey(KeyCode.LeftShift);
-            float curSpeedX = canMove.Value ? (isRunning ? runningSpeed : walkingSpeed) * Input.GetAxis("Vertical") : 0;
+            float curSpeedX =
+                _canMove.Value ? (isRunning ? runningSpeed : walkingSpeed) * Input.GetAxis("Vertical") : 0;
             float curSpeedY =
-                canMove.Value ? (isRunning ? runningSpeed : walkingSpeed) * Input.GetAxis("Horizontal") : 0;
+                _canMove.Value ? (isRunning ? runningSpeed : walkingSpeed) * Input.GetAxis("Horizontal") : 0;
             float movementDirectionY = _moveDirection.y;
             _moveDirection = forward * curSpeedX + right * curSpeedY;
 
-            if (Input.GetButton("Jump") && canMove.Value && _characterController.isGrounded)
+            if (Input.GetButton("Jump") && _canMove.Value && _characterController.isGrounded)
             {
                 _moveDirection.y = jumpSpeed;
             }

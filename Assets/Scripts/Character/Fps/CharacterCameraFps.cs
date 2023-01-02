@@ -1,9 +1,9 @@
 ﻿using Unity.Netcode;
 using UnityEngine;
 
-namespace Character
+namespace Character.Fps
 {
-    public class CharacterCamera : NetworkBehaviour
+    public class CharacterCameraFps : NetworkBehaviour
     {
         [SerializeField] private float lookSpeed = 2.0f;
         [SerializeField] private float lookXLimit = 90.0f;

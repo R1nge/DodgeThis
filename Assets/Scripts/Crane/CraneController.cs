@@ -65,8 +65,9 @@ namespace Crane
             _spawnPoint.transform.position = position;
         }
 
-        private void OnDestroy()
+        public override void OnDestroy()
         {
+            base.OnDestroy();
             dropButton.OnButtonPressed -= Drop;
             resetButton.OnButtonPressed -= Reset;
         }
