@@ -2,27 +2,28 @@
 
 namespace Character.Tps
 {
-    public class CharacterStunTps : CharacterStun
+    public class CharacterStunTpsRb : CharacterStun
     {
-        private CharacterMovementTpsCC _characterMovementTpsCc;
+        private CharacterMovementTpsRB _characterMovementTpsRb;
 
         private void Awake()
         {
-            _characterMovementTpsCc = GetComponent<CharacterMovementTpsCC>();
+            
+            _characterMovementTpsRb = GetComponent<CharacterMovementTpsRB>();
         }
 
         [ServerRpc(RequireOwnership = false)]
         public override void StunServerRpc()
         {
             base.StunServerRpc();
-            _characterMovementTpsCc.StunServerRpc();
+            _characterMovementTpsRb.StunServerRpc();
         }
 
         [ServerRpc(RequireOwnership = false)]
         protected override void ResetStunServerRpc()
         {
             base.ResetStunServerRpc();
-            _characterMovementTpsCc.ResetStunServerRpc();
+            _characterMovementTpsRb.ResetStunServerRpc();
         }
     }
 }

@@ -13,6 +13,7 @@ namespace Character.Fps
 
         private void Update()
         {
+            if (!IsOwner) return;
             if (!Input.GetMouseButtonDown(0)) return;
             if (!_canAttack.Value) return;
             Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);

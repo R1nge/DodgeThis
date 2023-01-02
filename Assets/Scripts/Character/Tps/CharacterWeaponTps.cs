@@ -12,6 +12,7 @@ namespace Character.Tps
 
         private void Update()
         {
+            if (!IsOwner) return;
             if (!Input.GetMouseButtonDown(0)) return;
             if (!_canAttack.Value) return;
             Ray ray = new Ray(transform.position, transform.forward);
