@@ -20,8 +20,8 @@ namespace NumbersFloor
         private void SpawnPlayer(ulong ID)
         {
             if (!IsServer) return;
-            //TODO spawn randomly across plane
-            var inst = Instantiate(playerPrefab, new Vector3(0, 2, 0), Quaternion.identity);
+            var pos = new Vector3(Random.Range(-3, 5), 2, Random.Range(-5, 4));
+            var inst = Instantiate(playerPrefab, pos, Quaternion.identity);
             inst.GetComponent<NetworkObject>().SpawnWithOwnership(ID);
         }
 
