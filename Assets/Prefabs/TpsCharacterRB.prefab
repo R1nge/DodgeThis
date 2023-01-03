@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 260557971639680582}
   - component: {fileID: 2482420471910886427}
   - component: {fileID: -6305400312807412796}
+  - component: {fileID: -355598331874077130}
   m_Layer: 0
   m_Name: TpsCharacterRB
   m_TagString: Untagged
@@ -181,6 +182,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &-355598331874077130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4192047551339863338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bde290b5fa44bbbb55052369ebe55be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4192047552345872440
 GameObject:
   m_ObjectHideFlags: 0
@@ -276,7 +289,6 @@ GameObject:
   - component: {fileID: 7920626532821132175}
   - component: {fileID: 9203805344031559600}
   - component: {fileID: 6931830549666103994}
-  - component: {fileID: 4105919353382225157}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -349,16 +361,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &4105919353382225157
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6614788416308946571}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
