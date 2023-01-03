@@ -14,7 +14,14 @@ namespace NumbersFloor
 
         public override void OnNetworkSpawn()
         {
-            SpawnPlayer(NetworkManager.Singleton.LocalClientId);
+            if (IsServer)
+            {
+                SpawnPlayer(NetworkManager.Singleton.LocalClientId);
+            }
+            else
+            {
+                SpawnPlayerServerRpc();
+            }
         }
 
         private void SpawnPlayer(ulong ID)
@@ -22,7 +29,13 @@ namespace NumbersFloor
             if (!IsServer) return;
             var pos = new Vector3(Random.Range(-3, 5), 2, Random.Range(-5, 4));
             var inst = Instantiate(playerPrefab, pos, Quaternion.identity);
-            inst.GetComponent<NetworkObject>().SpawnWithOwnership(ID);
+            inst.GetComponent<NetworkObject>().SpawnWithOwnership(ID, true);
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        private void SpawnPlayerServerRpc(ServerRpcParams rpcParams = default)
+        {
+            SpawnPlayer(rpcParams.Receive.SenderClientId);
         }
 
         public override void OnDestroy()

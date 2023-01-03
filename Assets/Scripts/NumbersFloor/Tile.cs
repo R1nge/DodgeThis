@@ -10,16 +10,18 @@ namespace NumbersFloor
         private NetworkVariable<int> _currentNumber;
         private BoxCollider _boxCollider;
         private MeshRenderer _meshRenderer;
-
+        private GameState _gameState;
 
         private void Awake()
         {
             _meshRenderer = GetComponent<MeshRenderer>();
             _boxCollider = GetComponent<BoxCollider>();
             _currentNumber = new NetworkVariable<int>();
+            _gameState = FindObjectOfType<GameState>();
+            _gameState.OnGameStarted += OnGameStarted;
         }
 
-        private void Start()
+        private void OnGameStarted()
         {
             if (!IsServer) return;
             _currentNumber.OnValueChanged += (_, newValue) => { UpdateClientRpc(newValue); };
@@ -105,6 +107,12 @@ namespace NumbersFloor
                 _meshRenderer.material = materials.GetMaterial(0);
                 _meshRenderer.material.color = materials.Red;
             }
+        }
+
+        public override void OnDestroy()
+        {
+            base.OnDestroy();
+            _gameState.OnGameStarted -= OnGameStarted;
         }
     }
 }

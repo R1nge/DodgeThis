@@ -9,16 +9,30 @@ public class GameState : NetworkBehaviour
 {
     [SerializeField] private SceneAsset[] scenes;
     private NetworkVariable<int> _playersAlive;
+    private NetworkVariable<bool> _gameStarted;
+    private NetworkVariable<bool> _gameEnded;
+
     public event Action OnGameStarted;
 
-    public void StartGame() => OnGameStarted?.Invoke();
+    [ServerRpc(RequireOwnership = false)]
+    public void StartGameServerRpc()
+    {
+        if (_gameEnded.Value) return;
+        if (_gameStarted.Value) return;
+        _gameStarted.Value = true;
+        StartGameClientRpc();
+    }
+
+    [ClientRpc]
+    private void StartGameClientRpc() => OnGameStarted?.Invoke();
 
     private void Awake()
     {
         NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
         NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
         _playersAlive = new NetworkVariable<int>(1);
-        Invoke(nameof(StartGame), 5f);
+        _gameStarted = new NetworkVariable<bool>();
+        _gameEnded = new NetworkVariable<bool>();
     }
 
     private void OnClientConnected(ulong obj)

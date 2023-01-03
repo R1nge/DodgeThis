@@ -23,20 +23,20 @@ public class PlayerSpawner : NetworkBehaviour
         if (Random.Range(0, 2) == 0)
         {
             var inst = Instantiate(playerPrefab, new Vector3(0, 2, 0), Quaternion.identity);
-            inst.GetComponent<NetworkObject>().SpawnWithOwnership(ID);
+            inst.GetComponent<NetworkObject>().SpawnWithOwnership(ID, true);
         }
         else
         {
             if (!_craneSpawned.Value)
             {
                 var inst = Instantiate(cranePrefab, new Vector3(8, 20, -6.15f), Quaternion.identity);
-                inst.GetComponent<NetworkObject>().SpawnWithOwnership(ID);
+                inst.GetComponent<NetworkObject>().SpawnWithOwnership(ID, true);
                 _craneSpawned.Value = true;
             }
             else
             {
                 var inst = Instantiate(playerPrefab, new Vector3(0, 2, 0), Quaternion.identity);
-                inst.GetComponent<NetworkObject>().SpawnWithOwnership(ID);
+                inst.GetComponent<NetworkObject>().SpawnWithOwnership(ID, true);
             }
         }
     }
