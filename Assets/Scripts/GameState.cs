@@ -46,7 +46,8 @@ public class GameState : NetworkBehaviour
         if (!IsServer) return;
         _playersAlive.Value--;
     }
-
+    
+    //TODO: add places???
     [ServerRpc(RequireOwnership = false)]
     public void TakePlaceServerRpc()
     {

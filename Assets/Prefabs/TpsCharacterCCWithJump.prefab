@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 2482420471910886427}
   - component: {fileID: -8466408918875455578}
   m_Layer: 0
-  m_Name: TpsCharacterCC
+  m_Name: TpsCharacterCCWithJump
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -104,6 +104,7 @@ MonoBehaviour:
   rotationSpeed: 720
   jumpSpeed: 8
   gravity: 20
+  canJump: 1
 --- !u!114 &4192047551339863340
 MonoBehaviour:
   m_ObjectHideFlags: 0

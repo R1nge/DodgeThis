@@ -21,11 +21,16 @@ namespace NumbersFloor
             _gameState.OnGameStarted += OnGameStarted;
         }
 
-        private void OnGameStarted()
+        public override void OnNetworkSpawn()
         {
             if (!IsServer) return;
             _currentNumber.OnValueChanged += (_, newValue) => { UpdateClientRpc(newValue); };
             _currentNumber.Value = Random.Range(3, 9);
+        }
+
+        private void OnGameStarted()
+        {
+            if (!IsServer) return;
             StartCoroutine(DecreaseNumber());
         }
 

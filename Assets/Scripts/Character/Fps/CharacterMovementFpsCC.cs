@@ -9,6 +9,7 @@ namespace Character.Fps
         [SerializeField] private float runningSpeed = 11.5f;
         [SerializeField] private float jumpSpeed = 8.0f;
         [SerializeField] private float gravity = 20.0f;
+        [SerializeField] private bool canJump;
         private NetworkVariable<bool> _canMove;
         private Vector3 _moveDirection = Vector3.zero;
         private CharacterController _characterController;
@@ -22,10 +23,6 @@ namespace Character.Fps
         private void Awake()
         {
             _canMove = new NetworkVariable<bool>(true);
-        }
-
-        private void Start()
-        {
             _characterController = GetComponent<CharacterController>();
         }
 
@@ -43,7 +40,7 @@ namespace Character.Fps
             float movementDirectionY = _moveDirection.y;
             _moveDirection = forward * curSpeedX + right * curSpeedY;
 
-            if (Input.GetButton("Jump") && _canMove.Value && _characterController.isGrounded)
+            if (Input.GetButton("Jump") && _canMove.Value && canJump && _characterController.isGrounded)
             {
                 _moveDirection.y = jumpSpeed;
             }

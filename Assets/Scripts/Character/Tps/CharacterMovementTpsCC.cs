@@ -9,6 +9,7 @@ namespace Character.Tps
         [SerializeField] private float rotationSpeed;
         [SerializeField] private float jumpSpeed = 8.0f;
         [SerializeField] private float gravity = 20.0f;
+        [SerializeField] private bool canJump;
         private NetworkVariable<bool> _canMove;
         private Vector3 _moveDirection = Vector3.zero;
         private float _curSpeedX, _curSpeedY;
@@ -40,7 +41,7 @@ namespace Character.Tps
 
             Rotate();
 
-            if (Input.GetButton("Jump") && _characterController.isGrounded && _canMove.Value)
+            if (Input.GetButton("Jump") && _characterController.isGrounded && _canMove.Value && canJump)
             {
                 _moveDirection.y = jumpSpeed;
             }
