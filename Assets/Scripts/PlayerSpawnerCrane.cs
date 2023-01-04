@@ -5,27 +5,51 @@ public class PlayerSpawnerCrane : NetworkBehaviour
 {
     [SerializeField] private GameObject playerPrefab, cranePrefab;
     private NetworkVariable<bool> _craneSpawned;
+    private NetworkVariable<int> _playersSpawned;
+
+    private bool IsCrane()
+    {
+        if (_craneSpawned.Value)
+        {
+            return false;
+        }
+
+        if (_playersSpawned.Value == NetworkManager.Singleton.ConnectedClients.Count)
+        {
+            if (!_craneSpawned.Value)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        return Random.Range(0, 2) == 1;
+    }
 
     private void Awake()
     {
         NetworkManager.Singleton.OnClientConnectedCallback += SpawnPlayer;
         _craneSpawned = new NetworkVariable<bool>();
+        _playersSpawned = new NetworkVariable<int>(0);
     }
 
     public override void OnNetworkSpawn()
     {
-        SpawnPlayer(NetworkManager.Singleton.LocalClientId);
+        if (IsServer)
+        {
+            SpawnPlayer(NetworkManager.Singleton.LocalClientId);
+        }
+        else
+        {
+            SpawnServerRpc();
+        }
     }
 
     private void SpawnPlayer(ulong ID)
     {
-        if (!IsServer) return;
-        if (Random.Range(0, 2) == 0)
-        {
-            var inst = Instantiate(playerPrefab, new Vector3(0, 2, 0), Quaternion.identity);
-            inst.GetComponent<NetworkObject>().SpawnWithOwnership(ID, true);
-        }
-        else
+        _playersSpawned.Value++;
+        if (IsCrane())
         {
             if (!_craneSpawned.Value)
             {
@@ -39,7 +63,16 @@ public class PlayerSpawnerCrane : NetworkBehaviour
                 inst.GetComponent<NetworkObject>().SpawnWithOwnership(ID, true);
             }
         }
+        else
+        {
+            var inst = Instantiate(playerPrefab, new Vector3(0, 2, 0), Quaternion.identity);
+            inst.GetComponent<NetworkObject>().SpawnWithOwnership(ID, true);
+        }
     }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void SpawnServerRpc(ServerRpcParams rpcParams = default) => SpawnPlayer(rpcParams.Receive.SenderClientId);
+
 
     public override void OnDestroy()
     {

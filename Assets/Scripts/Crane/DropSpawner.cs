@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace Crane
 {
@@ -18,7 +16,11 @@ namespace Crane
             _gameState.OnGameStarted += OnGameStarted;
         }
 
-        private void OnGameStarted() => SpawnDropServerRpc();
+        private void OnGameStarted()
+        {
+            if (!IsServer) return;
+            SpawnDropServerRpc();
+        }
 
         public IEnumerator SpawnDrop_c()
         {
