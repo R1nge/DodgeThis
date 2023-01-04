@@ -38,7 +38,8 @@ public class ConnectMenu : MonoBehaviour
 
     private void LoadLobby()
     {
-        NetworkManager.Singleton.SceneManager.LoadScene("BallArena", LoadSceneMode.Single);
+        //TODO: add lobby
+        NetworkManager.Singleton.SceneManager.LoadScene("Crane", LoadSceneMode.Single);
     }
 
     public void SaveNick()

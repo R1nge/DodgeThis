@@ -1,7 +1,7 @@
 ﻿using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerSpawner : NetworkBehaviour
+public class PlayerSpawnerCrane : NetworkBehaviour
 {
     [SerializeField] private GameObject playerPrefab, cranePrefab;
     private NetworkVariable<bool> _craneSpawned;
@@ -29,7 +29,7 @@ public class PlayerSpawner : NetworkBehaviour
         {
             if (!_craneSpawned.Value)
             {
-                var inst = Instantiate(cranePrefab, new Vector3(8, 20, -6.15f), Quaternion.identity);
+                var inst = Instantiate(cranePrefab, new Vector3(0, 21, 0), Quaternion.identity);
                 inst.GetComponent<NetworkObject>().SpawnWithOwnership(ID, true);
                 _craneSpawned.Value = true;
             }

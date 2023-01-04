@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63e4321889f24f149f2506fe3060ee9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnPos: {x: 0, y: 8, z: 0}
   drops:
   - {fileID: 3872034831145657351, guid: 245bb6b906d5db247a6ca8f45b1165a7, type: 3}
   - {fileID: 4860572784025885150, guid: 9a434d8347d93a54c972ee332d96a89e, type: 3}

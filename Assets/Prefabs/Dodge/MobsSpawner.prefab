@@ -61,5 +61,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 866e3ac60fe9e1042a838250f7821409, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minWaveSize: 20
+  maxWaveSize: 80
+  minSpawnPos: {x: 0, y: 0, z: 0}
+  maxSpawnPos: {x: 0, y: 0, z: 0}
   mob: {fileID: 0}
   bigMob: {fileID: 0}

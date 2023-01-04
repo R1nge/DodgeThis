@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 5048112513200222307, guid: 53a0ae2b6ba799d46b77bc857a465edf, type: 3}
-  cranePrefab: {fileID: 8175874271854983338, guid: fffc87de85ba7a643ae0adb640e2e600, type: 3}
+  cranePrefab: {fileID: 7249575432379938637, guid: ad104896778794e4cb6b168e3287d1f4, type: 3}
 --- !u!114 &5646104376659918601
 MonoBehaviour:
   m_ObjectHideFlags: 0

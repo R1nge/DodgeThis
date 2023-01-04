@@ -15,9 +15,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Crane.unity
     guid: 14ca484fb60fb2649858f7060386982b
   - enabled: 1
-    path: Assets/Scenes/CharacterTest.unity
-    guid: f828ac634ae68e1489fed15ff21fc879
-  - enabled: 1
     path: Assets/Scenes/NumbersFloor.unity
     guid: a51a8a058ca436b4c8cf10c1179215b8
   - enabled: 1

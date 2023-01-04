@@ -8,51 +8,30 @@ namespace Crane
 {
     public class DropSpawner : NetworkBehaviour
     {
+        [SerializeField] private Vector3 spawnPos;
         [SerializeField] private GameObject[] drops;
-        private GameObject _spawnPoint;
-        private DropButton _dropButton;
-        private bool _hasDrop;
+        private GameState _gameState;
 
-        private void Start()
+        private void Awake()
         {
-            _dropButton = FindObjectOfType<DropButton>();
-            _dropButton.OnButtonPressed += OnButtonPressed;
+            _gameState = FindObjectOfType<GameState>();
+            _gameState.OnGameStarted += OnGameStarted;
         }
 
-        public override void OnNetworkSpawn()
-        {
-            StartCoroutine(Wait_c());
-            _spawnPoint = GameObject.Find("CranePlayer(Clone)/SpawnPoint(Clone)");
-        }
+        private void OnGameStarted() => SpawnDropServerRpc();
 
-        private void OnButtonPressed()
+        public IEnumerator SpawnDrop_c()
         {
-            if (!_hasDrop) return;
-            StartCoroutine(Wait_c());
-        }
-
-        private IEnumerator Wait_c()
-        {
-            _hasDrop = false;
-            _spawnPoint = GameObject.Find("CranePlayer(Clone)/SpawnPoint(Clone)");
             yield return new WaitForSeconds(3f);
-            _spawnPoint = GameObject.Find("CranePlayer(Clone)/SpawnPoint(Clone)");
             SpawnDropServerRpc();
         }
 
         [ServerRpc(RequireOwnership = false)]
         private void SpawnDropServerRpc()
         {
-            var inst = Instantiate(drops[Random.Range(0, drops.Length)], _spawnPoint.transform);
+            var rot = Quaternion.Euler(new Vector3(-90, 0, 0));
+            var inst = Instantiate(drops[Random.Range(0, drops.Length)], spawnPos, rot);
             inst.GetComponent<NetworkObject>().Spawn(true);
-            inst.transform.parent = _spawnPoint.transform;
-            _hasDrop = true;
-        }
-
-        public override void OnDestroy()
-        {
-            base.OnDestroy();
-            _dropButton.OnButtonPressed -= OnButtonPressed;
         }
     }
 }
