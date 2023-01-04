@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 5ae731515281f9e4f85605babeb646d0
   - enabled: 1
+    path: Assets/Scenes/MapLobby.unity
+    guid: b84ac837cdbb53c48b44bcb221b5d6c0
+  - enabled: 1
     path: Assets/Scenes/Crane.unity
     guid: 14ca484fb60fb2649858f7060386982b
   - enabled: 1

@@ -1,13 +1,9 @@
 ﻿using System;
 using Unity.Netcode;
-using UnityEditor;
-using UnityEngine;
 using UnityEngine.SceneManagement;
-using Random = UnityEngine.Random;
 
 public class GameState : NetworkBehaviour
 {
-    [SerializeField] private SceneAsset[] scenes;
     private NetworkVariable<int> _playersAlive;
     private NetworkVariable<bool> _gameStarted;
     private NetworkVariable<bool> _gameEnded;
@@ -46,7 +42,7 @@ public class GameState : NetworkBehaviour
         if (!IsServer) return;
         _playersAlive.Value--;
     }
-    
+
     //TODO: add places???
     [ServerRpc(RequireOwnership = false)]
     public void TakePlaceServerRpc()
@@ -55,8 +51,7 @@ public class GameState : NetworkBehaviour
         _playersAlive.Value--;
         if (_playersAlive.Value == 1 || _playersAlive.Value == 0)
         {
-            NetworkManager.Singleton.SceneManager.LoadScene(scenes[Random.Range(0, scenes.Length)].name,
-                LoadSceneMode.Single);
+            NetworkManager.Singleton.SceneManager.LoadScene("MapLobby", LoadSceneMode.Single);
         }
     }
 
