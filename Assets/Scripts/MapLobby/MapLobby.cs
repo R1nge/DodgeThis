@@ -16,37 +16,43 @@ namespace MapLobby
 
         private void Awake()
         {
-            NetworkManager.Singleton.OnClientConnectedCallback += UpdateUI;
-            NetworkManager.Singleton.OnClientDisconnectCallback += UpdateUI;
+            NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
+            NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
             _mapLobbyUI = FindObjectOfType<MapLobbyUI>();
             _pickedMap = new NetworkVariable<int>();
+            _players = new List<LobbyData>();
         }
 
-        private void UpdateUI(ulong obj)
+        private void OnClientConnected(ulong obj)
+        {
+            UpdateUI();
+            UpdateButtonUIServer();
+            if (!IsServer)
+            {
+                _mapLobbyUI.UpdateButton(false, false);
+            }
+        }
+
+        private void OnClientDisconnected(ulong obj)
+        {
+            if (!IsServer) return;
+            for (int i = 0; i < _players.Count; i++)
+            {
+                if (_players[i].OwnerClientId ==
+                    NetworkManager.Singleton.SpawnManager.GetPlayerNetworkObject(obj).OwnerClientId)
+                {
+                    _players.RemoveAt(i);
+                }
+            }
+
+            UpdateButtonUIServer();
+        }
+
+        private void UpdateUI()
         {
             if (IsServer)
             {
-                _players = FindObjectsOfType<LobbyData>().ToList();
                 UpdateUIClientRpc(_pickedMap.Value);
-                if (_players.Count == 1)
-                {
-                    _mapLobbyUI.UpdateButton(false, true);
-                }
-                else
-                {
-                    _players = FindObjectsOfType<LobbyData>().ToList();
-                    if (IsServer)
-                    {
-                        if (_players.All(players => players.IsReady().Value))
-                        {
-                            _mapLobbyUI.UpdateButton(true, true);
-                        }
-                        else
-                        {
-                            _mapLobbyUI.UpdateButton(false, true);
-                        }
-                    }
-                }
             }
 
             _mapLobbyUI.UpdateUI(minigameInstructions[_pickedMap.Value]);
@@ -60,13 +66,13 @@ namespace MapLobby
                 _mapLobbyUI.UpdateUI(minigameInstructions[_pickedMap.Value]);
                 UpdateUIClientRpc(_pickedMap.Value);
                 SpawnDataServer();
+                UpdateButtonUIServer();
             }
             else
             {
                 SpawnDataServerRpc();
+                UpdateButtonUIServer();
             }
-
-            OnStateUpdated(false);
         }
 
         private void SpawnDataServer()
@@ -74,13 +80,15 @@ namespace MapLobby
             var net = Instantiate(data).GetComponent<NetworkObject>();
             net.SpawnWithOwnership(NetworkManager.LocalClientId, true);
             net.GetComponent<LobbyData>().ReadyServerRpc();
+            _players.Add(net.GetComponent<LobbyData>());
         }
 
         private void SpawnData(ulong ID)
         {
             var net = Instantiate(data).GetComponent<NetworkObject>();
             net.SpawnWithOwnership(ID, true);
-            _players = FindObjectsOfType<LobbyData>().ToList();
+            _players.Add(net.GetComponent<LobbyData>());
+            net.GetComponent<LobbyData>().IsReady().OnValueChanged += (_, _) => { UpdateButtonUIServer(); };
         }
 
         [ServerRpc(RequireOwnership = false)]
@@ -92,7 +100,6 @@ namespace MapLobby
 
         public void StartGame()
         {
-            _players = FindObjectsOfType<LobbyData>().ToList();
             if (IsServer)
             {
                 if (_players.All(players => players.IsReady().Value))
@@ -103,29 +110,29 @@ namespace MapLobby
             }
             else
             {
-                for (int i = 0; i < _players.Count; i++)
+                var players = FindObjectsOfType<LobbyData>();
+                for (int i = 0; i < players.Length; i++)
                 {
-                    if (_players[i].OwnerClientId == NetworkManager.LocalClientId)
+                    if (players[i].OwnerClientId == NetworkManager.LocalClientId)
                     {
-                        _players[i].ReadyServerRpc();
-                        _players[i].IsReady().OnValueChanged += (_, newValue) => { OnStateUpdated(newValue); };
+                        players[i].ReadyServerRpc();
+                        UpdateButtonUIClient(!players[i].IsReady().Value);
                     }
                 }
             }
         }
 
-        private void OnStateUpdated(bool state)
+        private void UpdateButtonUIServer()
         {
             if (IsServer)
             {
-                var players = FindObjectsOfType<LobbyData>();
-                if (players.Length == 1)
+                if (_players.Count == 1)
                 {
                     _mapLobbyUI.UpdateButton(false, true);
                     return;
                 }
 
-                if (players.All(players => players.IsReady().Value))
+                if (_players.All(players => players.IsReady().Value))
                 {
                     _mapLobbyUI.UpdateButton(true, true);
                 }
@@ -134,17 +141,18 @@ namespace MapLobby
                     _mapLobbyUI.UpdateButton(false, true);
                 }
             }
-            else
-            {
-                OnStateUpdatedServerRpc(state);
-                _mapLobbyUI.UpdateButton(state, false);
-            }
         }
 
-        [ServerRpc(RequireOwnership = false)]
-        private void OnStateUpdatedServerRpc(bool state)
+        private void UpdateButtonUIClient(bool state)
         {
-            OnStateUpdated(state);
+            var players = FindObjectsOfType<LobbyData>();
+            for (int i = 0; i < players.Length; i++)
+            {
+                if (players[i].OwnerClientId == NetworkManager.LocalClientId)
+                {
+                    _mapLobbyUI.UpdateButton(state, false);
+                }
+            }
         }
 
         private void PickMap() => _pickedMap.Value = Random.Range(0, minigameInstructions.Length);
@@ -153,8 +161,8 @@ namespace MapLobby
         {
             base.OnDestroy();
             if (NetworkManager.Singleton == null) return;
-            NetworkManager.Singleton.OnClientConnectedCallback -= UpdateUI;
-            NetworkManager.Singleton.OnClientDisconnectCallback -= UpdateUI;
+            NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnected;
+            NetworkManager.Singleton.OnClientDisconnectCallback -= OnClientDisconnected;
         }
     }
 }
