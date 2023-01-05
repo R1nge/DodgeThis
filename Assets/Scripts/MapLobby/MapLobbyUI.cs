@@ -23,12 +23,27 @@ namespace MapLobby
         {
             if (isServer)
             {
-                buttonText.text = state ? "<color=green>Start</color>" : "<color=red>Start</color>";
+                if (state)
+                {
+                    buttonText.text = "<color=#25be5b>Start</color>";
+                }
+                else
+                {
+                    buttonText.text = "<color=#C74229>Start</color>";
+                }
+
                 buttonText.transform.parent.GetComponent<Button>().interactable = state;
             }
             else
             {
-                buttonText.text = state ? "<color=green>Ready</color>" : "<color=red>Not Ready</color>";
+                if (state)
+                {
+                    buttonText.text = "<color=#25be5b>Ready</color>";
+                }
+                else
+                {
+                    buttonText.text = "<color=#C74229>Not Ready</color>";
+                }
             }
         }
     }

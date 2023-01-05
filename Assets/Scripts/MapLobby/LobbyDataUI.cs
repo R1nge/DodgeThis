@@ -59,14 +59,29 @@ namespace MapLobby
         [ServerRpc(RequireOwnership = false)]
         public void UpdateReadyStateServerRpc(bool state)
         {
-            nickname.color = state ? Color.green : Color.red;
+            if (state)
+            {
+                nickname.color = new Color(37f / 255, 190f / 255, 91f / 255);
+            }
+            else
+            {
+                nickname.color = new Color(199f / 255, 66f / 255, 41f / 255);
+            }
+
             UpdateReadyStateClientRpc(state);
         }
 
         [ClientRpc]
         private void UpdateReadyStateClientRpc(bool state)
         {
-            nickname.color = state ? Color.green : Color.red;
+            if (state)
+            {
+                nickname.color = new Color(37f / 255, 190f / 255, 91f / 255);
+            }
+            else
+            {
+                nickname.color = new Color(199f / 255, 66f / 255, 41f / 255);
+            }
         }
 
         public override void OnDestroy()

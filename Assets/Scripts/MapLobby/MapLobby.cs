@@ -65,7 +65,7 @@ namespace MapLobby
             if (IsServer)
             {
                 PickMap();
-                
+
                 var ui = Instantiate(playerList).GetComponent<NetworkObject>();
                 ui.Spawn(true);
                 _parent = ui.gameObject;
@@ -130,7 +130,7 @@ namespace MapLobby
             {
                 if (_players.All(players => players.IsReady().Value))
                 {
-                    NetworkManager.Singleton.SceneManager.LoadScene(minigameInstructions[_pickedMap.Value].gameMap.name,
+                    NetworkManager.Singleton.SceneManager.LoadScene(minigameInstructions[_pickedMap.Value].gameMap,
                         LoadSceneMode.Single);
                 }
             }
