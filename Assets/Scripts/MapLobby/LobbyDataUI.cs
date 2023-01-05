@@ -34,10 +34,12 @@ namespace MapLobby
             {
                 _networkStr.Value = PlayerPrefs.GetString("Nickname");
                 UpdateUIClientRpc(_networkStr.Value);
+                UpdateReadyStateClientRpc(true);
             }
             else
             {
                 SetNicknameServerRpc(PlayerPrefs.GetString("Nickname"));
+                UpdateReadyStateServerRpc(false);
             }
         }
 
@@ -49,7 +51,23 @@ namespace MapLobby
         }
 
         [ClientRpc]
-        private void UpdateUIClientRpc(NetworkString value) => nickname.text = value.ToString();
+        private void UpdateUIClientRpc(NetworkString value)
+        {
+            nickname.text = value.ToString();
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        public void UpdateReadyStateServerRpc(bool state)
+        {
+            nickname.color = state ? Color.green : Color.red;
+            UpdateReadyStateClientRpc(state);
+        }
+
+        [ClientRpc]
+        private void UpdateReadyStateClientRpc(bool state)
+        {
+            nickname.color = state ? Color.green : Color.red;
+        }
 
         public override void OnDestroy()
         {
