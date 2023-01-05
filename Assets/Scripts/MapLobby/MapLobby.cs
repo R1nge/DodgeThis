@@ -72,6 +72,10 @@ namespace MapLobby
             {
                 SpawnDataServerRpc();
                 UpdateButtonUIServer();
+                if (!IsServer)
+                {
+                    _mapLobbyUI.UpdateButton(false, false);
+                }
             }
         }
 

@@ -13,6 +13,9 @@ public class ConnectMenu : MonoBehaviour
 
     private void Awake()
     {
+        var ip = PlayerPrefs.GetString("Ip", ipInput.text);
+        ipInput.text = ip;
+        NetworkManager.Singleton.GetComponent<UnityTransport>().ConnectionData.Address = ip;
         nickInput.text = PlayerPrefs.GetString("Nickname", nickInput.text);
     }
 
@@ -50,6 +53,8 @@ public class ConnectMenu : MonoBehaviour
     public void SetIp()
     {
         NetworkManager.Singleton.GetComponent<UnityTransport>().ConnectionData.Address = ipInput.text;
+        PlayerPrefs.SetString("Ip", ipInput.text);
+        PlayerPrefs.Save();
     }
 
     private void ApprovalCheck(NetworkManager.ConnectionApprovalRequest request,
