@@ -14,7 +14,7 @@ public class CountDown : NetworkBehaviour
         _countDownUI = FindObjectOfType<CountDownUI>();
         _gameState = FindObjectOfType<GameState>();
         _timer = new NetworkVariable<int>(timer);
-        _timer.OnValueChanged += (value, newValue) => { _countDownUI.UpdateUI(newValue); };
+        _timer.OnValueChanged += (_, newValue) => { _countDownUI.UpdateUI(newValue); };
         _countDownUI.UpdateUI(_timer.Value);
         NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
     }
@@ -35,10 +35,10 @@ public class CountDown : NetworkBehaviour
 
     private IEnumerator Count()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(.5f);
         while (_timer.Value > 0)
         {
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(.5f);
             _timer.Value--;
         }
 

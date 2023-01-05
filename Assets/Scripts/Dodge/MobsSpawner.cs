@@ -5,7 +5,7 @@ namespace Dodge
 {
     public class MobsSpawner : NetworkBehaviour
     {
-        [SerializeField] private float minWaveSize, maxWaveSize;
+        [SerializeField] private int minWaveSize, maxWaveSize;
         [SerializeField] private Vector3 minSpawnPos, maxSpawnPos;
         [SerializeField] private GameObject mob, bigMob;
         private GameState _gameState;
@@ -24,7 +24,7 @@ namespace Dodge
 
         private void SpawnWave()
         {
-            var waveSize = Random.Range(minWaveSize, maxWaveSize + 1);
+            int waveSize = Random.Range(minWaveSize, maxWaveSize + 1);
             for (int i = 0; i < waveSize; i++)
             {
                 int mobSize = Random.Range(0, 2);

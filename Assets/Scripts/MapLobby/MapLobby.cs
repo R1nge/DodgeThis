@@ -8,11 +8,13 @@ namespace MapLobby
 {
     public class MapLobby : NetworkBehaviour
     {
+        [SerializeField] private GameObject playerList;
         [SerializeField] private GameObject data;
         [SerializeField] private MinigameInstructionsSO[] minigameInstructions;
         private MapLobbyUI _mapLobbyUI;
         private NetworkVariable<int> _pickedMap;
         private List<LobbyData> _players;
+        private NetworkObjectReference _parent;
 
         private void Awake()
         {
@@ -63,7 +65,13 @@ namespace MapLobby
             if (IsServer)
             {
                 PickMap();
+                
+                var ui = Instantiate(playerList).GetComponent<NetworkObject>();
+                ui.Spawn(true);
+                _parent = ui.gameObject;
+
                 _mapLobbyUI.UpdateUI(minigameInstructions[_pickedMap.Value]);
+                //GameObject.Find("MapLobbyUI/Panel").transform.localScale = Vector3.one;
                 UpdateUIClientRpc(_pickedMap.Value);
                 SpawnDataServer();
                 UpdateButtonUIServer();
@@ -83,6 +91,13 @@ namespace MapLobby
         {
             var net = Instantiate(data).GetComponent<NetworkObject>();
             net.SpawnWithOwnership(NetworkManager.LocalClientId, true);
+
+            if (_parent.TryGet(out NetworkObject parent))
+            {
+                net.transform.parent = parent.transform;
+                net.transform.localScale = Vector3.one;
+            }
+
             net.GetComponent<LobbyData>().ReadyServerRpc();
             _players.Add(net.GetComponent<LobbyData>());
         }
@@ -91,6 +106,13 @@ namespace MapLobby
         {
             var net = Instantiate(data).GetComponent<NetworkObject>();
             net.SpawnWithOwnership(ID, true);
+
+            if (_parent.TryGet(out NetworkObject parent))
+            {
+                net.transform.parent = parent.transform;
+                net.transform.localScale = Vector3.one;
+            }
+
             _players.Add(net.GetComponent<LobbyData>());
             net.GetComponent<LobbyData>().IsReady().OnValueChanged += (_, _) => { UpdateButtonUIServer(); };
         }

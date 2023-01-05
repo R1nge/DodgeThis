@@ -1,10 +1,11 @@
 ﻿using TMPro;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace MapLobby
 {
-    public class MapLobbyUI : MonoBehaviour
+    public class MapLobbyUI : NetworkBehaviour
     {
         [SerializeField] private TextMeshProUGUI title;
         [SerializeField] private Image icon;

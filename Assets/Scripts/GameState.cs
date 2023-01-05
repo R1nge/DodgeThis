@@ -24,42 +24,43 @@ public class GameState : NetworkBehaviour
 
     private void Awake()
     {
-        NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
         NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
-        _playersAlive = new NetworkVariable<int>(1);
+        _playersAlive = new NetworkVariable<int>();
         _gameStarted = new NetworkVariable<bool>();
         _gameEnded = new NetworkVariable<bool>();
-    }
-
-    private void OnClientConnected(ulong obj)
-    {
-        if (!IsServer) return;
-        _playersAlive.Value++;
     }
 
     private void OnClientDisconnected(ulong obj)
     {
         if (!IsServer) return;
-        _playersAlive.Value--;
+        if (_playersAlive.Value <= 1)
+        {
+            NetworkManager.Singleton.SceneManager.LoadScene("MapLobby", LoadSceneMode.Single);
+        }
     }
 
     //TODO: add places???
     [ServerRpc(RequireOwnership = false)]
-    public void TakePlaceServerRpc()
+    public void OnPlayerKilledServerRpc()
     {
         if (!IsServer) return;
         _playersAlive.Value--;
-        if (_playersAlive.Value == 1 || _playersAlive.Value == 0)
+        if (_playersAlive.Value <= 1)
         {
             NetworkManager.Singleton.SceneManager.LoadScene("MapLobby", LoadSceneMode.Single);
         }
+    }
+
+    public void OnCharacterSpawned()
+    {
+        if (!IsServer) return;
+        _playersAlive.Value++;
     }
 
     public override void OnDestroy()
     {
         base.OnDestroy();
         if (NetworkManager.Singleton == null) return;
-        NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnected;
         NetworkManager.Singleton.OnClientDisconnectCallback -= OnClientDisconnected;
     }
 }
