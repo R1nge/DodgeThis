@@ -8,13 +8,13 @@ namespace MapLobby
 {
     public class MapLobby : NetworkBehaviour
     {
-        [SerializeField] private GameObject playerList;
+        [SerializeField] private GameObject playerList, sizer;
         [SerializeField] private GameObject data;
         [SerializeField] private MinigameInstructionsSO[] minigameInstructions;
         private MapLobbyUI _mapLobbyUI;
         private NetworkVariable<int> _pickedMap;
         private List<LobbyData> _players;
-        private NetworkObjectReference _parent;
+        private NetworkObjectReference _parent, _sizer;
 
         private void Awake()
         {
@@ -69,9 +69,8 @@ namespace MapLobby
                 var ui = Instantiate(playerList).GetComponent<NetworkObject>();
                 ui.Spawn(true);
                 _parent = ui.gameObject;
-
                 _mapLobbyUI.UpdateUI(minigameInstructions[_pickedMap.Value]);
-                //GameObject.Find("MapLobbyUI/Panel").transform.localScale = Vector3.one;
+
                 UpdateUIClientRpc(_pickedMap.Value);
                 SpawnDataServer();
                 UpdateButtonUIServer();
@@ -92,9 +91,13 @@ namespace MapLobby
             var net = Instantiate(data).GetComponent<NetworkObject>();
             net.SpawnWithOwnership(NetworkManager.LocalClientId, true);
 
-            if (_parent.TryGet(out NetworkObject parent))
+            var sizerInst = Instantiate(sizer);
+            sizerInst.GetComponent<NetworkObject>().Spawn(true);
+            _sizer = sizerInst;
+
+            if (_sizer.TryGet(out NetworkObject sizerNet))
             {
-                net.transform.parent = parent.transform;
+                net.transform.parent = sizerNet.transform;
                 net.transform.localScale = Vector3.one;
             }
 
@@ -107,9 +110,9 @@ namespace MapLobby
             var net = Instantiate(data).GetComponent<NetworkObject>();
             net.SpawnWithOwnership(ID, true);
 
-            if (_parent.TryGet(out NetworkObject parent))
+            if (_sizer.TryGet(out NetworkObject sizerNet))
             {
-                net.transform.parent = parent.transform;
+                net.transform.parent = sizerNet.transform;
                 net.transform.localScale = Vector3.one;
             }
 

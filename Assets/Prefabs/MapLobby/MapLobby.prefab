@@ -62,7 +62,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 168bbcf5cdf44979ae513ad874e0033b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerList: {fileID: 7826709860849851502, guid: 09bf10d8ed4d63349bf2bca83ba15a42, type: 3}
+  playerList: {fileID: 631012272456236166, guid: 09bf10d8ed4d63349bf2bca83ba15a42, type: 3}
+  sizer: {fileID: 8983389291608649434, guid: e21a9156ac9e5f84cb417ca969297005, type: 3}
   data: {fileID: 8558071919517872494, guid: 83f3291e9049f8d41ac129b50180e841, type: 3}
   minigameInstructions:
   - {fileID: 11400000, guid: edef4a5143a34934da80fc135821e592, type: 2}

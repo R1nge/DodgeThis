@@ -6,7 +6,7 @@ namespace MapLobby
 {
     public class LobbyDataUI : NetworkBehaviour
     {
-        [SerializeField] private TextMeshProUGUI nickname;
+        [SerializeField] private TextMeshProUGUI nickname, ready;
         private NetworkVariable<NetworkString> _networkStr;
 
         private void Awake()
@@ -61,11 +61,13 @@ namespace MapLobby
         {
             if (state)
             {
-                nickname.color = new Color(37f / 255, 190f / 255, 91f / 255);
+                ready.text = "Ready";
+                ready.color = new Color(37f / 255, 190f / 255, 91f / 255);
             }
             else
             {
-                nickname.color = new Color(199f / 255, 66f / 255, 41f / 255);
+                ready.text = "Not Ready";
+                ready.color = new Color(199f / 255, 66f / 255, 41f / 255);
             }
 
             UpdateReadyStateClientRpc(state);
@@ -76,11 +78,13 @@ namespace MapLobby
         {
             if (state)
             {
-                nickname.color = new Color(37f / 255, 190f / 255, 91f / 255);
+                ready.text = "Ready";
+                ready.color = new Color(37f / 255, 190f / 255, 91f / 255);
             }
             else
             {
-                nickname.color = new Color(199f / 255, 66f / 255, 41f / 255);
+                ready.text = "Not Ready";
+                ready.color = new Color(199f / 255, 66f / 255, 41f / 255);
             }
         }
 

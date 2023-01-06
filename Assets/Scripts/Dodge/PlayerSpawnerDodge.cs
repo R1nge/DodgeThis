@@ -1,5 +1,4 @@
-﻿using System;
-using Unity.Netcode;
+﻿using Unity.Netcode;
 using UnityEngine;
 
 namespace Dodge
@@ -28,7 +27,6 @@ namespace Dodge
                 SpawnPlayerServerRpc();
             }
         }
-
 
         private void SpawnPlayer(ulong ID)
         {
