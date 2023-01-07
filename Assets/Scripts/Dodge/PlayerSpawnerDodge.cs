@@ -7,7 +7,7 @@ namespace Dodge
     public class PlayerSpawnerDodge : NetworkBehaviour
     {
         [SerializeField] private Transform[] positions;
-        [SerializeField] private PlayerSkins skins;
+        [SerializeField] private Skin skins;
         private int _lastPosition;
         private GameState _gameState;
 
@@ -36,18 +36,17 @@ namespace Dodge
             {
                 if (ID == LobbySingleton.Instance.GetPlayersList()[i].ClientId)
                 {
-                    var inst = Instantiate(skins.GetSkin(i, 0), positions[_lastPosition].position, Quaternion.identity);
-                    inst.GetComponent<NetworkObject>().SpawnWithOwnership(ID, true);
-                    inst.transform.position = positions[_lastPosition].position;
+                    var controller = Instantiate(skins.GetController(4));
+                    controller.GetComponent<NetworkObject>().SpawnWithOwnership(ID, true);
+                    controller.transform.position = positions[_lastPosition].position;
+                    var skin = Instantiate(skins.GetSkin(LobbySingleton.Instance.GetPlayersList()[i].SkinIndex), positions[_lastPosition].position, Quaternion.identity);
+                    skin.GetComponent<NetworkObject>().SpawnWithOwnership(ID, true);
+                    skin.transform.parent = controller.transform;
+                    skin.transform.localPosition = Vector3.zero;
                 }
             }
 
             _lastPosition++;
-
-            for (int i = 0; i < LobbySingleton.Instance.GetPlayersList().Count; i++)
-            {
-                print("DODGE");
-            }
         }
 
         [ServerRpc(RequireOwnership = false)]

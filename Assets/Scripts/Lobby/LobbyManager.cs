@@ -116,6 +116,7 @@ namespace Lobby
                 {
                     _lobbyUI.UpdateReadyStateServerRpc(i, LobbySingleton.Instance.GetPlayersList()[i].IsReady);
                     _lobbyUI.UpdateNicknameServerRpc(i, LobbySingleton.Instance.GetPlayersList()[i].PlayerName);
+                    _lobbyUI.UpdateSkinServerRpc(i, LobbySingleton.Instance.GetPlayersList()[i].SkinIndex);
                     OnLobbyPlayersStateChanged();
                 }
             }

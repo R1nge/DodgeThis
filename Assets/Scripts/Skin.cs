@@ -3,17 +3,18 @@
 [CreateAssetMenu(fileName = "Skins", menuName = "Skins")]
 public class Skin : ScriptableObject
 {
-    [SerializeField] private GameObject[] skinsForMaps;
-    
     /// <summary>
-    ///     0 - Lobby
-    ///     1 - Crane
-    ///     2 - NumbersFloor
-    ///     3 - Dodge
-    ///     4 - BallArena
+    /// Controllers
+    /// 0 - FpsCharacterCCWithJump
+    /// 1 - FpsCharacterCCWithOutJump
+    /// 2 - TpsCharacterCCWithJump
+    /// 3 - TpsCharacterCCWithOutJump
+    /// 4 - TpsCharacterRB
     /// </summary>
-    /// <param name="mapIndex"></param>
-    /// <returns></returns>
+    [SerializeField] private GameObject[] mapsControllers;
+    [SerializeField] private GameObject[] skins;
 
-    public GameObject GetSkinForMap(int mapIndex) => skinsForMaps[mapIndex];
+    public GameObject GetController(int controllerIndex) => mapsControllers[controllerIndex];
+
+    public GameObject GetSkin(int skinIndex) => skins[skinIndex];
 }

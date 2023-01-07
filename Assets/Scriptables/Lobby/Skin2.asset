@@ -12,5 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eefb3d4550c84f5eaccb6408f8d9ec2e, type: 3}
   m_Name: Skin2
   m_EditorClassIdentifier: 
-  skinsForMaps:
+  mapsControllers:
+  - {fileID: 5048112513200222307, guid: 53a0ae2b6ba799d46b77bc857a465edf, type: 3}
+  - {fileID: 5048112513200222307, guid: 7d23e2b86011f404eab8b9f29a8cee8a, type: 3}
+  - {fileID: 4192047551339863338, guid: 23e37580afc2a084d87f59a0a0c8da2b, type: 3}
+  - {fileID: 4192047551339863338, guid: 8a25f05737482884e99cdf2f4913b278, type: 3}
+  - {fileID: 4192047551339863338, guid: 3216a50ec198dae44bf4b7c28a704840, type: 3}
+  skins:
   - {fileID: 1074890322790358652, guid: 9ef9f8c862ea76e4a8fae5646ff5c260, type: 3}
+  - {fileID: 5673227818790339723, guid: e9d2f42ba4ebc374f9d96130550a986e, type: 3}

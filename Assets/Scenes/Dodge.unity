@@ -1147,6 +1147,10 @@ PrefabInstance:
       value: PlayerSpawnerDodge
       objectReference: {fileID: 0}
     - target: {fileID: 9032599427743483626, guid: 41ef6a0e0382f054d88a6114c1dea7ed, type: 3}
+      propertyPath: skins
+      value: 
+      objectReference: {fileID: 11400000, guid: 23f44bed9285823468e2daac6dd07120, type: 2}
+    - target: {fileID: 9032599427743483626, guid: 41ef6a0e0382f054d88a6114c1dea7ed, type: 3}
       propertyPath: positions.Array.size
       value: 4
       objectReference: {fileID: 0}
