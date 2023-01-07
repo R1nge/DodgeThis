@@ -41,7 +41,7 @@ public class ConnectMenu : MonoBehaviour
 
     private void LoadLobby()
     {
-        NetworkManager.Singleton.SceneManager.LoadScene("MapLobby", LoadSceneMode.Single);
+        NetworkManager.Singleton.SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
     }
 
     public void SaveNick()
