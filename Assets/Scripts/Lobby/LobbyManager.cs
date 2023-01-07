@@ -33,7 +33,7 @@ namespace Lobby
                     _lobbyUI.UpdateReadyStateServerRpc(i, LobbySingleton.Instance.GetPlayersList()[i].IsReady);
                 }
             }
-            
+
             OnLobbyPlayersStateChanged();
             PrintData();
         }
@@ -78,7 +78,7 @@ namespace Lobby
                 print("Name: " + LobbySingleton.Instance.GetPlayersList()[i].PlayerName);
             }
         }
- 
+
         private void Awake()
         {
             _lobbyUI = GetComponent<LobbyUI>();
@@ -142,7 +142,13 @@ namespace Lobby
                 {
                     _lobbyUI.UpdateReadyStateServerRpc(i, LobbySingleton.Instance.GetPlayersList()[i].IsReady);
                     _lobbyUI.UpdateNicknameServerRpc(i, LobbySingleton.Instance.GetPlayersList()[i].PlayerName);
+                    _lobbyUI.UpdateSkinServerRpc(i, LobbySingleton.Instance.GetPlayersList()[i].SkinIndex);
                     OnLobbyPlayersStateChanged();
+                }
+                else
+                {
+                    _lobbyUI.HideSkinServerRpc(i);
+                    _lobbyUI.ClearUIServerRpc(i);
                 }
             }
 

@@ -35,12 +35,24 @@ namespace Lobby
         }
 
         [ServerRpc(RequireOwnership = false)]
+        public void HideSkinServerRpc(int index)
+        {
+            characters[index].HideSkinServerRpc();
+        }
+
+        [ServerRpc(RequireOwnership = false)]
         public void UpdateStartButtonServerRpc(bool state)
         {
             if (IsServer)
             {
                 startGame.interactable = state;
             }
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        public void ClearUIServerRpc(int i)
+        {
+            characters[i].ClearUIServerRpc();
         }
     }
 }

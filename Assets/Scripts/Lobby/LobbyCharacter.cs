@@ -30,6 +30,7 @@ namespace Lobby
             {
                 var newSkin = Instantiate(skins.GetSkin(index), transform.position, Quaternion.identity);
                 newSkin.GetComponent<NetworkObject>().Spawn(true);
+                newSkin.GetComponent<NetworkObject>().DontDestroyWithOwner = false;
                 newSkin.transform.parent = transform;
             }
 
@@ -37,6 +38,21 @@ namespace Lobby
             {
                 transform.GetChild(1).GetComponent<NetworkObject>().Despawn();
             }
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        public void ClearUIServerRpc()
+        {
+            nickname.text = "";
+            ready.text = "";
+            ClearUIClientRpc();
+        }
+
+        [ClientRpc]
+        private void ClearUIClientRpc()
+        {
+            nickname.text = "";
+            ready.text = "";
         }
 
         [ServerRpc(RequireOwnership = false)]
@@ -64,6 +80,15 @@ namespace Lobby
             else
             {
                 ready.text = "Not Ready";
+            }
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        public void HideSkinServerRpc()
+        {
+            if (transform.childCount == 2 || transform.childCount == 3)
+            {
+                transform.GetChild(1).GetComponent<NetworkObject>().Despawn();
             }
         }
     }
