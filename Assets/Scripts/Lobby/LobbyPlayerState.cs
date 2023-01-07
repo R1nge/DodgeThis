@@ -1,8 +1,10 @@
 ﻿using System;
 using Unity.Netcode;
+using UnityEngine;
 
 namespace Lobby
 {
+    [Serializable]
     public struct LobbyPlayerState : INetworkSerializable, IEquatable<LobbyPlayerState>
     {
         public ulong ClientId;

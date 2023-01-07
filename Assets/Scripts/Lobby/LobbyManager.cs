@@ -7,7 +7,6 @@ namespace Lobby
     public class LobbyManager : NetworkBehaviour
     {
         private LobbyUI _lobbyUI;
-        private NetworkList<LobbyPlayerState> _lobbyPlayers;
 
         public void ReadyUp()
         {
@@ -20,21 +19,22 @@ namespace Lobby
         [ServerRpc(RequireOwnership = false)]
         private void ReadyUpServerRpc(ServerRpcParams rpcParams = default)
         {
-            for (var i = 0; i < _lobbyPlayers.Count; i++)
+            for (var i = 0; i < LobbySingleton.Instance.GetPlayersList().Count; i++)
             {
-                if (_lobbyPlayers[i].ClientId == rpcParams.Receive.SenderClientId)
+                if (LobbySingleton.Instance.GetPlayersList()[i].ClientId == rpcParams.Receive.SenderClientId)
                 {
-                    _lobbyPlayers[i] = new LobbyPlayerState(
-                        _lobbyPlayers[i].ClientId,
-                        _lobbyPlayers[i].PlayerName,
-                        _lobbyPlayers[i].SkinIndex,
-                        !_lobbyPlayers[i].IsReady
+                    LobbySingleton.Instance.GetPlayersList()[i] = new LobbyPlayerState(
+                        LobbySingleton.Instance.GetPlayersList()[i].ClientId,
+                        LobbySingleton.Instance.GetPlayersList()[i].PlayerName,
+                        LobbySingleton.Instance.GetPlayersList()[i].SkinIndex,
+                        !LobbySingleton.Instance.GetPlayersList()[i].IsReady
                     );
 
-                    _lobbyUI.UpdateReadyStateServerRpc(i, _lobbyPlayers[i].IsReady);
+                    _lobbyUI.UpdateReadyStateServerRpc(i, LobbySingleton.Instance.GetPlayersList()[i].IsReady);
                 }
             }
-
+            
+            OnLobbyPlayersStateChanged();
             PrintData();
         }
 
@@ -46,23 +46,23 @@ namespace Lobby
         [ServerRpc(RequireOwnership = false)]
         private void ChangeSkinServerRpc(int skinIndex, ServerRpcParams rpcParams = default)
         {
-            for (var i = 0; i < _lobbyPlayers.Count; i++)
+            for (var i = 0; i < LobbySingleton.Instance.GetPlayersList().Count; i++)
             {
-                if (_lobbyPlayers[i].ClientId == rpcParams.Receive.SenderClientId)
+                if (LobbySingleton.Instance.GetPlayersList()[i].ClientId == rpcParams.Receive.SenderClientId)
                 {
-                    _lobbyPlayers[i] = new LobbyPlayerState(
-                        _lobbyPlayers[i].ClientId,
-                        _lobbyPlayers[i].PlayerName,
+                    LobbySingleton.Instance.GetPlayersList()[i] = new LobbyPlayerState(
+                        LobbySingleton.Instance.GetPlayersList()[i].ClientId,
+                        LobbySingleton.Instance.GetPlayersList()[i].PlayerName,
                         skinIndex,
-                        _lobbyPlayers[i].IsReady
+                        LobbySingleton.Instance.GetPlayersList()[i].IsReady
                     );
 
                     PrintData();
 
-                    if (_lobbyPlayers.Count > i)
+                    if (LobbySingleton.Instance.GetPlayersList().Count > i)
                     {
-                        _lobbyUI.UpdateSkinServerRpc(i, _lobbyPlayers[i].SkinIndex);
-                        _lobbyUI.UpdateReadyStateServerRpc(i, _lobbyPlayers[i].IsReady);
+                        _lobbyUI.UpdateSkinServerRpc(i, LobbySingleton.Instance.GetPlayersList()[i].SkinIndex);
+                        _lobbyUI.UpdateReadyStateServerRpc(i, LobbySingleton.Instance.GetPlayersList()[i].IsReady);
                     }
                 }
             }
@@ -70,19 +70,18 @@ namespace Lobby
 
         private void PrintData()
         {
-            for (int i = 0; i < _lobbyPlayers.Count; i++)
+            for (int i = 0; i < LobbySingleton.Instance.GetPlayersList().Count; i++)
             {
-                print("ID: " + _lobbyPlayers[i].ClientId);
-                print("Is Ready: " + _lobbyPlayers[i].IsReady);
-                print("Skin Index: " + _lobbyPlayers[i].SkinIndex);
-                print("Name: " + _lobbyPlayers[i].PlayerName);
+                print("ID: " + LobbySingleton.Instance.GetPlayersList()[i].ClientId);
+                print("Is Ready: " + LobbySingleton.Instance.GetPlayersList()[i].IsReady);
+                print("Skin Index: " + LobbySingleton.Instance.GetPlayersList()[i].SkinIndex);
+                print("Name: " + LobbySingleton.Instance.GetPlayersList()[i].PlayerName);
             }
         }
-
+ 
         private void Awake()
         {
             _lobbyUI = GetComponent<LobbyUI>();
-            _lobbyPlayers = new NetworkList<LobbyPlayerState>();
             NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
             NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
         }
@@ -92,7 +91,7 @@ namespace Lobby
             if (!IsServer) return;
             if (ID == 0)
             {
-                _lobbyPlayers.Add(new LobbyPlayerState
+                LobbySingleton.Instance.GetPlayersList().Add(new LobbyPlayerState
                 {
                     ClientId = ID,
                     IsReady = true,
@@ -101,7 +100,9 @@ namespace Lobby
             }
             else
             {
-                _lobbyPlayers.Add(new LobbyPlayerState
+                print(LobbySingleton.Instance);
+                print(LobbySingleton.Instance.GetPlayersList());
+                LobbySingleton.Instance.GetPlayersList().Add(new LobbyPlayerState
                 {
                     ClientId = ID,
                     IsReady = false,
@@ -111,10 +112,11 @@ namespace Lobby
 
             for (int i = 0; i < 4; i++)
             {
-                if (_lobbyPlayers.Count > i)
+                if (LobbySingleton.Instance.GetPlayersList().Count > i)
                 {
-                    _lobbyUI.UpdateReadyStateServerRpc(i, _lobbyPlayers[i].IsReady);
-                    _lobbyUI.UpdateNicknameServerRpc(i, _lobbyPlayers[i].PlayerName);
+                    _lobbyUI.UpdateReadyStateServerRpc(i, LobbySingleton.Instance.GetPlayersList()[i].IsReady);
+                    _lobbyUI.UpdateNicknameServerRpc(i, LobbySingleton.Instance.GetPlayersList()[i].PlayerName);
+                    OnLobbyPlayersStateChanged();
                 }
             }
 
@@ -125,20 +127,21 @@ namespace Lobby
         private void OnClientDisconnected(ulong ID)
         {
             if (!IsServer) return;
-            for (var i = 0; i < _lobbyPlayers.Count; i++)
+            for (var i = 0; i < LobbySingleton.Instance.GetPlayersList().Count; i++)
             {
-                if (_lobbyPlayers[i].ClientId == ID)
+                if (LobbySingleton.Instance.GetPlayersList()[i].ClientId == ID)
                 {
-                    _lobbyPlayers.Remove(_lobbyPlayers[i]);
+                    LobbySingleton.Instance.GetPlayersList().Remove(LobbySingleton.Instance.GetPlayersList()[i]);
                 }
             }
 
             for (int i = 0; i < 4; i++)
             {
-                if (_lobbyPlayers.Count > i)
+                if (LobbySingleton.Instance.GetPlayersList().Count > i)
                 {
-                    _lobbyUI.UpdateReadyStateServerRpc(i, _lobbyPlayers[i].IsReady);
-                    _lobbyUI.UpdateNicknameServerRpc(i, _lobbyPlayers[i].PlayerName);
+                    _lobbyUI.UpdateReadyStateServerRpc(i, LobbySingleton.Instance.GetPlayersList()[i].IsReady);
+                    _lobbyUI.UpdateNicknameServerRpc(i, LobbySingleton.Instance.GetPlayersList()[i].PlayerName);
+                    OnLobbyPlayersStateChanged();
                 }
             }
 
@@ -159,22 +162,21 @@ namespace Lobby
 
             for (int i = 0; i < 4; i++)
             {
-                if (_lobbyPlayers.Count > i)
+                if (LobbySingleton.Instance.GetPlayersList().Count > i)
                 {
-                    _lobbyUI.UpdateReadyStateServerRpc(i, _lobbyPlayers[i].IsReady);
-                    _lobbyUI.UpdateNicknameServerRpc(i, _lobbyPlayers[i].PlayerName);
+                    _lobbyUI.UpdateReadyStateServerRpc(i, LobbySingleton.Instance.GetPlayersList()[i].IsReady);
+                    _lobbyUI.UpdateNicknameServerRpc(i, LobbySingleton.Instance.GetPlayersList()[i].PlayerName);
+                    OnLobbyPlayersStateChanged();
                 }
             }
-
-            _lobbyPlayers.OnListChanged += OnLobbyPlayersStateChanged;
         }
 
-        private void OnLobbyPlayersStateChanged(NetworkListEvent<LobbyPlayerState> changeevent)
+        private void OnLobbyPlayersStateChanged()
         {
-            for (var i = 0; i < _lobbyPlayers.Count; i++)
+            for (var i = 0; i < LobbySingleton.Instance.GetPlayersList().Count; i++)
             {
-                _lobbyUI.UpdateReadyStateServerRpc(i, _lobbyPlayers[i].IsReady);
-                _lobbyUI.UpdateNicknameServerRpc(i, _lobbyPlayers[i].PlayerName);
+                _lobbyUI.UpdateReadyStateServerRpc(i, LobbySingleton.Instance.GetPlayersList()[i].IsReady);
+                _lobbyUI.UpdateNicknameServerRpc(i, LobbySingleton.Instance.GetPlayersList()[i].PlayerName);
             }
 
             _lobbyUI.UpdateStartButtonServerRpc(IsEveryoneReady());
@@ -192,12 +194,12 @@ namespace Lobby
 
         private bool IsEveryoneReady()
         {
-            if (_lobbyPlayers.Count < 2)
+            if (LobbySingleton.Instance.GetPlayersList().Count < 2)
             {
                 return false;
             }
 
-            foreach (var player in _lobbyPlayers)
+            foreach (var player in LobbySingleton.Instance.GetPlayersList())
             {
                 if (!player.IsReady)
                 {
@@ -211,7 +213,6 @@ namespace Lobby
         public override void OnDestroy()
         {
             base.OnDestroy();
-            _lobbyPlayers.OnListChanged -= OnLobbyPlayersStateChanged;
 
             if (NetworkManager.Singleton)
             {

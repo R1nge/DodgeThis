@@ -45,8 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 392bd265420441ae91a00704747435a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 4192047551339863338, guid: 3216a50ec198dae44bf4b7c28a704840, type: 3}
   positions: []
+  skins: {fileID: 11400000, guid: 1d08caae12713f94fb608af8687bd4a7, type: 2}
 --- !u!114 &9032599427743483627
 MonoBehaviour:
   m_ObjectHideFlags: 0

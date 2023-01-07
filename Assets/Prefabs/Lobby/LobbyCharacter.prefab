@@ -434,6 +434,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e717ca2958b1460a85fd07db7d701b6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skins: {fileID: 11400000, guid: 1d08caae12713f94fb608af8687bd4a7, type: 2}
+  skins: {fileID: 11400000, guid: 2a94829da7c688843b3debf552a2d3e2, type: 2}
   ready: {fileID: 1801890780452285971}
   nickname: {fileID: 7839442059680514153}

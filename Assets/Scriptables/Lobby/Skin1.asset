@@ -9,9 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f10a77bca2c345f2ad612c934d72f0c4, type: 3}
-  m_Name: Skins
+  m_Script: {fileID: 11500000, guid: eefb3d4550c84f5eaccb6408f8d9ec2e, type: 3}
+  m_Name: Skin1
   m_EditorClassIdentifier: 
-  skins:
-  - {fileID: 11400000, guid: 1d08caae12713f94fb608af8687bd4a7, type: 2}
-  - {fileID: 11400000, guid: 23f44bed9285823468e2daac6dd07120, type: 2}
+  skinsForMaps:
+  - {fileID: 5673227818790339723, guid: e9d2f42ba4ebc374f9d96130550a986e, type: 3}
