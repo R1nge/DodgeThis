@@ -13,8 +13,11 @@ public class Skin : ScriptableObject
     /// </summary>
     [SerializeField] private GameObject[] mapsControllers;
     [SerializeField] private GameObject[] skins;
+    [SerializeField] private Vector3[] skinLobbyOffset;
 
     public GameObject GetController(int controllerIndex) => mapsControllers[controllerIndex];
 
     public GameObject GetSkin(int skinIndex) => skins[skinIndex];
+
+    public Vector3 GetOffset(int offsetIndex) => skinLobbyOffset[offsetIndex];
 }

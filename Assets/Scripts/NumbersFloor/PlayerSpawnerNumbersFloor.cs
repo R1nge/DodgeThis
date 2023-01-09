@@ -1,4 +1,5 @@
 using Lobby;
+using Shared;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -6,7 +7,6 @@ namespace NumbersFloor
 {
     public class PlayerSpawnerNumbersFloor : NetworkBehaviour
     {
-        [SerializeField] private GameObject playerPrefab;
         [SerializeField] private Skin skins;
 
         private void Awake()
@@ -34,19 +34,15 @@ namespace NumbersFloor
             {
                 if (ID == LobbySingleton.Instance.GetPlayersList()[i].ClientId)
                 {
-                    var controller = Instantiate(skins.GetController(4));
+                    var controller = Instantiate(skins.GetController(3));
                     controller.GetComponent<NetworkObject>().SpawnWithOwnership(ID, true);
                     controller.transform.position = pos;
-                    var skin = Instantiate(skins.GetSkin(LobbySingleton.Instance.GetPlayersList()[i].SkinIndex),
-                        pos, Quaternion.identity);
+                    var skin = Instantiate(skins.GetSkin(LobbySingleton.Instance.GetPlayersList()[i].SkinIndex), pos + skins.GetOffset(i), Quaternion.identity);
                     skin.GetComponent<NetworkObject>().SpawnWithOwnership(ID, true);
                     skin.transform.parent = controller.transform;
-                    skin.transform.localPosition = Vector3.zero;
+                    skin.transform.localPosition = skins.GetOffset(i);
                 }
             }
-
-            var inst = Instantiate(playerPrefab, pos, Quaternion.identity);
-            inst.GetComponent<NetworkObject>().SpawnWithOwnership(ID, true);
         }
 
         [ServerRpc(RequireOwnership = false)]

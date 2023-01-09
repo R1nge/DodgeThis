@@ -1,4 +1,5 @@
-﻿using Unity.Netcode;
+﻿using Shared;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -195,7 +196,7 @@ namespace Lobby
             if (IsEveryoneReady())
             {
                 print("Started a game");
-                NetworkManager.Singleton.SceneManager.LoadScene("Dodge", LoadSceneMode.Single);
+                NetworkManager.Singleton.SceneManager.LoadScene("GamesSelection", LoadSceneMode.Single);
             }
         }
 

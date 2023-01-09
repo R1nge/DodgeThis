@@ -1,4 +1,5 @@
 ﻿using Lobby;
+using Shared;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -36,13 +37,13 @@ namespace Dodge
             {
                 if (ID == LobbySingleton.Instance.GetPlayersList()[i].ClientId)
                 {
-                    var controller = Instantiate(skins.GetController(4));
+                    var controller = Instantiate(skins.GetController(3));
                     controller.GetComponent<NetworkObject>().SpawnWithOwnership(ID, true);
                     controller.transform.position = positions[_lastPosition].position;
-                    var skin = Instantiate(skins.GetSkin(LobbySingleton.Instance.GetPlayersList()[i].SkinIndex), positions[_lastPosition].position, Quaternion.identity);
+                    var skin = Instantiate(skins.GetSkin(LobbySingleton.Instance.GetPlayersList()[i].SkinIndex), positions[_lastPosition].position + skins.GetOffset(i), Quaternion.identity);
                     skin.GetComponent<NetworkObject>().SpawnWithOwnership(ID, true);
                     skin.transform.parent = controller.transform;
-                    skin.transform.localPosition = Vector3.zero;
+                    skin.transform.localPosition = skins.GetOffset(i);
                 }
             }
 

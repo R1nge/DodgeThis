@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Unity.Netcode;
+﻿using System.Collections.Generic;
+using Lobby;
 using UnityEngine;
 
-namespace Lobby
+namespace Shared
 {
     public class LobbySingleton : MonoBehaviour
     {

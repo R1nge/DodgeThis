@@ -28,7 +28,8 @@ namespace Lobby
             if (!IsServer) return;
             if (transform.childCount == 1 || transform.childCount == 2)
             {
-                var newSkin = Instantiate(skins.GetSkin(index), transform.position, Quaternion.identity);
+                var newSkin = Instantiate(skins.GetSkin(index), transform.position + skins.GetOffset(index),
+                    Quaternion.Euler(new Vector3(0, 180, 0)));
                 newSkin.GetComponent<NetworkObject>().Spawn(true);
                 newSkin.GetComponent<NetworkObject>().DontDestroyWithOwner = false;
                 newSkin.transform.parent = transform;

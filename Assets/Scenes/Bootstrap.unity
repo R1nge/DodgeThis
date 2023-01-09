@@ -382,17 +382,22 @@ MonoBehaviour:
       SourceHashToOverride: 0
       OverridingTargetPrefab: {fileID: 0}
     - Override: 0
-      Prefab: {fileID: 1074890322790358652, guid: 9ef9f8c862ea76e4a8fae5646ff5c260, type: 3}
+      Prefab: {fileID: 3664974926069940850, guid: e9d2f42ba4ebc374f9d96130550a986e, type: 3}
       SourcePrefabToOverride: {fileID: 0}
       SourceHashToOverride: 0
       OverridingTargetPrefab: {fileID: 0}
     - Override: 0
-      Prefab: {fileID: 5673227818790339723, guid: e9d2f42ba4ebc374f9d96130550a986e, type: 3}
+      Prefab: {fileID: 6534485603258865391, guid: 9ef9f8c862ea76e4a8fae5646ff5c260, type: 3}
       SourcePrefabToOverride: {fileID: 0}
       SourceHashToOverride: 0
       OverridingTargetPrefab: {fileID: 0}
     - Override: 0
-      Prefab: {fileID: 660717051090771856, guid: 2811519e837f89a43a35edcfb4d614f5, type: 3}
+      Prefab: {fileID: 3620512579202771849, guid: fad6c60d8b82d824d8977f3b89654866, type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 0
+      OverridingTargetPrefab: {fileID: 0}
+    - Override: 0
+      Prefab: {fileID: 4046236981406916763, guid: cf4e3e917ce3a7d4590f3436417bc6d9, type: 3}
       SourcePrefabToOverride: {fileID: 0}
       SourceHashToOverride: 0
       OverridingTargetPrefab: {fileID: 0}
@@ -411,6 +416,63 @@ MonoBehaviour:
     LoadSceneTimeOut: 120
     SpawnTimeout: 1
     EnableNetworkLogs: 1
+--- !u!1001 &1359130810
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1897983777728542001, guid: 920143eb6b69bec4bb249c4b2a79e044, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1897983777728542001, guid: 920143eb6b69bec4bb249c4b2a79e044, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1897983777728542001, guid: 920143eb6b69bec4bb249c4b2a79e044, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1897983777728542001, guid: 920143eb6b69bec4bb249c4b2a79e044, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1897983777728542001, guid: 920143eb6b69bec4bb249c4b2a79e044, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1897983777728542001, guid: 920143eb6b69bec4bb249c4b2a79e044, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1897983777728542001, guid: 920143eb6b69bec4bb249c4b2a79e044, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1897983777728542001, guid: 920143eb6b69bec4bb249c4b2a79e044, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1897983777728542001, guid: 920143eb6b69bec4bb249c4b2a79e044, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1897983777728542001, guid: 920143eb6b69bec4bb249c4b2a79e044, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1897983777728542001, guid: 920143eb6b69bec4bb249c4b2a79e044, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7032446889456272164, guid: 920143eb6b69bec4bb249c4b2a79e044, type: 3}
+      propertyPath: m_Name
+      value: GameSelectionSingleton
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 920143eb6b69bec4bb249c4b2a79e044, type: 3}
 --- !u!1001 &2046144391
 PrefabInstance:
   m_ObjectHideFlags: 0
