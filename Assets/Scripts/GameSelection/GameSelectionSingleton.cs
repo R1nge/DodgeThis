@@ -30,9 +30,8 @@ namespace GameSelection
             DontDestroyOnLoad(gameObject);
             Instance = this;
         }
-
-        [ServerRpc(RequireOwnership = false)]
-        public void SelectGameServerRpc(int index)
+        
+        public void SelectGame(int index)
         {
             if (!games[index].IsSelected)
             {
@@ -42,7 +41,7 @@ namespace GameSelection
                     SceneName = games[index].SceneName,
                     HasBeenPlayed = false
                 };
-
+                
                 selectedGames.Add(games[index]);
             }
         }

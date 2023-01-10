@@ -36,8 +36,10 @@ namespace GameSelection
         
         private void Select(int index)
         {
+            if(!_gameSelectionManager.CanSelect()) return;
             _index = index;
-            _gameSelectionManager.SelectServerRpc(_index);
+            _gameSelectionManager.SelectServerRpc(_index, _gameSelectionManager.GetSelectedAmount());
+            _gameSelectionManager.Select();
             gameObject.SetActive(false);
             _index--;
         }

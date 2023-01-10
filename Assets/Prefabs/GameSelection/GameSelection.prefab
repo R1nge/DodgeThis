@@ -61,10 +61,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 358d3aa160664a2ebcd8755ab86c074c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ui: {fileID: 8753385237619679507, guid: 5ad44dcb7808f814682fd83ec52b786a, type: 3}
-  scrollView: {fileID: 799782203703715687, guid: a41b38f8548767f43bcc1e025e64dcda, type: 3}
-  viewport: {fileID: 2727595355153562199, guid: 42208dbda73c7c34db014f2ef90de638, type: 3}
-  content: {fileID: 2690158231380359894, guid: de15786145043584c8036e6ca7033171, type: 3}
+  parent: {fileID: 0}
   slot: {fileID: 5121748857040806160, guid: 9e7b519c338dc7643ae737c53f02849c, type: 3}
-  gamesUI:
-  - {fileID: 11400000, guid: 95735942b73b3b74988aa7d517f59006, type: 2}
+  maxSelectedGames: 1

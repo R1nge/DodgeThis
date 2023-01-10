@@ -10,7 +10,9 @@ namespace GameSelection
     {
         [SerializeField] private Transform parent;
         [SerializeField] private GameObject slot;
+        [SerializeField] private int maxSelectedGames;
         private List<GameObject> _slots;
+        private int _selectedGames;
 
         private void Awake()
         {
@@ -47,19 +49,33 @@ namespace GameSelection
         }
 
         [ServerRpc(RequireOwnership = false)]
-        public void SelectServerRpc(int index)
+        public void SelectServerRpc(int index, int selected)
         {
+            print(selected);
+            if (selected >= maxSelectedGames) return;
+            SelectClientRpc(index, selected);
             print("Selected");
-            SelectClientRpc(index);
-            GameSelectionSingleton.Instance.SelectGameServerRpc(index);
+            GameSelectionSingleton.Instance.SelectGame(index);
         }
 
         [ClientRpc]
-        private void SelectClientRpc(int index)
+        private void SelectClientRpc(int index, int selected)
         {
+            print(selected);
+            if (selected >= maxSelectedGames) return;
             print("Selected");
             _slots[index].gameObject.SetActive(false);
+            GameSelectionSingleton.Instance.SelectGame(index);
         }
+
+        public void Select()
+        {
+            _selectedGames++;
+        }
+        
+        public bool CanSelect() => _selectedGames < maxSelectedGames;
+
+        public int GetSelectedAmount() => _selectedGames;
 
         public void StartGame()
         {

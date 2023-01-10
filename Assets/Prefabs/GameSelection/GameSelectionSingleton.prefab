@@ -52,3 +52,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 95735942b73b3b74988aa7d517f59006, type: 2}
   games: []
   selectedGames: []
+  maxSelectedGames: 1

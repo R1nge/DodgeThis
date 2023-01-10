@@ -64,12 +64,14 @@ namespace GameSelection
         [ClientRpc]
         private void DisconnectClientRpc()
         {
+            GameSelectionSingleton.Instance.ResetSelectedGames();
             SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
             NetworkManager.Singleton.Shutdown();
         }
 
         private void Disconnect(ulong _)
         {
+            GameSelectionSingleton.Instance.ResetSelectedGames();
             SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
             NetworkManager.Singleton.Shutdown();
         }
