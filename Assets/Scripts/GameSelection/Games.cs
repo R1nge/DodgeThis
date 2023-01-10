@@ -7,11 +7,13 @@ namespace GameSelection
     {
         public string SceneName;
         public bool IsSelected;
+        public bool HasBeenPlayed;
 
-        public Games(string sceneName, bool isSelected)
+        public Games(string sceneName, bool isSelected, bool hasBeenPlayed)
         {
             SceneName = sceneName;
             IsSelected = isSelected;
+            HasBeenPlayed = hasBeenPlayed;
         }
     }
 }

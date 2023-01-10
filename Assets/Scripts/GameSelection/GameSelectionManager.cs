@@ -8,7 +8,7 @@ namespace GameSelection
     {
         [SerializeField] private Transform parent;
         [SerializeField] private GameObject slot;
-        
+
         //On mouse down select game
         //Add to GameSelectionSingleton  Selected games
 
@@ -38,9 +38,7 @@ namespace GameSelection
 
         public void StartGame()
         {
-            var games = GameSelectionSingleton.Instance.GetSelectedGames();
-            NetworkManager.Singleton.SceneManager.LoadScene(games[Random.Range(0, games.Count)].SceneName,
-                LoadSceneMode.Single);
+            NetworkManager.Singleton.SceneManager.LoadScene("SelectRandomGame", LoadSceneMode.Single);
         }
     }
 }

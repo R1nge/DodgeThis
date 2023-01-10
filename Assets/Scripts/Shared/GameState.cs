@@ -35,7 +35,7 @@ public class GameState : NetworkBehaviour
         if (!IsServer) return;
         if (_playersAlive.Value <= 1)
         {
-            NetworkManager.Singleton.SceneManager.LoadScene("MapLobby", LoadSceneMode.Single);
+            NetworkManager.Singleton.SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
         }
     }
 
@@ -47,7 +47,7 @@ public class GameState : NetworkBehaviour
         _playersAlive.Value--;
         if (_playersAlive.Value <= 1)
         {
-            NetworkManager.Singleton.SceneManager.LoadScene("MapLobby", LoadSceneMode.Single);
+            NetworkManager.Singleton.SceneManager.LoadScene("SelectRandomGame", LoadSceneMode.Single);
         }
     }
 

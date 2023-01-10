@@ -22,6 +22,8 @@ namespace Shared
             Instance = this;
         }
 
+        public void ResetPlayerList() => _lobbyPlayers = new List<LobbyPlayerState>();
+
         public List<LobbyPlayerState> GetPlayersList() => _lobbyPlayers;
     }
 }
