@@ -7,50 +7,30 @@ namespace GameSelection
 {
     public class SelectRandomGame : NetworkBehaviour
     {
-        private bool _sceneloaded;
+        private bool _sceneLoaded;
 
         private void Awake()
         {
             NetworkManager.Singleton.OnClientDisconnectCallback += Disconnect;
-            if (NetworkManager.Singleton.SceneManager == null)
-            {
-                GameSelectionSingleton.Instance.ResetSelectedGames();
-                Disconnect(0);
-            }
-            else
-            {
-                NetworkManager.Singleton.SceneManager.OnLoadComplete += SceneManagerOnOnLoadComplete;
-            }
-            
-        }
-
-        public override void OnNetworkSpawn()
-        {
-            var games = GameSelectionSingleton.Instance.GetSelectedGames();
-            if (games.TrueForAll(x => x.HasBeenPlayed) || games.Count == 0 || !NetworkManager.Singleton)
-            {
-                GameSelectionSingleton.Instance.ResetSelectedGames();
-                Disconnect(0);
-            }
+            if (NetworkManager.Singleton.SceneManager == null) return;
+            NetworkManager.Singleton.SceneManager.OnLoadComplete += SceneManagerOnOnLoadComplete;
         }
 
         private void SceneManagerOnOnLoadComplete(ulong clientid, string scenename, LoadSceneMode loadscenemode)
         {
             if (!IsServer) return;
-            if (_sceneloaded) return;
+            if (_sceneLoaded) return;
+            DisconnectServerRpc(0);
             SelectGame();
         }
 
         private void SelectGame()
         {
-            _sceneloaded = true;
+            _sceneLoaded = true;
             var games = GameSelectionSingleton.Instance.GetSelectedGames();
             if (games.Count == 0) return;
-            if (games.TrueForAll(x => x.HasBeenPlayed))
-            {
-                return;
-            }
-            
+            DisconnectServerRpc(0);
+
             var selectedGame = Random.Range(0, games.Count);
 
             if (games[selectedGame].HasBeenPlayed)
@@ -69,16 +49,29 @@ namespace GameSelection
             NetworkManager.Singleton.SceneManager.LoadScene(games[selectedGame].SceneName, LoadSceneMode.Single);
         }
 
-        private void Disconnect(ulong _)
+        [ServerRpc(RequireOwnership = false)]
+        private void DisconnectServerRpc(ulong _)
         {
             var games = GameSelectionSingleton.Instance.GetSelectedGames();
-            if (games.TrueForAll(x => x.HasBeenPlayed) || games.Count == 0 || !NetworkManager.Singleton)
+            if (games.TrueForAll(x => x.HasBeenPlayed) || games.Count == 0)
             {
-                NetworkManager.Singleton.Shutdown();
                 GameSelectionSingleton.Instance.ResetSelectedGames();
                 LobbySingleton.Instance.ResetPlayerList();
-                SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
+                DisconnectClientRpc();
             }
+        }
+
+        [ClientRpc]
+        private void DisconnectClientRpc()
+        {
+            SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
+            NetworkManager.Singleton.Shutdown();
+        }
+
+        private void Disconnect(ulong _)
+        {
+            SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
+            NetworkManager.Singleton.Shutdown();
         }
 
         public override void OnDestroy()
@@ -86,7 +79,7 @@ namespace GameSelection
             base.OnDestroy();
             if (NetworkManager.Singleton)
             {
-                NetworkManager.Singleton.OnClientDisconnectCallback -= Disconnect;
+                NetworkManager.Singleton.OnClientDisconnectCallback -= DisconnectServerRpc;
             }
         }
     }
