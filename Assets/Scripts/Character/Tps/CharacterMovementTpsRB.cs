@@ -5,7 +5,7 @@ namespace Character.Tps
 {
     public class CharacterMovementTpsRB : NetworkBehaviour
     {
-        [SerializeField] private float movementSpeed;
+        [SerializeField] private NetworkVariable<float> movementSpeed;
         [SerializeField] private NetworkVariable<float> rotationSpeed;
         private NetworkVariable<bool> _canMove;
         private Vector3 _movementDirection;
@@ -21,9 +21,10 @@ namespace Character.Tps
         {
             _canMove = new NetworkVariable<bool>(true);
             _rigidbody = GetComponent<Rigidbody>();
+            NetworkManager.Singleton.NetworkTickSystem.Tick += OnTick;
         }
 
-        private void FixedUpdate()
+        private void OnTick()
         {
             if (!IsOwner) return;
             if (!_canMove.Value) return;
@@ -34,7 +35,7 @@ namespace Character.Tps
             }
             else
             {
-                var axis = new Vector2(Input.GetAxis("Vertical"), Input.GetAxis("Horizontal")) * movementSpeed;
+                var axis = new Vector2(Input.GetAxis("Vertical"), Input.GetAxis("Horizontal")) * movementSpeed.Value;
                 _movementDirection = Vector3.forward * axis.x + Vector3.right * axis.y;
                 RotateServerRpc(_movementDirection);
                 MoveServerRpc(_movementDirection);
@@ -43,7 +44,7 @@ namespace Character.Tps
 
         private void Move()
         {
-            var axis = new Vector2(Input.GetAxis("Vertical"), Input.GetAxis("Horizontal")) * movementSpeed;
+            var axis = new Vector2(Input.GetAxis("Vertical"), Input.GetAxis("Horizontal")) * movementSpeed.Value;
             _movementDirection = Vector3.forward * axis.x + Vector3.right * axis.y;
             _rigidbody.velocity =
                 new Vector3(_movementDirection.x, _rigidbody.velocity.y, _movementDirection.z);
@@ -63,7 +64,8 @@ namespace Character.Tps
                 var targetRot =
                     Quaternion.LookRotation(new Vector3(_movementDirection.x, 0, _movementDirection.z), Vector3.up);
                 transform.rotation =
-                    Quaternion.RotateTowards(transform.rotation, targetRot, rotationSpeed.Value * Time.deltaTime);
+                    Quaternion.RotateTowards(transform.rotation, targetRot,
+                        rotationSpeed.Value * NetworkManager.Singleton.NetworkTickSystem.TickRate);
             }
         }
 
@@ -75,7 +77,17 @@ namespace Character.Tps
                 var targetRot =
                     Quaternion.LookRotation(new Vector3(dir.x, 0, dir.z), Vector3.up);
                 transform.rotation =
-                    Quaternion.RotateTowards(transform.rotation, targetRot, rotationSpeed.Value * Time.deltaTime);
+                    Quaternion.RotateTowards(transform.rotation, targetRot,
+                        rotationSpeed.Value * NetworkManager.Singleton.NetworkTickSystem.TickRate);
+            }
+        }
+
+        public override void OnDestroy()
+        {
+            base.OnDestroy();
+            if (NetworkManager.Singleton)
+            {
+                NetworkManager.Singleton.NetworkTickSystem.Tick -= OnTick;
             }
         }
     }

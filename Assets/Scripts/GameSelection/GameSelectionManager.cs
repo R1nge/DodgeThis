@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -11,16 +11,15 @@ namespace GameSelection
         [SerializeField] private Transform parent;
         [SerializeField] private GameObject slot;
         [SerializeField] private int maxSelectedGames;
+        [SerializeField] private TextMeshProUGUI gameSelectLeft;
         private List<GameObject> _slots;
         private int _selectedGames;
 
         private void Awake()
         {
             _slots = new List<GameObject>();
+            gameSelectLeft.text = "Left: " + (maxSelectedGames - _selectedGames);
         }
-
-        //On mouse down select game
-        //Add to GameSelectionSingleton  Selected games
 
         public override void OnNetworkSpawn()
         {
@@ -51,19 +50,15 @@ namespace GameSelection
         [ServerRpc(RequireOwnership = false)]
         public void SelectServerRpc(int index, int selected)
         {
-            print(selected);
             if (selected >= maxSelectedGames) return;
             SelectClientRpc(index, selected);
-            print("Selected");
             GameSelectionSingleton.Instance.SelectGame(index);
         }
 
         [ClientRpc]
         private void SelectClientRpc(int index, int selected)
         {
-            print(selected);
             if (selected >= maxSelectedGames) return;
-            print("Selected");
             _slots[index].gameObject.SetActive(false);
             GameSelectionSingleton.Instance.SelectGame(index);
         }
@@ -71,8 +66,9 @@ namespace GameSelection
         public void Select()
         {
             _selectedGames++;
+            gameSelectLeft.text = "Left: " + (maxSelectedGames - _selectedGames);
         }
-        
+
         public bool CanSelect() => _selectedGames < maxSelectedGames;
 
         public int GetSelectedAmount() => _selectedGames;

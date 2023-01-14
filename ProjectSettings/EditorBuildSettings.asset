@@ -21,15 +21,15 @@ EditorBuildSettings:
     path: Assets/Scenes/SelectRandomgame.unity
     guid: 0fa71ea6653ed6547a0482687426f368
   - enabled: 1
-    path: Assets/Scenes/Crane.unity
+    path: Assets/Scenes/Minigames/Crane.unity
     guid: 14ca484fb60fb2649858f7060386982b
   - enabled: 1
-    path: Assets/Scenes/NumbersFloor.unity
+    path: Assets/Scenes/Minigames/NumbersFloor.unity
     guid: a51a8a058ca436b4c8cf10c1179215b8
   - enabled: 1
-    path: Assets/Scenes/Dodge.unity
+    path: Assets/Scenes/Minigames/Dodge.unity
     guid: fd34bcd41a8170a4b9827e246139dc7f
   - enabled: 1
-    path: Assets/Scenes/BallArena.unity
+    path: Assets/Scenes/Minigames/BallArena.unity
     guid: 9a1b951bdb3aeed40896c3db5ca0e13d
   m_configObjects: {}

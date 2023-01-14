@@ -100,10 +100,10 @@ GameObject:
   - component: {fileID: 5048112513200222310}
   - component: {fileID: 5048112513200222309}
   - component: {fileID: 4160187246946489210}
-  - component: {fileID: -8200742113559816197}
   - component: {fileID: 5738998770568846220}
+  - component: {fileID: 8298823549108905360}
   m_Layer: 0
-  m_Name: FpsCharacterCCWithJump
+  m_Name: FpsCharacterCCWithOutJump
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -187,7 +187,7 @@ MonoBehaviour:
   runningSpeed: 11.5
   jumpSpeed: 8
   gravity: 20
-  canJump: 1
+  canJump: 0
 --- !u!114 &5048112513200222310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -235,32 +235,6 @@ MonoBehaviour:
   stunSound: {fileID: 384225995048421470, guid: 86c08cf365530824f89563c6569b6657, type: 3}
   stunDuration: 2
   yOffset: -0.65
---- !u!114 &-8200742113559816197
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5048112513200222307}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2af9ede9693c48e79dce56a103360323, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SyncPositionX: 1
-  SyncPositionY: 1
-  SyncPositionZ: 1
-  SyncRotAngleX: 0
-  SyncRotAngleY: 1
-  SyncRotAngleZ: 0
-  SyncScaleX: 0
-  SyncScaleY: 0
-  SyncScaleZ: 0
-  PositionThreshold: 0.001
-  RotAngleThreshold: 0.01
-  ScaleThreshold: 0.01
-  InLocalSpace: 0
-  Interpolate: 1
 --- !u!114 &5738998770568846220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -271,5 +245,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7bde290b5fa44bbbb55052369ebe55be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8298823549108905360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5048112513200222307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3f440f7e5bc4fc5a7fffdc6bdae5e9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

@@ -37,10 +37,10 @@ namespace Dodge
             {
                 if (ID == LobbySingleton.Instance.GetPlayersList()[i].ClientId)
                 {
-                    var controller = Instantiate(skins.GetController(3));
+                    var controller = Instantiate(skins.GetController(4), positions[_lastPosition].position, Quaternion.identity);
                     controller.GetComponent<NetworkObject>().SpawnWithOwnership(ID, true);
                     controller.transform.position = positions[_lastPosition].position;
-                    var skin = Instantiate(skins.GetSkin(LobbySingleton.Instance.GetPlayersList()[i].SkinIndex), positions[_lastPosition].position + skins.GetOffset(i), Quaternion.identity);
+                    var skin = Instantiate(skins.GetSkin(LobbySingleton.Instance.GetPlayersList()[i].SkinIndex), controller.transform.position + skins.GetOffset(i), Quaternion.identity);
                     skin.GetComponent<NetworkObject>().SpawnWithOwnership(ID, true);
                     skin.transform.parent = controller.transform;
                     skin.transform.localPosition = skins.GetOffset(i);

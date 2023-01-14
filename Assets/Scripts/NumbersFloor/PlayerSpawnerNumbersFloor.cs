@@ -34,7 +34,7 @@ namespace NumbersFloor
             {
                 if (ID == LobbySingleton.Instance.GetPlayersList()[i].ClientId)
                 {
-                    var controller = Instantiate(skins.GetController(3));
+                    var controller = Instantiate(skins.GetController(3), pos, Quaternion.identity);
                     controller.GetComponent<NetworkObject>().SpawnWithOwnership(ID, true);
                     controller.transform.position = pos;
                     var skin = Instantiate(skins.GetSkin(LobbySingleton.Instance.GetPlayersList()[i].SkinIndex), pos + skins.GetOffset(i), Quaternion.identity);

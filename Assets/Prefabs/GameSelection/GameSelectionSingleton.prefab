@@ -47,9 +47,7 @@ MonoBehaviour:
   gamesUI:
   - {fileID: 11400000, guid: 95735942b73b3b74988aa7d517f59006, type: 2}
   - {fileID: 11400000, guid: 518575499d00502499ef98bc43997514, type: 2}
-  - {fileID: 11400000, guid: 95735942b73b3b74988aa7d517f59006, type: 2}
-  - {fileID: 11400000, guid: 518575499d00502499ef98bc43997514, type: 2}
-  - {fileID: 11400000, guid: 95735942b73b3b74988aa7d517f59006, type: 2}
+  - {fileID: 11400000, guid: 0712b8df7685a7f4ab2f11170af52219, type: 2}
+  - {fileID: 11400000, guid: b9d165195d9d3384588a79ffce308b91, type: 2}
   games: []
   selectedGames: []
-  maxSelectedGames: 1
