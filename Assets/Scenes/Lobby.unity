@@ -1939,6 +1939,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5476349416965750552, guid: bb20aa38dec2fbe49ad98eb7650d7d3a, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8496509782621508877, guid: bb20aa38dec2fbe49ad98eb7650d7d3a, type: 3}
       propertyPath: m_Name
       value: LobbyCharacter

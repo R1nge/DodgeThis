@@ -7,9 +7,9 @@ namespace Character.Tps
     {
         [SerializeField] private NetworkVariable<float> movementSpeed;
         [SerializeField] private NetworkVariable<float> rotationSpeed;
-        [SerializeField] private float jumpSpeed = 8.0f;
-        [SerializeField] private float gravity = 20.0f;
-        [SerializeField] private bool canJump;
+        [SerializeField] private NetworkVariable<float> jumpSpeed = new(8.0f);
+        [SerializeField] private NetworkVariable<float> gravity = new(20.0f);
+        [SerializeField] private NetworkVariable<bool> canJump = new(true);
         private NetworkVariable<bool> _canMove;
         private Vector3 _moveDirection = Vector3.zero;
         private float _curSpeedX, _curSpeedY;
@@ -40,13 +40,13 @@ namespace Character.Tps
             else
             {
                 GetInput();
-
-                _moveDirection = Vector3.forward * _curSpeedX + Vector3.right * _curSpeedY;
+                
                 float movementDirectionY = _moveDirection.y;
+                _moveDirection = Vector3.forward * _curSpeedX + Vector3.right * _curSpeedY;
 
-                if (Input.GetButton("Jump") && _characterController.isGrounded && _canMove.Value && canJump)
+                if (Input.GetButton("Jump") && _characterController.isGrounded && _canMove.Value && canJump.Value)
                 {
-                    _moveDirection.y = jumpSpeed;
+                    _moveDirection.y = jumpSpeed.Value;
                 }
                 else
                 {
@@ -55,7 +55,7 @@ namespace Character.Tps
 
                 if (!_characterController.isGrounded)
                 {
-                    _moveDirection.y -= gravity;
+                    _moveDirection.y -= gravity.Value;
                 }
 
                 MoveServerRpc(_moveDirection);
@@ -69,9 +69,9 @@ namespace Character.Tps
             float movementDirectionY = _moveDirection.y;
             _moveDirection = Vector3.forward * _curSpeedX + Vector3.right * _curSpeedY;
 
-            if (Input.GetButton("Jump") && _characterController.isGrounded && _canMove.Value && canJump)
+            if (Input.GetButton("Jump") && _characterController.isGrounded && _canMove.Value && canJump.Value)
             {
-                _moveDirection.y = jumpSpeed;
+                _moveDirection.y = jumpSpeed.Value;
             }
             else
             {
@@ -80,7 +80,7 @@ namespace Character.Tps
 
             if (!_characterController.isGrounded)
             {
-                _moveDirection.y -= gravity;
+                _moveDirection.y -= gravity.Value;
             }
 
             _characterController.Move(_moveDirection / NetworkManager.Singleton.NetworkTickSystem.TickRate);

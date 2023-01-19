@@ -86,7 +86,7 @@ MonoBehaviour:
     m_HSlider: 0
     m_VSlider: 0
     m_IgnoreScrollWheelUntilClicked: 0
-    m_EnableMouseInput: 1
+    m_EnableMouseInput: 0
     m_EnableSliderZoomHorizontal: 0
     m_EnableSliderZoomVertical: 0
     m_UniformScale: 1
@@ -186,8 +186,8 @@ MonoBehaviour:
     y: 0
     width: 177
     height: 775
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 201, y: 221}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 6}
   m_Panes:
   - {fileID: 6}
@@ -226,7 +226,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: d24afeff06c0feff4cc1feffecfbfeff4801ffff8e1dffff621effff2221ffff3e21ffff5421fffffe21ffffde26ffff7427ffffa829ffffe229ffff882affffc22affffd42afffff02affff9e2bffffd62bffffea2bffff482cffff1e2fffffd82fffffa030ffff5031ffff4632ffffdc32ffff0c35ffff4235ffffe435ffff1a36ffff2836ffff4036ffffea36ffff1e37ffff2e37ffffea39ffff803affffb43cffffee3cffff943dffffce3dffffe03dfffffc3dffffaa3effffe23efffff63efffff470ffffb675ffff0876ffff849bffff1a9cffff4e9effff889effff2e9fffff689fffff7a9fffff969fffffa4a0ffffdca0fffff0a0fffff0c6ffffaec7ffffdec9ffff14caffffb6caffffeecafffffccaffff14cbffffbecbfffff2cbffff02ccffff7cceffff30fbffff
+      m_ExpandedIDs: 30fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -269,8 +269,8 @@ MonoBehaviour:
     y: 0
     width: 802
     height: 775
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 202, y: 221}
+  m_MaxSize: {x: 4002, y: 4021}
   m_ActualView: {fileID: 2}
   m_Panes:
   - {fileID: 8}
@@ -683,22 +683,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts/Character/Tps
+    - Assets/Scriptables
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Scripts/Character/Tps
+  - Assets/Scriptables
   m_LastFoldersGridSize: -1
   m_LastProjectPath: F:\UnityProjects\DodgeThis
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 84}
-    m_SelectedIDs: c2c40000
-    m_LastClickedID: 50370
-    m_ExpandedIDs: 00000000827100008471000086710000887100008a7100008c7100008e7100003873000000ca9a3bffffff7f
+    m_SelectedIDs: b0710000
+    m_LastClickedID: 29104
+    m_ExpandedIDs: 00000000827100008471000086710000887100008a7100008c7100008e710000b0710000b671000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -726,7 +726,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000827100008471000086710000887100008a7100008c7100008e71000000ca9a3bffffff7f
+    m_ExpandedIDs: 00000000827100008471000086710000887100008a7100008c7100008e710000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
