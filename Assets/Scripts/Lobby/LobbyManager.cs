@@ -28,7 +28,8 @@ namespace Lobby
                         LobbySingleton.Instance.GetPlayersList()[i].ClientId,
                         LobbySingleton.Instance.GetPlayersList()[i].PlayerName,
                         LobbySingleton.Instance.GetPlayersList()[i].SkinIndex,
-                        !LobbySingleton.Instance.GetPlayersList()[i].IsReady
+                        !LobbySingleton.Instance.GetPlayersList()[i].IsReady,
+                        LobbySingleton.Instance.GetPlayersList()[i].Score
                     );
 
                     _lobbyUI.UpdateReadyStateServerRpc(i, LobbySingleton.Instance.GetPlayersList()[i].IsReady);
@@ -55,7 +56,8 @@ namespace Lobby
                         LobbySingleton.Instance.GetPlayersList()[i].ClientId,
                         LobbySingleton.Instance.GetPlayersList()[i].PlayerName,
                         skinIndex,
-                        LobbySingleton.Instance.GetPlayersList()[i].IsReady
+                        LobbySingleton.Instance.GetPlayersList()[i].IsReady,
+                        LobbySingleton.Instance.GetPlayersList()[i].Score
                     );
 
                     PrintData();

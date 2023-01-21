@@ -32,4 +32,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Minigames/BallArena.unity
     guid: 9a1b951bdb3aeed40896c3db5ca0e13d
+  - enabled: 1
+    path: Assets/Scenes/Minigames/FallingEyeBalls.unity
+    guid: 7c4bcc5276a83d846aacc7316c09ae4b
   m_configObjects: {}

@@ -1,4 +1,5 @@
 ﻿using System;
+using Shared;
 using Unity.Netcode;
 using UnityEngine.SceneManagement;
 
@@ -9,6 +10,7 @@ public class GameState : NetworkBehaviour
     private NetworkVariable<bool> _gameEnded;
 
     public event Action OnGameStarted;
+    public event Action OnGameEnded;
 
     [ServerRpc(RequireOwnership = false)]
     public void StartGameServerRpc()
@@ -55,6 +57,37 @@ public class GameState : NetworkBehaviour
     {
         if (!IsServer) return;
         _playersAlive.Value++;
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void AddScoreServerRpc(int amount, ServerRpcParams rpcParams = default)
+    {
+        var players = LobbySingleton.Instance.GetPlayersList();
+        var playersCount = players.Count;
+
+        for (int i = 0; i < playersCount; i++)
+        {
+            if (players[i].ClientId == rpcParams.Receive.SenderClientId)
+            {
+                LobbySingleton.Instance.AddScore(i, amount);
+                print(LobbySingleton.Instance.GetPlayersList()[i].Score);
+            }
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void EndGameServerRpc()
+    {
+        if (!_gameStarted.Value) return;
+        if (_gameEnded.Value) return;
+        _gameEnded.Value = true;
+        EndGameClientRpc();
+    }
+
+    [ClientRpc]
+    private void EndGameClientRpc()
+    {
+        OnGameEnded?.Invoke();
     }
 
     public override void OnDestroy()
