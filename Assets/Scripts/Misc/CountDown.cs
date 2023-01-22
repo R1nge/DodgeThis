@@ -1,54 +1,58 @@
 ﻿using System.Collections;
+using Shared;
 using Unity.Netcode;
 using UnityEngine;
 
-public class CountDown : NetworkBehaviour
+namespace Misc
 {
-    [SerializeField] private int timer;
-    private CountDownUI _countDownUI;
-    private NetworkVariable<int> _timer;
-    private GameState _gameState;
-
-    private void Awake()
+    public class CountDown : NetworkBehaviour
     {
-        _countDownUI = FindObjectOfType<CountDownUI>();
-        _gameState = FindObjectOfType<GameState>();
-        _timer = new NetworkVariable<int>(timer);
-        _timer.OnValueChanged += (_, newValue) => { _countDownUI.UpdateUI(newValue); };
-        _countDownUI.UpdateUI(_timer.Value);
-        NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
-    }
+        [SerializeField] private int timer;
+        private CountDownUI _countDownUI;
+        private NetworkVariable<int> _timer;
+        private GameState _gameState;
 
-    private void OnClientConnected(ulong obj)
-    {
-        if (_timer.Value <= 0)
+        private void Awake()
         {
-            _countDownUI.Hide();
+            _countDownUI = FindObjectOfType<CountDownUI>();
+            _gameState = FindObjectOfType<GameState>();
+            _timer = new NetworkVariable<int>(timer);
+            _timer.OnValueChanged += (_, newValue) => { _countDownUI.UpdateUI(newValue); };
+            _countDownUI.UpdateUI(_timer.Value);
+            NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
         }
-    }
 
-    private void Start()
-    {
-        if (!IsServer) return;
-        StartCoroutine(Count());
-    }
+        private void OnClientConnected(ulong obj)
+        {
+            if (_timer.Value <= 0)
+            {
+                _countDownUI.Hide();
+            }
+        }
 
-    private IEnumerator Count()
-    {
-        yield return new WaitForSeconds(.5f);
-        while (_timer.Value > 0)
+        private void Start()
+        {
+            if (!IsServer) return;
+            StartCoroutine(Count());
+        }
+
+        private IEnumerator Count()
         {
             yield return new WaitForSeconds(.5f);
-            _timer.Value--;
+            while (_timer.Value > 0)
+            {
+                yield return new WaitForSeconds(.5f);
+                _timer.Value--;
+            }
+
+            _gameState.StartGameServerRpc();
         }
 
-        _gameState.StartGameServerRpc();
-    }
-
-    public override void OnDestroy()
-    {
-        base.OnDestroy();
-        if (NetworkManager.Singleton == null) return;
-        NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnected;
+        public override void OnDestroy()
+        {
+            base.OnDestroy();
+            if (NetworkManager.Singleton == null) return;
+            NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnected;
+        }
     }
 }

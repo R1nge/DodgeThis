@@ -1,5 +1,4 @@
-﻿using Lobby;
-using Shared;
+﻿using Shared;
 using Unity.Netcode;
 using UnityEngine;
 

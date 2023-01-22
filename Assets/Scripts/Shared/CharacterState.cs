@@ -1,6 +1,6 @@
 ﻿using Unity.Netcode;
 
-namespace Character
+namespace Shared
 {
     public class CharacterState : NetworkBehaviour
     {

@@ -6,70 +6,73 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class ConnectMenu : MonoBehaviour
+namespace Misc
 {
-    [SerializeField] private TMP_InputField nickInput, ipInput, passwordInput;
-    [SerializeField] private Button host, client;
-
-    private void Awake()
+    public class ConnectMenu : MonoBehaviour
     {
-        var ip = PlayerPrefs.GetString("Ip", ipInput.text);
-        ipInput.text = ip;
-        NetworkManager.Singleton.GetComponent<UnityTransport>().ConnectionData.Address = ip;
-        nickInput.text = PlayerPrefs.GetString("Nickname", nickInput.text);
-    }
+        [SerializeField] private TMP_InputField nickInput, ipInput, passwordInput;
+        [SerializeField] private Button host, client;
 
-    private void Start()
-    {
-        host.onClick.AddListener(() =>
+        private void Awake()
         {
-            NetworkManager.Singleton.ConnectionApprovalCallback ??= ApprovalCheck;
-            NetworkManager.Singleton.StartHost();
-        });
+            var ip = PlayerPrefs.GetString("Ip", ipInput.text);
+            ipInput.text = ip;
+            NetworkManager.Singleton.GetComponent<UnityTransport>().ConnectionData.Address = ip;
+            nickInput.text = PlayerPrefs.GetString("Nickname", nickInput.text);
+        }
 
-        client.onClick.AddListener(() =>
+        private void Start()
         {
-            NetworkManager.Singleton.NetworkConfig.ConnectionData = Encoding.ASCII.GetBytes(passwordInput.text);
-            NetworkManager.Singleton.StartClient();
-        });
+            host.onClick.AddListener(() =>
+            {
+                NetworkManager.Singleton.ConnectionApprovalCallback ??= ApprovalCheck;
+                NetworkManager.Singleton.StartHost();
+            });
 
-        NetworkManager.Singleton.OnServerStarted += OnServerStarted;
-        NetworkManager.Singleton.GetComponent<UnityTransport>().ConnectionData.Address = ipInput.text;
-    }
+            client.onClick.AddListener(() =>
+            {
+                NetworkManager.Singleton.NetworkConfig.ConnectionData = Encoding.ASCII.GetBytes(passwordInput.text);
+                NetworkManager.Singleton.StartClient();
+            });
 
-    private void OnServerStarted() => LoadLobby();
+            NetworkManager.Singleton.OnServerStarted += OnServerStarted;
+            NetworkManager.Singleton.GetComponent<UnityTransport>().ConnectionData.Address = ipInput.text;
+        }
 
-    private void LoadLobby()
-    {
-        NetworkManager.Singleton.SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
-    }
+        private void OnServerStarted() => LoadLobby();
 
-    public void SaveNick()
-    {
-        PlayerPrefs.SetString("Nickname", nickInput.text);
-        PlayerPrefs.Save();
-    }
+        private void LoadLobby()
+        {
+            NetworkManager.Singleton.SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
+        }
 
-    public void SetIp()
-    {
-        NetworkManager.Singleton.GetComponent<UnityTransport>().ConnectionData.Address = ipInput.text;
-        PlayerPrefs.SetString("Ip", ipInput.text);
-        PlayerPrefs.Save();
-    }
+        public void SaveNick()
+        {
+            PlayerPrefs.SetString("Nickname", nickInput.text);
+            PlayerPrefs.Save();
+        }
 
-    private void ApprovalCheck(NetworkManager.ConnectionApprovalRequest request,
-        NetworkManager.ConnectionApprovalResponse response)
-    {
-        var connectionData = request.Payload;
-        var password = Encoding.ASCII.GetString(connectionData);
+        public void SetIp()
+        {
+            NetworkManager.Singleton.GetComponent<UnityTransport>().ConnectionData.Address = ipInput.text;
+            PlayerPrefs.SetString("Ip", ipInput.text);
+            PlayerPrefs.Save();
+        }
 
-        response.Approved = password == passwordInput.text;
-        response.CreatePlayerObject = true;
-    }
+        private void ApprovalCheck(NetworkManager.ConnectionApprovalRequest request,
+            NetworkManager.ConnectionApprovalResponse response)
+        {
+            var connectionData = request.Payload;
+            var password = Encoding.ASCII.GetString(connectionData);
 
-    public void OnDestroy()
-    {
-        if (NetworkManager.Singleton == null) return;
-        NetworkManager.Singleton.OnServerStarted -= OnServerStarted;
+            response.Approved = password == passwordInput.text;
+            response.CreatePlayerObject = true;
+        }
+
+        public void OnDestroy()
+        {
+            if (NetworkManager.Singleton == null) return;
+            NetworkManager.Singleton.OnServerStarted -= OnServerStarted;
+        }
     }
 }

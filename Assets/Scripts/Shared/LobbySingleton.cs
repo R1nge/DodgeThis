@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Lobby;
 using UnityEngine;
 
 namespace Shared
@@ -8,11 +7,11 @@ namespace Shared
     {
         public static LobbySingleton Instance { get; private set; }
 
-        [SerializeField] private List<LobbyPlayerState> _lobbyPlayers;
+        [SerializeField] private List<PlayerState> _lobbyPlayers;
 
         private void Awake()
         {
-            _lobbyPlayers = new List<LobbyPlayerState>();
+            _lobbyPlayers = new List<PlayerState>();
             if (Instance != null)
             {
                 throw new System.Exception("Multiple LobbySingleton defined!");
@@ -22,13 +21,13 @@ namespace Shared
             Instance = this;
         }
 
-        public void ResetPlayerList() => _lobbyPlayers = new List<LobbyPlayerState>();
+        public void ResetPlayerList() => _lobbyPlayers = new List<PlayerState>();
 
-        public List<LobbyPlayerState> GetPlayersList() => _lobbyPlayers;
+        public List<PlayerState> GetPlayersList() => _lobbyPlayers;
 
         public void AddScore(int index, int amount)
         {
-            _lobbyPlayers[index] = new LobbyPlayerState
+            _lobbyPlayers[index] = new PlayerState
             {
                 ClientId = _lobbyPlayers[index].ClientId,
                 PlayerName = _lobbyPlayers[index].PlayerName,

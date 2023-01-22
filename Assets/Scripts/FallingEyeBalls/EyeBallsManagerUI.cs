@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using Shared;
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 

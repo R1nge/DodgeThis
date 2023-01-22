@@ -1,10 +1,10 @@
 ﻿using System;
 using Unity.Netcode;
 
-namespace Lobby
+namespace Shared
 {
     [Serializable]
-    public struct LobbyPlayerState : INetworkSerializable, IEquatable<LobbyPlayerState>
+    public struct PlayerState : INetworkSerializable, IEquatable<PlayerState>
     {
         public ulong ClientId;
         public NetworkString PlayerName;
@@ -12,7 +12,7 @@ namespace Lobby
         public bool IsReady;
         public int Score;
 
-        public LobbyPlayerState(ulong clientId, string playerName, int skinIndex, bool isReady, int score)
+        public PlayerState(ulong clientId, string playerName, int skinIndex, bool isReady, int score)
         {
             ClientId = clientId;
             PlayerName = playerName;
@@ -31,7 +31,7 @@ namespace Lobby
         }
 
 
-        public bool Equals(LobbyPlayerState other)
+        public bool Equals(PlayerState other)
         {
             return ClientId == other.ClientId && PlayerName.Equals(other.PlayerName) && SkinIndex == other.SkinIndex &&
                    IsReady == other.IsReady && Score == other.Score;
@@ -39,7 +39,7 @@ namespace Lobby
 
         public override bool Equals(object obj)
         {
-            return obj is LobbyPlayerState other && Equals(other);
+            return obj is PlayerState other && Equals(other);
         }
 
         public override int GetHashCode()

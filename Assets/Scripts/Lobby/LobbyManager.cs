@@ -24,7 +24,7 @@ namespace Lobby
             {
                 if (LobbySingleton.Instance.GetPlayersList()[i].ClientId == rpcParams.Receive.SenderClientId)
                 {
-                    LobbySingleton.Instance.GetPlayersList()[i] = new LobbyPlayerState(
+                    LobbySingleton.Instance.GetPlayersList()[i] = new PlayerState(
                         LobbySingleton.Instance.GetPlayersList()[i].ClientId,
                         LobbySingleton.Instance.GetPlayersList()[i].PlayerName,
                         LobbySingleton.Instance.GetPlayersList()[i].SkinIndex,
@@ -52,7 +52,7 @@ namespace Lobby
             {
                 if (LobbySingleton.Instance.GetPlayersList()[i].ClientId == rpcParams.Receive.SenderClientId)
                 {
-                    LobbySingleton.Instance.GetPlayersList()[i] = new LobbyPlayerState(
+                    LobbySingleton.Instance.GetPlayersList()[i] = new PlayerState(
                         LobbySingleton.Instance.GetPlayersList()[i].ClientId,
                         LobbySingleton.Instance.GetPlayersList()[i].PlayerName,
                         skinIndex,
@@ -94,7 +94,7 @@ namespace Lobby
             if (!IsServer) return;
             if (ID == 0)
             {
-                LobbySingleton.Instance.GetPlayersList().Add(new LobbyPlayerState
+                LobbySingleton.Instance.GetPlayersList().Add(new PlayerState
                 {
                     ClientId = ID,
                     IsReady = true,
@@ -105,7 +105,7 @@ namespace Lobby
             {
                 print(LobbySingleton.Instance);
                 print(LobbySingleton.Instance.GetPlayersList());
-                LobbySingleton.Instance.GetPlayersList().Add(new LobbyPlayerState
+                LobbySingleton.Instance.GetPlayersList().Add(new PlayerState
                 {
                     ClientId = ID,
                     IsReady = false,

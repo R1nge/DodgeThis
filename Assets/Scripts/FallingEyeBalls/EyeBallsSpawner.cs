@@ -1,4 +1,5 @@
-﻿using Unity.Netcode;
+﻿using Shared;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace FallingEyeBalls

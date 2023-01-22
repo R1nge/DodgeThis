@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
 
-public struct PositionSnapshot
+namespace Interpolations
 {
-    public Vector3 Position;
-    public Quaternion Rotation;
-    public int Tick;
+    public struct PositionSnapshot
+    {
+        public Vector3 Position;
+        public Quaternion Rotation;
+        public int Tick;
+    }
 }
