@@ -1,6 +1,9 @@
-﻿using Shared;
+﻿using System;
+using System.Collections.Generic;
+using Shared;
 using Unity.Netcode;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace FallingEyeBalls
 {
@@ -9,12 +12,15 @@ namespace FallingEyeBalls
         [SerializeField] private GameObject redEyeBall;
         [SerializeField] private GameObject greenEyeBall;
         [SerializeField] private GameObject blueEyeBall;
+        private List<int> _eyeBallCount;
 
         private int _redEyeBallsCount;
         private int _greenEyeBallsCount;
         private int _blueEyeBallsCount;
 
         private GameState _gameState;
+
+        public int GetEyeBallCount(int index) => _eyeBallCount[index];
 
         public int GetRedEyeBallsCount() => _redEyeBallsCount;
 
@@ -24,6 +30,12 @@ namespace FallingEyeBalls
 
         private void Awake()
         {
+            _eyeBallCount = new List<int>(Enum.GetValues(typeof(EyeColors)).Length);
+            for (int i = 0; i < _eyeBallCount.Capacity; i++)
+            {
+                _eyeBallCount.Add(0);
+            }
+
             _gameState = FindObjectOfType<GameState>();
             _gameState.OnGameStarted += OnGameStarted;
         }
@@ -53,18 +65,21 @@ namespace FallingEyeBalls
         private void SpawnRedEyeBall()
         {
             _redEyeBallsCount++;
+            _eyeBallCount[0]++;
             Spawn(redEyeBall);
         }
 
         private void SpawnGreenEyeBall()
         {
             _greenEyeBallsCount++;
+            _eyeBallCount[1]++;
             Spawn(greenEyeBall);
         }
 
         private void SpawnBlueEyeBall()
         {
             _blueEyeBallsCount++;
+            _eyeBallCount[2]++;
             Spawn(blueEyeBall);
         }
 

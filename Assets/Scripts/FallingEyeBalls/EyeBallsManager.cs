@@ -21,7 +21,7 @@ namespace FallingEyeBalls
             _eyeBallsPlayerSpawner = FindObjectOfType<EyeBallsPlayerSpawner>();
             _gameState = FindObjectOfType<GameState>();
             _gameState.OnGameStarted += PickColor;
-            _gameState.OnGameEnded += Validate;
+            _gameState.OnGameEnded += ValidateWithReflection;
 
             _eyeColor = (EyeColors)Random.Range(0, Enum.GetValues(typeof(EyeColors)).Length);
         }
@@ -37,28 +37,39 @@ namespace FallingEyeBalls
             if (!IsServer) return;
             for (int i = 0; i < _eyeBallsPlayerSpawner.GetPlayerCount(); i++)
             {
+                //TODO: use reflection???
+                //Enum.GetValues(typeof(EyeColors)).GetValue(j);
                 switch (_eyeColor)
                 {
                     case EyeColors.Red:
-                        if (_eyeBallsSpawner.GetRedEyeBallsCount() == _eyeBallsPlayerSpawner.GetPlayerData(i).CurrentScore)
+                        if (_eyeBallsSpawner.GetRedEyeBallsCount() ==
+                            _eyeBallsPlayerSpawner.GetPlayerData(i).CurrentScore)
                         {
+                            _gameState.AddScoreServerRpc(10);
+                            print(LobbySingleton.Instance.GetPlayersList()[i].Score);
                             print("Winner red");
                         }
+
                         break;
                     case EyeColors.Green:
-                        if (_eyeBallsSpawner.GetGreenEyeBallsCount() == _eyeBallsPlayerSpawner.GetPlayerData(i).CurrentScore)
+                        if (_eyeBallsSpawner.GetGreenEyeBallsCount() ==
+                            _eyeBallsPlayerSpawner.GetPlayerData(i).CurrentScore)
                         {
-                            //Win if amount == spawner amount or is the closest to it
+                            _gameState.AddScoreServerRpc(10);
+                            print(LobbySingleton.Instance.GetPlayersList()[i].Score);
                             print("Winner green");
                         }
+
                         break;
                     case EyeColors.Blue:
-                        if (_eyeBallsSpawner.GetBlueEyeBallsCount() == _eyeBallsPlayerSpawner.GetPlayerData(i).CurrentScore)
+                        if (_eyeBallsSpawner.GetBlueEyeBallsCount() ==
+                            _eyeBallsPlayerSpawner.GetPlayerData(i).CurrentScore)
                         {
                             _gameState.AddScoreServerRpc(10);
                             print(LobbySingleton.Instance.GetPlayersList()[i].Score);
                             print("Winner blue");
                         }
+
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -69,11 +80,35 @@ namespace FallingEyeBalls
             NetworkManager.Singleton.SceneManager.LoadScene("SelectRandomGame", LoadSceneMode.Single);
         }
 
+        private void ValidateWithReflection()
+        {
+            if (!IsServer) return;
+            var colorsLength = Enum.GetValues(typeof(EyeColors)).Length;
+            for (int i = 0; i < _eyeBallsPlayerSpawner.GetPlayerCount(); i++)
+            {
+                for (int j = 0; j < colorsLength; j++)
+                {
+                    var eyeColor = Enum.GetValues(typeof(EyeColors)).GetValue(j);
+                    if (Equals(eyeColor, _eyeColor))
+                    {
+                        if (_eyeBallsSpawner.GetEyeBallCount(j) == _eyeBallsPlayerSpawner.GetPlayerData(i).CurrentScore)
+                        {
+                            _gameState.AddScoreServerRpc(10);
+                        }
+                    }
+                }
+            }
+
+            print("Game ended");
+            NetworkManager.Singleton.SceneManager.LoadScene("SelectRandomGame", LoadSceneMode.Single);
+        }
+
+
         public override void OnDestroy()
         {
             base.OnDestroy();
             _gameState.OnGameStarted -= PickColor;
-            _gameState.OnGameEnded -= Validate;
+            _gameState.OnGameEnded -= ValidateWithReflection;
         }
     }
 }

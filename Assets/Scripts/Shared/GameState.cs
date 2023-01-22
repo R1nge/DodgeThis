@@ -36,6 +36,7 @@ namespace Shared
         private void OnClientDisconnected(ulong obj)
         {
             if (!IsServer) return;
+            //BUG: should be LobbySingleton.Instance.GetPlayersList()
             if (_playersAlive.Value <= 1)
             {
                 NetworkManager.Singleton.SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
