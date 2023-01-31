@@ -1,4 +1,5 @@
-﻿using Shared;
+﻿using System;
+using Shared;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -62,11 +63,7 @@ namespace Lobby
 
                     PrintData();
 
-                    if (LobbySingleton.Instance.GetPlayersList().Count > i)
-                    {
-                        _lobbyUI.UpdateSkinServerRpc(i, LobbySingleton.Instance.GetPlayersList()[i].SkinIndex);
-                        _lobbyUI.UpdateReadyStateServerRpc(i, LobbySingleton.Instance.GetPlayersList()[i].IsReady);
-                    }
+                    OnLobbyPlayersStateChanged();
                 }
             }
         }
@@ -88,6 +85,8 @@ namespace Lobby
             NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
             NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
         }
+
+        private void Start() => OnLobbyPlayersStateChanged();
 
         private void OnClientConnected(ulong ID)
         {
@@ -170,13 +169,7 @@ namespace Lobby
                 _lobbyUI.UpdateStartButtonServerRpc(IsEveryoneReady());
             }
 
-            for (int i = 0; i < 4; i++)
-            {
-                if (LobbySingleton.Instance.GetPlayersList().Count > i)
-                {
-                    OnLobbyPlayersStateChanged();
-                }
-            }
+            OnLobbyPlayersStateChanged();
         }
 
         private void OnLobbyPlayersStateChanged()
