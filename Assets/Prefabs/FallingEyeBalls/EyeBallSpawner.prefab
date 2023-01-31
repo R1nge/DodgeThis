@@ -61,6 +61,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8788728526324762998398c67a853dc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minAmount: 10
+  maxAmount: 30
   redEyeBall: {fileID: 7942438289220232332, guid: 60e6b915392cb5040a1710984b4c69f1, type: 3}
   greenEyeBall: {fileID: 7942438289220232332, guid: a3e6a3d1ad78c7146994aac847e7bbd2, type: 3}
   blueEyeBall: {fileID: 7942438289220232332, guid: dc28ae556bbfd0745b4844d2ad4375c3, type: 3}

@@ -8,6 +8,7 @@ namespace FallingEyeBalls
     public class EyeBallsPlayerSpawner : NetworkBehaviour
     {
         [SerializeField] private EyeBallsPlayerData player;
+        [SerializeField] private Transform[] spawnPositions;
         private List<EyeBallsPlayerData> _currentPlayers;
         private GameState _gameState;
 
@@ -43,7 +44,7 @@ namespace FallingEyeBalls
                 {
                     var playerInst = Instantiate(player.gameObject, Vector3.zero, Quaternion.identity);
                     playerInst.GetComponent<NetworkObject>().SpawnWithOwnership(ID, true);
-                    playerInst.transform.position = Vector3.zero;
+                    playerInst.transform.position = spawnPositions[GetPlayerCount()].position;
                     _currentPlayers.Add(playerInst.GetComponent<EyeBallsPlayerData>());
                 }
             }

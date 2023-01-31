@@ -20,67 +20,18 @@ namespace FallingEyeBalls
             _eyeBallsSpawner = FindObjectOfType<EyeBallsSpawner>();
             _eyeBallsPlayerSpawner = FindObjectOfType<EyeBallsPlayerSpawner>();
             _gameState = FindObjectOfType<GameState>();
-            _gameState.OnGameStarted += PickColor;
-            _gameState.OnGameEnded += ValidateWithReflection;
+            _gameState.OnGameEnded += Validate;
 
             _eyeColor = (EyeColors)Random.Range(0, Enum.GetValues(typeof(EyeColors)).Length);
         }
 
-        private void PickColor()
+        public override void OnNetworkSpawn()
         {
             if (!IsServer) return;
             _eyeBallsManagerUI.UpdateTextServerRpc(_eyeColor.ToString());
         }
 
         private void Validate()
-        {
-            if (!IsServer) return;
-            for (int i = 0; i < _eyeBallsPlayerSpawner.GetPlayerCount(); i++)
-            {
-                //TODO: use reflection???
-                //Enum.GetValues(typeof(EyeColors)).GetValue(j);
-                switch (_eyeColor)
-                {
-                    case EyeColors.Red:
-                        if (_eyeBallsSpawner.GetRedEyeBallsCount() ==
-                            _eyeBallsPlayerSpawner.GetPlayerData(i).CurrentScore)
-                        {
-                            _gameState.AddScoreServerRpc(10);
-                            print(LobbySingleton.Instance.GetPlayersList()[i].Score);
-                            print("Winner red");
-                        }
-
-                        break;
-                    case EyeColors.Green:
-                        if (_eyeBallsSpawner.GetGreenEyeBallsCount() ==
-                            _eyeBallsPlayerSpawner.GetPlayerData(i).CurrentScore)
-                        {
-                            _gameState.AddScoreServerRpc(10);
-                            print(LobbySingleton.Instance.GetPlayersList()[i].Score);
-                            print("Winner green");
-                        }
-
-                        break;
-                    case EyeColors.Blue:
-                        if (_eyeBallsSpawner.GetBlueEyeBallsCount() ==
-                            _eyeBallsPlayerSpawner.GetPlayerData(i).CurrentScore)
-                        {
-                            _gameState.AddScoreServerRpc(10);
-                            print(LobbySingleton.Instance.GetPlayersList()[i].Score);
-                            print("Winner blue");
-                        }
-
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-            }
-
-            print("Game ended");
-            NetworkManager.Singleton.SceneManager.LoadScene("SelectRandomGame", LoadSceneMode.Single);
-        }
-
-        private void ValidateWithReflection()
         {
             if (!IsServer) return;
             var colorsLength = Enum.GetValues(typeof(EyeColors)).Length;
@@ -98,7 +49,8 @@ namespace FallingEyeBalls
                     }
                 }
             }
-
+            
+            //TODO: load scene after end screen
             print("Game ended");
             NetworkManager.Singleton.SceneManager.LoadScene("SelectRandomGame", LoadSceneMode.Single);
         }
@@ -107,8 +59,7 @@ namespace FallingEyeBalls
         public override void OnDestroy()
         {
             base.OnDestroy();
-            _gameState.OnGameStarted -= PickColor;
-            _gameState.OnGameEnded -= ValidateWithReflection;
+            _gameState.OnGameEnded -= Validate;
         }
     }
 }

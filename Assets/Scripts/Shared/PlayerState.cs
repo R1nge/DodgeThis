@@ -7,15 +7,15 @@ namespace Shared
     public struct PlayerState : INetworkSerializable, IEquatable<PlayerState>
     {
         public ulong ClientId;
-        public NetworkString PlayerName;
+        public NetworkString Nickname;
         public int SkinIndex;
         public bool IsReady;
         public int Score;
 
-        public PlayerState(ulong clientId, string playerName, int skinIndex, bool isReady, int score)
+        public PlayerState(ulong clientId, string nickname, int skinIndex, bool isReady, int score)
         {
             ClientId = clientId;
-            PlayerName = playerName;
+            Nickname = nickname;
             SkinIndex = skinIndex;
             IsReady = isReady;
             Score = score;
@@ -24,7 +24,7 @@ namespace Shared
         public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
         {
             serializer.SerializeValue(ref ClientId);
-            serializer.SerializeValue(ref PlayerName);
+            serializer.SerializeValue(ref Nickname);
             serializer.SerializeValue(ref SkinIndex);
             serializer.SerializeValue(ref IsReady);
             serializer.SerializeValue(ref Score);
@@ -33,7 +33,7 @@ namespace Shared
 
         public bool Equals(PlayerState other)
         {
-            return ClientId == other.ClientId && PlayerName.Equals(other.PlayerName) && SkinIndex == other.SkinIndex &&
+            return ClientId == other.ClientId && Nickname.Equals(other.Nickname) && SkinIndex == other.SkinIndex &&
                    IsReady == other.IsReady && Score == other.Score;
         }
 
@@ -44,7 +44,7 @@ namespace Shared
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(ClientId, PlayerName, SkinIndex, IsReady, Score);
+            return HashCode.Combine(ClientId, Nickname, SkinIndex, IsReady, Score);
         }
     }
 }

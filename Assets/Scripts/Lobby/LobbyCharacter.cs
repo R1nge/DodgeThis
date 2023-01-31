@@ -38,6 +38,7 @@ namespace Lobby
 
             if (transform.childCount == 3)
             {
+                if (!transform.GetChild(1).GetComponent<NetworkObject>().IsSpawned) return;
                 transform.GetChild(1).GetComponent<NetworkObject>().Despawn();
             }
         }

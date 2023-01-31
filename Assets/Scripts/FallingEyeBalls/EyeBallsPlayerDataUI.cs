@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using Shared;
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -6,15 +7,26 @@ namespace FallingEyeBalls
 {
     public class EyeBallsPlayerDataUI : MonoBehaviour
     {
-        [SerializeField] private TextMeshProUGUI amountText;
+        [SerializeField] private TextMeshProUGUI nickname,amountText;
 
         [ServerRpc]
-        public void UpdateUIServerRpc(int value)
+        public void UpdateNicknameServerRpc(NetworkString str)
         {
-            amountText.text = value.ToString();
-            UpdateUIClientRpc(value);
+            nickname.text = str;
+            UpdateNicknameClientRpc(str);
         }
 
-        private void UpdateUIClientRpc(int value) => amountText.text = value.ToString();
+        [ClientRpc]
+        private void UpdateNicknameClientRpc(NetworkString str) => nickname.text = str;
+
+        [ServerRpc]
+        public void UpdateScoreServerRpc(int value)
+        {
+            amountText.text = value.ToString();
+            UpdateScoreClientRpc(value);
+        }
+
+        [ClientRpc]
+        private void UpdateScoreClientRpc(int value) => amountText.text = value.ToString();
     }
 }

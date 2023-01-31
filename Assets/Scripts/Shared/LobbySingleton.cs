@@ -30,7 +30,7 @@ namespace Shared
             _lobbyPlayers[index] = new PlayerState
             {
                 ClientId = _lobbyPlayers[index].ClientId,
-                PlayerName = _lobbyPlayers[index].PlayerName,
+                Nickname = _lobbyPlayers[index].Nickname,
                 SkinIndex = _lobbyPlayers[index].SkinIndex,
                 IsReady = _lobbyPlayers[index].IsReady,
                 Score = _lobbyPlayers[index].Score + amount
