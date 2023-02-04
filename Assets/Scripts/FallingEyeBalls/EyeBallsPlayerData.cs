@@ -6,14 +6,18 @@ namespace FallingEyeBalls
 {
     public class EyeBallsPlayerData : NetworkBehaviour
     {
+        private int _localScore;
         private NetworkVariable<int> _currentScore;
         private EyeBallsPlayerDataUI _playerDataUI;
+        private GameState _gameState;
 
         private void Awake()
         {
             _currentScore = new NetworkVariable<int>();
             _currentScore.OnValueChanged += OnScoreChanged;
             _playerDataUI = FindObjectOfType<EyeBallsPlayerDataUI>();
+            _gameState = FindObjectOfType<GameState>();
+            _gameState.OnGameEnd += SetScore;
         }
 
         public override void OnNetworkSpawn()
@@ -49,11 +53,32 @@ namespace FallingEyeBalls
             if (!IsOwner) return;
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                IncreaseScoreServerRpc();
+                IncreaseScoreLocally();
             }
         }
 
+        private void IncreaseScoreLocally()
+        {
+            _localScore++;
+            _playerDataUI.UpdateScore(_localScore);
+        }
+
+        private void SetScore()
+        {
+            if (!IsOwner) return;
+            SetScoreServerRpc(_localScore);
+        }
+
         [ServerRpc]
-        private void IncreaseScoreServerRpc() => _currentScore.Value++;
+        private void SetScoreServerRpc(int value)
+        {
+            _currentScore.Value = value;
+        }
+
+        public override void OnDestroy()
+        {
+            base.OnDestroy();
+            _gameState.OnGameEnd -= SetScore;
+        }
     }
 }

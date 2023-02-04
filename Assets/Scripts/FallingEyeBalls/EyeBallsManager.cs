@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using Shared;
 using Unity.Netcode;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
@@ -20,7 +22,7 @@ namespace FallingEyeBalls
             _eyeBallsSpawner = FindObjectOfType<EyeBallsSpawner>();
             _eyeBallsPlayerSpawner = FindObjectOfType<EyeBallsPlayerSpawner>();
             _gameState = FindObjectOfType<GameState>();
-            _gameState.OnGameEnded += Validate;
+            _gameState.OnGameEnd += Validate;
 
             _eyeColor = (EyeColors)Random.Range(0, Enum.GetValues(typeof(EyeColors)).Length);
         }
@@ -34,32 +36,41 @@ namespace FallingEyeBalls
         private void Validate()
         {
             if (!IsServer) return;
+            StartCoroutine(OnGameEnd());
             var colorsLength = Enum.GetValues(typeof(EyeColors)).Length;
-            for (int i = 0; i < _eyeBallsPlayerSpawner.GetPlayerCount(); i++)
+
+            for (int color = 0; color < colorsLength; color++)
             {
-                for (int j = 0; j < colorsLength; j++)
+                var eyeColor = Enum.GetValues(typeof(EyeColors)).GetValue(color);
+                if (Equals(eyeColor, _eyeColor))
                 {
-                    var eyeColor = Enum.GetValues(typeof(EyeColors)).GetValue(j);
-                    if (Equals(eyeColor, _eyeColor))
+                    for (int player = 0; player < _eyeBallsPlayerSpawner.GetPlayerCount(); player++)
                     {
-                        if (_eyeBallsSpawner.GetEyeBallCount(j) == _eyeBallsPlayerSpawner.GetPlayerData(i).CurrentScore)
+                        if (_eyeBallsSpawner.GetEyeBallCount(color) == _eyeBallsPlayerSpawner.GetPlayerData(player).CurrentScore)
                         {
-                            _gameState.AddScoreServerRpc(10);
+                            _gameState.AddScoreServerRpc(50);
+                            break;
                         }
                     }
                 }
             }
-            
+
+            StartCoroutine(OnGameEnd());
             //TODO: load scene after end screen
             print("Game ended");
-            NetworkManager.Singleton.SceneManager.LoadScene("SelectRandomGame", LoadSceneMode.Single);
         }
 
+        private IEnumerator OnGameEnd()
+        {
+            _gameState.EndGameServerRpc();
+            yield return new WaitForSeconds(3f);
+            NetworkManager.Singleton.SceneManager.LoadScene("SelectRandomGame", LoadSceneMode.Single);
+        }
 
         public override void OnDestroy()
         {
             base.OnDestroy();
-            _gameState.OnGameEnded -= Validate;
+            _gameState.OnGameEnd -= Validate;
         }
     }
 }

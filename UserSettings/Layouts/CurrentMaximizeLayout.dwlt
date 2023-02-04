@@ -186,8 +186,8 @@ MonoBehaviour:
     y: 0
     width: 177
     height: 785
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 201, y: 221}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 6}
   m_Panes:
   - {fileID: 6}
@@ -224,23 +224,23 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
+      m_SelectedIDs: 22a90000
       m_LastClickedID: 0
-      m_ExpandedIDs: 7670ffff3471ffff9673ffffbe73fffff473ffff9674ffffcc74ffffda74fffff274ffff9c75ffffd075ffffe075ffff24beffffe0beffff42c1ffff6ac1ffffa0c1ffff42c2ffff7ac2ffff88c2ffffa0c2ffff4ac3ffff7ec3ffff8ec3ffff30fbffff
+      m_ExpandedIDs: aec3feffa81affff402cfffffa2cffff5c2fffff842fffffba2fffff5c30ffff9230ffffa030ffffb830ffff6231ffff9631ffffa631ffff5c36ffff1637ffff7839ffffa039ffffd639ffff783affffae3affffbc3affffd43affff7e3bffffb23bffffc23bffffda3effff943ffffff641ffff1e42ffff5442fffff642ffff2c43ffff3a43ffff5243fffffc43ffff3044ffff4044ffffda4affff944bfffff64dffff1e4effff544efffff64effff2c4fffff3a4fffff524ffffffc4fffff3050ffff4050ffff9853ffff5254ffffb456ffffdc56ffff1257ffffb457ffffea57fffff857ffff1058ffff1a59ffff4e59ffff5e59ffff2e62ffff7670ffff3471ffff9673ffffbe73fffff473ffff9674ffffcc74ffffda74fffff274ffff9c75ffffd075ffffe075ffff24beffffe0beffff42c1ffff6ac1ffffa0c1ffff42c2ffff7ac2ffff88c2ffffa0c2ffff4ac3ffff7ec3ffff8ec3ffff30fbfffff4ffffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
-        m_Name: Bootstrap
-        m_OriginalName: Bootstrap
+        m_Name: 
+        m_OriginalName: 
         m_EditFieldRect:
           serializedVersion: 2
           x: 0
           y: 0
           width: 0
           height: 0
-        m_UserData: 37854
+        m_UserData: 0
         m_IsWaitingForDelay: 0
         m_IsRenaming: 0
-        m_OriginalEventType: 0
+        m_OriginalEventType: 11
         m_IsRenamingFilename: 0
         m_ClientGUIView: {fileID: 5}
       m_SearchString: 
@@ -683,22 +683,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scenes
+    - Assets
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 68
   m_LastFolders:
-  - Assets/Scenes
+  - Assets
   m_LastFoldersGridSize: 68
   m_LastProjectPath: F:\UnityProjects\DodgeThis
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 398}
-    m_SelectedIDs: 22a90000
-    m_LastClickedID: 43298
-    m_ExpandedIDs: 00000000d2720000d4720000d6720000d8720000da720000dc720000de720000e0720000e272000000ca9a3bffffff7f
+    scrollPos: {x: 0, y: 60}
+    m_SelectedIDs: d2720000
+    m_LastClickedID: 29394
+    m_ExpandedIDs: 00000000d2720000d4720000d6720000d872000024a9000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -726,7 +726,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000d2720000d4720000d6720000d8720000da720000dc720000de720000e0720000e2720000
+    m_ExpandedIDs: 00000000d2720000d4720000d6720000d872000024a9000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -751,9 +751,9 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 
-    m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
+    m_SelectedInstanceIDs: 22a90000
+    m_LastClickedInstanceID: 43298
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c623000006780000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -851,7 +851,7 @@ MonoBehaviour:
   m_MinSize: {x: 275, y: 50}
   m_MaxSize: {x: 4000, y: 4000}
   m_TitleContent:
-    m_Text: Inspector
+    m_Text: Debug
     m_Image: {fileID: -2667387946076563598, guid: 0000000000000000d000000000000000, type: 0}
     m_Tooltip: 
   m_Pos:
@@ -873,7 +873,7 @@ MonoBehaviour:
   m_LastInspectedObjectInstanceID: -1
   m_LastVerticalScrollValue: 0
   m_GlobalObjectId: 
-  m_InspectorMode: 0
+  m_InspectorMode: 1
   m_LockTracker:
     m_IsLocked: 0
   m_PreviewWindow: {fileID: 0}

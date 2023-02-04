@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 5014950455092149811}
   - component: {fileID: 2482420471910886427}
   - component: {fileID: -8466408918875455578}
-  - component: {fileID: 2645520405204070420}
+  - component: {fileID: 8439064827909196720}
   m_Layer: 0
   m_Name: TpsCharacterCCWithOutJump
   m_TagString: Untagged
@@ -102,9 +102,12 @@ MonoBehaviour:
     m_InternalValue: 8
   rotationSpeed:
     m_InternalValue: 720
-  jumpSpeed: 8
-  gravity: 20
-  canJump: 0
+  jumpSpeed:
+    m_InternalValue: 8
+  gravity:
+    m_InternalValue: 20
+  canJump:
+    m_InternalValue: 1
 --- !u!114 &4192047551339863340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -160,7 +163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bde290b5fa44bbbb55052369ebe55be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2645520405204070420
+--- !u!114 &8439064827909196720
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -169,6 +172,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 4192047551339863338}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d3f440f7e5bc4fc5a7fffdc6bdae5e9a, type: 3}
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 0
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 0
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  InLocalSpace: 0
+  Interpolate: 1

@@ -19,6 +19,8 @@ namespace FallingEyeBalls
         [ClientRpc]
         private void UpdateNicknameClientRpc(NetworkString str) => nickname.text = str;
 
+        public void UpdateScore(int value) => amountText.text = value.ToString();
+
         [ServerRpc]
         public void UpdateScoreServerRpc(int value)
         {

@@ -11,7 +11,7 @@ namespace Shared
         private NetworkVariable<bool> _gameEnded;
 
         public event Action OnGameStarted;
-        public event Action OnGameEnded;
+        public event Action OnGameEnd;
 
         [ServerRpc(RequireOwnership = false)]
         public void StartGameServerRpc()
@@ -47,7 +47,7 @@ namespace Shared
         [ServerRpc(RequireOwnership = false)]
         public void OnPlayerKilledServerRpc()
         {
-            if (!IsServer) return;
+            AddScoreServerRpc();
             _playersAlive.Value--;
             if (_playersAlive.Value <= 1)
             {
@@ -62,7 +62,7 @@ namespace Shared
         }
 
         [ServerRpc(RequireOwnership = false)]
-        public void AddScoreServerRpc(int amount, ServerRpcParams rpcParams = default)
+        public void AddScoreServerRpc(int amount = default, ServerRpcParams rpcParams = default)
         {
             var players = LobbySingleton.Instance.GetPlayersList();
             var playersCount = players.Count;
@@ -71,8 +71,17 @@ namespace Shared
             {
                 if (players[i].ClientId == rpcParams.Receive.SenderClientId)
                 {
-                    LobbySingleton.Instance.AddScore(i, amount);
-                    print(LobbySingleton.Instance.GetPlayersList()[i].Score);
+                    if (amount == default)
+                    {
+                        var score = 100 - _playersAlive.Value * 10;
+                        LobbySingleton.Instance.AddScore(i, score);
+                        print(score);
+                    }
+                    else
+                    {
+                        LobbySingleton.Instance.AddScore(i, amount);
+                        print(amount);
+                    }
                 }
             }
         }
@@ -89,7 +98,7 @@ namespace Shared
         [ClientRpc]
         private void EndGameClientRpc()
         {
-            OnGameEnded?.Invoke();
+            OnGameEnd?.Invoke();
         }
 
         public override void OnDestroy()

@@ -35,6 +35,12 @@ namespace Shared
             }
         }
 
+        [ServerRpc(RequireOwnership = false)]
+        public void KillServerRpc()
+        {
+            Kill();
+        }
+
         public override void OnDestroy()
         {
             base.OnDestroy();
