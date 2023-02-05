@@ -36,7 +36,7 @@ namespace BallArena
             if (collision.transform.TryGetComponent(out CharacterState character))
             {
                 if (!character.GetComponent<NetworkObject>().IsSpawned || character == null) return;
-                character.Kill();
+                character.Kill(character.OwnerClientId);
             }
 
             if (!collision.transform.CompareTag("Bouncable")) return;

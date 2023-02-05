@@ -16,7 +16,7 @@ namespace Shared
         {
             if (!IsServer) return;
             if (!GetComponent<NetworkObject>().IsSpawned) return;
-            _gameState.OnPlayerKilledServerRpc();
+            _gameState.OnPlayerKilledServerRpc(clientId);
         }
 
         public override void OnNetworkSpawn()
@@ -25,9 +25,9 @@ namespace Shared
             _gameState.OnCharacterSpawned();
         }
 
-        public void Kill()
+        public void Kill(ulong clientId)
         {
-            _gameState.OnPlayerKilledServerRpc();
+            _gameState.OnPlayerKilledServerRpc(clientId);
             if (TryGetComponent(out NetworkObject networkObject))
             {
                 if (!networkObject.IsSpawned) return;

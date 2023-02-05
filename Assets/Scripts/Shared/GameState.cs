@@ -46,12 +46,12 @@ namespace Shared
         //TODO: add places???
 
         [ServerRpc(RequireOwnership = false)]
-        public void OnPlayerKilledServerRpc(ServerRpcParams rpcParams = default)
+        public void OnPlayerKilledServerRpc(ulong clientID)
         {
             var players = LobbySingleton.Instance.GetPlayersList();
             for (int i = 0; i < players.Count; i++)
             {
-                if (players[i].ClientId == rpcParams.Receive.SenderClientId)
+                if (players[i].ClientId == clientID)
                 {
                     LobbySingleton.Instance.GetPlayersList()[i] = new PlayerState(
                         LobbySingleton.Instance.GetPlayersList()[i].ClientId,

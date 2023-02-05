@@ -10,7 +10,7 @@ public class KillZone : NetworkBehaviour
         if (other.transform.TryGetComponent(out CharacterState character))
         {
             if (!character.GetComponent<NetworkObject>().IsSpawned || character == null) return;
-            character.Kill();
+            character.Kill(character.OwnerClientId);
         }
     }
 }
