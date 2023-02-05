@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9032599427743483629}
   - component: {fileID: 9032599427743483627}
-  - component: {fileID: 6891348360677867254}
+  - component: {fileID: 9115869071789803613}
   m_Layer: 0
   m_Name: PlayerSpawnerDodge
   m_TagString: Untagged
@@ -49,7 +49,7 @@ MonoBehaviour:
   AlwaysReplicateAsRoot: 0
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &6891348360677867254
+--- !u!114 &9115869071789803613
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -58,7 +58,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 9032599427743483624}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cad026865b844d289cb31c728ea64cd4, type: 3}
+  m_Script: {fileID: 11500000, guid: 392bd265420441ae91a00704747435a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   positions: []

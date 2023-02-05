@@ -37,6 +37,11 @@ namespace FallingEyeBalls
         {
             if (!IsServer) return;
             StartCoroutine(OnGameEnd());
+        }
+
+        private IEnumerator OnGameEnd()
+        {
+            yield return new WaitForSeconds(2);
             var colorsLength = Enum.GetValues(typeof(EyeColors)).Length;
 
             for (int color = 0; color < colorsLength; color++)
@@ -46,23 +51,16 @@ namespace FallingEyeBalls
                 {
                     for (int player = 0; player < _eyeBallsPlayerSpawner.GetPlayerCount(); player++)
                     {
-                        if (_eyeBallsSpawner.GetEyeBallCount(color) == _eyeBallsPlayerSpawner.GetPlayerData(player).CurrentScore)
+                        if (_eyeBallsSpawner.GetEyeBallCount(color) ==
+                            _eyeBallsPlayerSpawner.GetPlayerData(player).CurrentScore)
                         {
-                            _gameState.AddScoreServerRpc(50);
+                            _gameState.AddScoreByIndexServerRpc(player, 50);
                             break;
                         }
                     }
                 }
             }
 
-            StartCoroutine(OnGameEnd());
-            //TODO: load scene after end screen
-            print("Game ended");
-        }
-
-        private IEnumerator OnGameEnd()
-        {
-            _gameState.EndGameServerRpc();
             yield return new WaitForSeconds(3f);
             NetworkManager.Singleton.SceneManager.LoadScene("SelectRandomGame", LoadSceneMode.Single);
         }

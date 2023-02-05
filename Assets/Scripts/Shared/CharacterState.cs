@@ -12,7 +12,7 @@ namespace Shared
             _gameState = FindObjectOfType<GameState>();
         }
 
-        private void OnClientDisconnected(ulong obj)
+        private void OnClientDisconnected(ulong clientId)
         {
             if (!IsServer) return;
             if (!GetComponent<NetworkObject>().IsSpawned) return;
@@ -33,12 +33,6 @@ namespace Shared
                 if (!networkObject.IsSpawned) return;
                 networkObject.Despawn();
             }
-        }
-
-        [ServerRpc(RequireOwnership = false)]
-        public void KillServerRpc()
-        {
-            Kill();
         }
 
         public override void OnDestroy()

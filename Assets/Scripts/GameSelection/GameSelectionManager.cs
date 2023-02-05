@@ -42,7 +42,7 @@ namespace GameSelection
         {
             var slotInst = Instantiate(slot, parent);
             var slotUI = slotInst.GetComponent<GameSlotUI>();
-            slotUI.UpdateSlotInfo(GameSelectionSingleton.Instance.GetGamesUI(index));
+            slotUI.UpdateSlotInfo(GameSelectionSingleton.Instance.GetGamesUI()[index]);
             slotUI.AddButtonListener(index);
             _slots.Add(slotInst);
         }

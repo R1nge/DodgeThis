@@ -1291,6 +1291,10 @@ PrefabInstance:
       propertyPath: gameSelectLeft
       value: 
       objectReference: {fileID: 303367692}
+    - target: {fileID: 4046236981406916760, guid: cf4e3e917ce3a7d4590f3436417bc6d9, type: 3}
+      propertyPath: maxSelectedGames
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 4046236981406916761, guid: cf4e3e917ce3a7d4590f3436417bc6d9, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 2435157221

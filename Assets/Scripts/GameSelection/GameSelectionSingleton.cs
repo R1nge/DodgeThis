@@ -15,6 +15,7 @@ namespace GameSelection
             for (int i = 0; i < gamesUI.Length; i++)
             {
                 games.Add(new Games(
+                    gamesUI[i].title,
                     gamesUI[i].sceneName,
                     false,
                     false
@@ -36,6 +37,7 @@ namespace GameSelection
             {
                 games[index] = new Games
                 {
+                    Title = gamesUI[index].title,
                     IsSelected = true,
                     SceneName = games[index].SceneName,
                     HasBeenPlayed = false
@@ -60,7 +62,7 @@ namespace GameSelection
             selectedGames = new List<Games>();
         }
 
-        public GamesUI GetGamesUI(int index) => gamesUI[index];
+        public GamesUI[] GetGamesUI() => gamesUI;
 
         public List<Games> GetGames() => games;
 

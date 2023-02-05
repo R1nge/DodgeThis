@@ -33,8 +33,25 @@ namespace Shared
                 Nickname = _lobbyPlayers[index].Nickname,
                 SkinIndex = _lobbyPlayers[index].SkinIndex,
                 IsReady = _lobbyPlayers[index].IsReady,
-                Score = _lobbyPlayers[index].Score + amount
+                Score = _lobbyPlayers[index].Score + amount,
+                IsAlive = _lobbyPlayers[index].IsAlive,
             };
+        }
+
+        public void ReviveAllPlayers()
+        {
+            for (int i = 0; i < _lobbyPlayers.Count; i++)
+            {
+                _lobbyPlayers[i] = new PlayerState
+                {
+                    ClientId = _lobbyPlayers[i].ClientId,
+                    Nickname = _lobbyPlayers[i].Nickname,
+                    SkinIndex = _lobbyPlayers[i].SkinIndex,
+                    IsReady = _lobbyPlayers[i].IsReady,
+                    Score = _lobbyPlayers[i].Score,
+                    IsAlive = true,
+                };
+            }
         }
     }
 }

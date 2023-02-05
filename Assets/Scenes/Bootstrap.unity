@@ -322,6 +322,11 @@ MonoBehaviour:
       SourceHashToOverride: 0
       OverridingTargetPrefab: {fileID: 0}
     - Override: 0
+      Prefab: {fileID: 6486150589852115916, guid: b03452de750cd26479bd675304594e13, type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 0
+      OverridingTargetPrefab: {fileID: 0}
+    - Override: 0
       Prefab: {fileID: 3937019283809403662, guid: 09119fae185ba6f419f8408437881432, type: 3}
       SourcePrefabToOverride: {fileID: 0}
       SourceHashToOverride: 0
@@ -512,6 +517,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4603851711259164870, guid: 920143eb6b69bec4bb249c4b2a79e044, type: 3}
+      propertyPath: gamesUI.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4603851711259164870, guid: 920143eb6b69bec4bb249c4b2a79e044, type: 3}
+      propertyPath: gamesUI.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 658a84a4a9c9fc648a40c9e98b75f0f4, type: 2}
+    - target: {fileID: 4603851711259164870, guid: 920143eb6b69bec4bb249c4b2a79e044, type: 3}
+      propertyPath: gamesUI.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: 658a84a4a9c9fc648a40c9e98b75f0f4, type: 2}
     - target: {fileID: 7032446889456272164, guid: 920143eb6b69bec4bb249c4b2a79e044, type: 3}
       propertyPath: m_Name
       value: GameSelectionSingleton

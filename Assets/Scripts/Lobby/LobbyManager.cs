@@ -30,7 +30,8 @@ namespace Lobby
                         LobbySingleton.Instance.GetPlayersList()[i].Nickname,
                         LobbySingleton.Instance.GetPlayersList()[i].SkinIndex,
                         !LobbySingleton.Instance.GetPlayersList()[i].IsReady,
-                        LobbySingleton.Instance.GetPlayersList()[i].Score
+                        LobbySingleton.Instance.GetPlayersList()[i].Score,
+                        true
                     );
 
                     _lobbyUI.UpdateReadyStateServerRpc(i, LobbySingleton.Instance.GetPlayersList()[i].IsReady);
@@ -58,7 +59,8 @@ namespace Lobby
                         LobbySingleton.Instance.GetPlayersList()[i].Nickname,
                         skinIndex,
                         LobbySingleton.Instance.GetPlayersList()[i].IsReady,
-                        LobbySingleton.Instance.GetPlayersList()[i].Score
+                        LobbySingleton.Instance.GetPlayersList()[i].Score,
+                        true
                     );
 
                     PrintData();
@@ -99,7 +101,8 @@ namespace Lobby
                         ClientId = ID,
                         SkinIndex = PlayerPrefs.GetInt("Skin"),
                         IsReady = true,
-                        Nickname = PlayerPrefs.GetString("Nickname")
+                        Nickname = PlayerPrefs.GetString("Nickname"),
+                        IsAlive = true
                     });
                 }
 
@@ -126,7 +129,8 @@ namespace Lobby
                 ClientId = rpcParams.Receive.SenderClientId,
                 SkinIndex = skinIndex,
                 IsReady = false,
-                Nickname = nickname
+                Nickname = nickname,
+                IsAlive = true
             });
 
             OnLobbyPlayersStateChanged();

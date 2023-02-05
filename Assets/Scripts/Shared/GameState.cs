@@ -29,6 +29,7 @@ namespace Shared
         {
             NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
             _playersAlive = new NetworkVariable<int>();
+            _playersAlive.OnValueChanged += OnPlayersAmountChanged;
             _gameStarted = new NetworkVariable<bool>();
             _gameEnded = new NetworkVariable<bool>();
         }
@@ -36,21 +37,42 @@ namespace Shared
         private void OnClientDisconnected(ulong obj)
         {
             if (!IsServer) return;
-            //BUG: should be LobbySingleton.Instance.GetPlayersList()
-            if (_playersAlive.Value <= 1)
+            if (LobbySingleton.Instance.GetPlayersList().Count <= 1)
             {
                 NetworkManager.Singleton.SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
             }
         }
 
         //TODO: add places???
+
         [ServerRpc(RequireOwnership = false)]
-        public void OnPlayerKilledServerRpc()
+        public void OnPlayerKilledServerRpc(ServerRpcParams rpcParams = default)
         {
-            AddScoreServerRpc();
-            _playersAlive.Value--;
-            if (_playersAlive.Value <= 1)
+            var players = LobbySingleton.Instance.GetPlayersList();
+            for (int i = 0; i < players.Count; i++)
             {
+                if (players[i].ClientId == rpcParams.Receive.SenderClientId)
+                {
+                    LobbySingleton.Instance.GetPlayersList()[i] = new PlayerState(
+                        LobbySingleton.Instance.GetPlayersList()[i].ClientId,
+                        LobbySingleton.Instance.GetPlayersList()[i].Nickname,
+                        LobbySingleton.Instance.GetPlayersList()[i].SkinIndex,
+                        LobbySingleton.Instance.GetPlayersList()[i].IsReady,
+                        LobbySingleton.Instance.GetPlayersList()[i].Score,
+                        false
+                    );
+                }
+            }
+
+            _playersAlive.Value--;
+        }
+
+        private void OnPlayersAmountChanged(int oldValue, int newValue)
+        {
+            if (newValue <= 1 && oldValue == 2)
+            {
+                EndGameServerRpc();
+                AddScoreServerRpc();
                 NetworkManager.Singleton.SceneManager.LoadScene("SelectRandomGame", LoadSceneMode.Single);
             }
         }
@@ -62,27 +84,45 @@ namespace Shared
         }
 
         [ServerRpc(RequireOwnership = false)]
-        public void AddScoreServerRpc(int amount = default, ServerRpcParams rpcParams = default)
+        public void AddScoreServerRpc(int amount = default)
         {
             var players = LobbySingleton.Instance.GetPlayersList();
             var playersCount = players.Count;
 
             for (int i = 0; i < playersCount; i++)
             {
-                if (players[i].ClientId == rpcParams.Receive.SenderClientId)
+                if (players[i].IsAlive)
                 {
                     if (amount == default)
                     {
                         var score = 100 - _playersAlive.Value * 10;
                         LobbySingleton.Instance.AddScore(i, score);
-                        print(score);
+                        print(amount + " ID " + players[i].ClientId);
                     }
                     else
                     {
                         LobbySingleton.Instance.AddScore(i, amount);
-                        print(amount);
+                        print(amount + " ID " + players[i].ClientId);
                     }
                 }
+            }
+        }
+        
+        [ServerRpc(RequireOwnership = false)]
+        public void AddScoreByIndexServerRpc(int index, int amount = default)
+        {
+            var players = LobbySingleton.Instance.GetPlayersList();
+
+            if (amount == default)
+            {
+                var score = 100 - _playersAlive.Value * 10;
+                LobbySingleton.Instance.AddScore(index, score);
+                print(score);
+            }
+            else
+            {
+                LobbySingleton.Instance.AddScore(index, amount);
+                print(amount + " ID " + players[index].ClientId);
             }
         }
 
