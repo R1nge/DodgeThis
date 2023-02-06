@@ -35,4 +35,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Minigames/FallingEyeBalls.unity
     guid: 7c4bcc5276a83d846aacc7316c09ae4b
+  - enabled: 1
+    path: Assets/Scenes/EndGame.unity
+    guid: 4e151867ecc7ecb4b8cd013d099dbe63
   m_configObjects: {}
