@@ -27,12 +27,12 @@ namespace FallingEyeBalls
         }
 
         [ServerRpc]
-        private void UpdateNicknameServerRpc(ServerRpcParams rpcParams = default)
+        private void UpdateNicknameServerRpc(ServerRpcReceiveParams rpcParams = default)
         {
             var players = LobbySingleton.Instance.GetPlayersList();
             for (int i = 0; i < players.Count; i++)
             {
-                if (players[i].ClientId != rpcParams.Receive.SenderClientId) continue;
+                if (players[i].ClientId != rpcParams.SenderClientId) continue;
                 _playerDataUI.UpdateNicknameServerRpc(players[i].Nickname);
                 UpdateNicknamesClientRpc(players[i].Nickname);
             }
