@@ -6,19 +6,18 @@ public class KillZone : NetworkBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        if (IsServer)
+        if (other.transform.TryGetComponent(out CharacterState character))
         {
-            if (other.transform.TryGetComponent(out CharacterState character))
+            if (!character.GetComponent<NetworkObject>().IsSpawned || character == null) return;
+            if (IsServer)
             {
-                if (!character.GetComponent<NetworkObject>().IsSpawned || character == null) return;
                 character.Kill(character.OwnerClientId);
             }
+            else
+            {
+                OnCollisionServerRpc(character.NetworkObject);
+            }
         }
-        else
-        {
-            OnCollisionServerRpc(other.GetComponent<NetworkObject>());
-        }
-        
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -28,7 +27,6 @@ public class KillZone : NetworkBehaviour
         {
             if (obj.transform.TryGetComponent(out CharacterState character))
             {
-                if (!character.GetComponent<NetworkObject>().IsSpawned || character == null) return;
                 character.Kill(character.OwnerClientId);
             }
         }
