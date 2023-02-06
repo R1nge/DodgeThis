@@ -5,37 +5,23 @@ using UnityEngine;
 
 namespace FallingEyeBalls
 {
-    public class EyeBallsPlayerSpawner : NetworkBehaviour
+    public class PlayerSpawnerEyeBalls : PlayerSpawner
     {
         [SerializeField] private EyeBallsPlayerData player;
         [SerializeField] private Transform[] spawnPositions;
         private List<EyeBallsPlayerData> _currentPlayers;
-        private GameState _gameState;
+
+        protected override void Awake()
+        {
+            base.Awake();
+            _currentPlayers = new List<EyeBallsPlayerData>();
+        }
 
         public EyeBallsPlayerData GetPlayerData(int index) => _currentPlayers[index];
 
         public int GetPlayerCount() => _currentPlayers.Count;
 
-        private void Awake()
-        {
-            _currentPlayers = new List<EyeBallsPlayerData>();
-            _gameState = FindObjectOfType<GameState>();
-            _gameState.OnGameStarted += OnGameStarted;
-        }
-
-        private void OnGameStarted()
-        {
-            if (IsServer)
-            {
-                SpawnPlayer(NetworkManager.Singleton.LocalClientId);
-            }
-            else
-            {
-                SpawnPlayerServerRpc();
-            }
-        }
-
-        private void SpawnPlayer(ulong ID)
+        protected override void SpawnPlayer(ulong ID)
         {
             if (!IsServer) return;
             for (int i = 0; i < LobbySingleton.Instance.GetPlayersList().Count; i++)
@@ -48,18 +34,6 @@ namespace FallingEyeBalls
                     _currentPlayers.Add(playerInst.GetComponent<EyeBallsPlayerData>());
                 }
             }
-        }
-
-        [ServerRpc(RequireOwnership = false)]
-        private void SpawnPlayerServerRpc(ServerRpcParams rpcParams = default)
-        {
-            SpawnPlayer(rpcParams.Receive.SenderClientId);
-        }
-
-        public override void OnDestroy()
-        {
-            base.OnDestroy();
-            _gameState.OnGameStarted -= OnGameStarted;
         }
     }
 }

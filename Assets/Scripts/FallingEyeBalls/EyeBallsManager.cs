@@ -12,7 +12,7 @@ namespace FallingEyeBalls
     {
         private EyeBallsManagerUI _eyeBallsManagerUI;
         private EyeBallsSpawner _eyeBallsSpawner;
-        private EyeBallsPlayerSpawner _eyeBallsPlayerSpawner;
+        private PlayerSpawnerEyeBalls _playerSpawnerEyeBalls;
         private GameState _gameState;
         private EyeColors _eyeColor;
 
@@ -20,7 +20,7 @@ namespace FallingEyeBalls
         {
             _eyeBallsManagerUI = GetComponent<EyeBallsManagerUI>();
             _eyeBallsSpawner = FindObjectOfType<EyeBallsSpawner>();
-            _eyeBallsPlayerSpawner = FindObjectOfType<EyeBallsPlayerSpawner>();
+            _playerSpawnerEyeBalls = FindObjectOfType<PlayerSpawnerEyeBalls>();
             _gameState = FindObjectOfType<GameState>();
             _gameState.OnGameEnd += Validate;
 
@@ -49,10 +49,10 @@ namespace FallingEyeBalls
                 var eyeColor = Enum.GetValues(typeof(EyeColors)).GetValue(color);
                 if (Equals(eyeColor, _eyeColor))
                 {
-                    for (int player = 0; player < _eyeBallsPlayerSpawner.GetPlayerCount(); player++)
+                    for (int player = 0; player < _playerSpawnerEyeBalls.GetPlayerCount(); player++)
                     {
                         if (_eyeBallsSpawner.GetEyeBallCount(color) ==
-                            _eyeBallsPlayerSpawner.GetPlayerData(player).CurrentScore)
+                            _playerSpawnerEyeBalls.GetPlayerData(player).CurrentScore)
                         {
                             _gameState.AddScoreByIndexServerRpc(player, 50);
                             break;

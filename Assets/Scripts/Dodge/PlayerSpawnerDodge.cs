@@ -4,32 +4,12 @@ using UnityEngine;
 
 namespace Dodge
 {
-    public class PlayerSpawnerDodge : NetworkBehaviour
+    public class PlayerSpawnerDodge : PlayerSpawner
     {
         [SerializeField] private Transform[] positions;
-        [SerializeField] private Skin skins;
         private int _lastPosition;
-        private GameState _gameState;
 
-        private void Awake()
-        {
-            _gameState = FindObjectOfType<GameState>();
-            _gameState.OnGameStarted += OnGameStarted;
-        }
-
-        private void OnGameStarted()
-        {
-            if (IsServer)
-            {
-                SpawnPlayer(NetworkManager.Singleton.LocalClientId);
-            }
-            else
-            {
-                SpawnPlayerServerRpc();
-            }
-        }
-
-        private void SpawnPlayer(ulong ID)
+        protected override void SpawnPlayer(ulong ID)
         {
             if (!IsServer) return;
             for (int i = 0; i < LobbySingleton.Instance.GetPlayersList().Count; i++)
@@ -47,19 +27,6 @@ namespace Dodge
             }
 
             _lastPosition++;
-        }
-
-        [ServerRpc(RequireOwnership = false)]
-        private void SpawnPlayerServerRpc(ServerRpcParams rpcParams = default)
-        {
-            SpawnPlayer(rpcParams.Receive.SenderClientId);
-        }
-
-        public override void OnDestroy()
-        {
-            base.OnDestroy();
-            if (_gameState == null) return;
-            _gameState.OnGameStarted -= OnGameStarted;
         }
     }
 }
