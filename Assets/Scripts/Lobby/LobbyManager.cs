@@ -19,11 +19,11 @@ namespace Lobby
         }
 
         [ServerRpc(RequireOwnership = false)]
-        private void ReadyUpServerRpc(ServerRpcReceiveParams rpcParams = default)
+        private void ReadyUpServerRpc(ServerRpcParams rpcParams = default)
         {
             for (var i = 0; i < LobbySingleton.Instance.GetPlayersList().Count; i++)
             {
-                if (LobbySingleton.Instance.GetPlayersList()[i].ClientId == rpcParams.SenderClientId)
+                if (LobbySingleton.Instance.GetPlayersList()[i].ClientId == rpcParams.Receive.SenderClientId)
                 {
                     LobbySingleton.Instance.GetPlayersList()[i] = new PlayerState(
                         LobbySingleton.Instance.GetPlayersList()[i].ClientId,
@@ -48,11 +48,11 @@ namespace Lobby
         }
 
         [ServerRpc(RequireOwnership = false)]
-        private void ChangeSkinServerRpc(int skinIndex, ServerRpcReceiveParams rpcParams = default)
+        private void ChangeSkinServerRpc(int skinIndex, ServerRpcParams rpcParams = default)
         {
             for (var i = 0; i < LobbySingleton.Instance.GetPlayersList().Count; i++)
             {
-                if (LobbySingleton.Instance.GetPlayersList()[i].ClientId == rpcParams.SenderClientId)
+                if (LobbySingleton.Instance.GetPlayersList()[i].ClientId == rpcParams.Receive.SenderClientId)
                 {
                     LobbySingleton.Instance.GetPlayersList()[i] = new PlayerState(
                         LobbySingleton.Instance.GetPlayersList()[i].ClientId,
@@ -122,11 +122,11 @@ namespace Lobby
 
         [ServerRpc(RequireOwnership = false)]
         private void OnClientConnectedServerRpc(int skinIndex, NetworkString nickname,
-            ServerRpcReceiveParams rpcParams = default)
+            ServerRpcParams rpcParams = default)
         {
             LobbySingleton.Instance.GetPlayersList().Add(new PlayerState
             {
-                ClientId = rpcParams.SenderClientId,
+                ClientId = rpcParams.Receive.SenderClientId,
                 SkinIndex = skinIndex,
                 IsReady = false,
                 Nickname = nickname,

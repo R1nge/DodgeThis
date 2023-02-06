@@ -14,7 +14,7 @@ namespace Shared
             _gameState.OnGameStarted += OnGameStarted;
         }
 
-        protected void OnGameStarted()
+        private void OnGameStarted()
         {
             if (IsServer)
             {
@@ -29,9 +29,9 @@ namespace Shared
         protected abstract void SpawnPlayer(ulong ID);
 
         [ServerRpc(RequireOwnership = false)]
-        private void SpawnPlayerServerRpc(ServerRpcReceiveParams rpcParams = default)
+        private void SpawnPlayerServerRpc(ServerRpcParams rpcParams = default)
         {
-            SpawnPlayer(rpcParams.SenderClientId);
+            SpawnPlayer(rpcParams.Receive.SenderClientId);
         }
 
         public override void OnDestroy()

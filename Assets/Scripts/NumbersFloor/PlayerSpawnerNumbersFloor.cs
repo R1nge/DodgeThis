@@ -45,9 +45,9 @@ namespace NumbersFloor
         }
 
         [ServerRpc(RequireOwnership = false)]
-        private void SpawnPlayerServerRpc(ServerRpcReceiveParams rpcParams = default)
+        private void SpawnPlayerServerRpc(ServerRpcParams rpcParams = default)
         {
-            SpawnPlayer(rpcParams.SenderClientId);
+            SpawnPlayer(rpcParams.Receive.SenderClientId);
         }
 
         public override void OnDestroy()

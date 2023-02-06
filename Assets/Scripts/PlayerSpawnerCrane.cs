@@ -71,7 +71,7 @@ public class PlayerSpawnerCrane : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void SpawnServerRpc(ServerRpcReceiveParams rpcParams = default) => SpawnPlayer(rpcParams.SenderClientId);
+    private void SpawnServerRpc(ServerRpcParams rpcParams = default) => SpawnPlayer(rpcParams.Receive.SenderClientId);
 
 
     public override void OnDestroy()
