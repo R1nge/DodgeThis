@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Shared
 {
@@ -14,11 +17,21 @@ namespace Shared
             _lobbyPlayers = new List<PlayerState>();
             if (Instance != null)
             {
-                throw new System.Exception("Multiple LobbySingleton defined!");
+                throw new Exception("Multiple LobbySingleton defined!");
             }
 
             DontDestroyOnLoad(gameObject);
             Instance = this;
+            
+            SceneManager.sceneLoaded += SceneManagerOnsceneLoaded;
+        }
+
+        private void SceneManagerOnsceneLoaded(Scene arg0, LoadSceneMode arg1)
+        {
+            if (arg0.name == "MainMenu")
+            {
+                ResetPlayerList();
+            }
         }
 
         public void ResetPlayerList() => _lobbyPlayers = new List<PlayerState>();

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace GameSelection
 {
@@ -29,8 +31,18 @@ namespace GameSelection
 
             DontDestroyOnLoad(gameObject);
             Instance = this;
+
+            SceneManager.sceneLoaded += SceneManagerOnsceneLoaded;
         }
-        
+
+        private void SceneManagerOnsceneLoaded(Scene arg0, LoadSceneMode arg1)
+        {
+            if (arg0.name == "MainMenu")
+            {
+                ResetSelectedGames();
+            }
+        }
+
         public void SelectGame(int index)
         {
             if (!games[index].IsSelected)
@@ -42,7 +54,7 @@ namespace GameSelection
                     SceneName = games[index].SceneName,
                     HasBeenPlayed = false
                 };
-                
+
                 selectedGames.Add(games[index]);
             }
         }

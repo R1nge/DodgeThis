@@ -85,7 +85,7 @@ namespace Character.Tps
         public override void OnDestroy()
         {
             base.OnDestroy();
-            if (NetworkManager.Singleton)
+            if (NetworkManager.Singleton && NetworkManager.Singleton.NetworkTickSystem != null)
             {
                 NetworkManager.Singleton.NetworkTickSystem.Tick -= OnTick;
             }
