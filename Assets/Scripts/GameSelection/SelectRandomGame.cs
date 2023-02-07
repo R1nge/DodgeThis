@@ -23,7 +23,6 @@ namespace GameSelection
         {
             if (!IsServer) return;
             if (_sceneLoaded) return;
-            DisconnectServerRpc(0);
             SelectGame();
         }
 
@@ -31,12 +30,8 @@ namespace GameSelection
         {
             _sceneLoaded = true;
             var games = GameSelectionSingleton.Instance.GetSelectedGames();
-            if (games.Count == 0)
-            {
-                //TODO: load end game scene, where players can have a little fun before starting a new game
-                StartCoroutine(Disconnect_c());
-                return;
-            }
+            
+            if(TryLoadEndGame()) return;
 
             var selectedGame = Random.Range(0, games.Count);
 
@@ -59,10 +54,10 @@ namespace GameSelection
             {
                 if (games[selectedGame].Title == gameUI[i].title)
                 {
-                    _gameUI.UpdateUI(gameUI[i]);
+                    _gameUI.UpdateUI(i);
                 }
             }
-            
+
             ReviveAllPlayers();
 
             StartCoroutine(ChangeLevel_c(games[selectedGame].SceneName));
@@ -79,30 +74,16 @@ namespace GameSelection
             NetworkManager.Singleton.SceneManager.LoadScene(level, LoadSceneMode.Single);
         }
 
-        private IEnumerator Disconnect_c()
-        {
-            yield return new WaitForSeconds(10);
-            DisconnectServerRpc(0);
-        }
-
-        [ServerRpc(RequireOwnership = false)]
-        private void DisconnectServerRpc(ulong _)
+        private bool TryLoadEndGame()
         {
             var games = GameSelectionSingleton.Instance.GetSelectedGames();
             if (games.TrueForAll(x => x.HasBeenPlayed) || games.Count == 0)
             {
-                GameSelectionSingleton.Instance.ResetSelectedGames();
-                LobbySingleton.Instance.ResetPlayerList();
-                DisconnectClientRpc();
+                NetworkManager.Singleton.SceneManager.LoadScene("EndGame", LoadSceneMode.Single);
+                return true;
             }
-        }
 
-        [ClientRpc]
-        private void DisconnectClientRpc()
-        {
-            GameSelectionSingleton.Instance.ResetSelectedGames();
-            SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
-            NetworkManager.Singleton.Shutdown();
+            return false;
         }
 
         private void Disconnect(ulong _)
@@ -117,7 +98,7 @@ namespace GameSelection
             base.OnDestroy();
             if (NetworkManager.Singleton)
             {
-                NetworkManager.Singleton.OnClientDisconnectCallback -= DisconnectServerRpc;
+                NetworkManager.Singleton.OnClientDisconnectCallback -= Disconnect;
             }
         }
     }

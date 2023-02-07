@@ -14,7 +14,7 @@ namespace Shared
             _gameState.OnGameStarted += OnGameStarted;
         }
 
-        private void OnGameStarted()
+        protected void OnGameStarted()
         {
             if (IsServer)
             {

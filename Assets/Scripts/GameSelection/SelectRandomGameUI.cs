@@ -2,6 +2,7 @@
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace GameSelection
 {
@@ -9,16 +10,24 @@ namespace GameSelection
     {
         [SerializeField] private TextMeshProUGUI title, description;
         [SerializeField] private TextMeshProUGUI[] score, nickname;
+        [SerializeField] private Image icon;
 
-        public void UpdateUI(GamesUI UI)
+        public void UpdateUI(int index)
         {
             if (IsServer)
             {
-                title.text = UI.title;
-                UpdateUIClientRpc(UI.title);
+                var gameUI = GameSelectionSingleton.Instance.GetGamesUI();
+                UpdateTitle(gameUI[index]);
+                UpdateIcon(index);
                 UpdateScore();
                 UpdateNickname();
             }
+        }
+
+        private void UpdateTitle(GamesUI UI)
+        {
+            title.text = UI.title;
+            UpdateUIClientRpc(UI.title);
         }
 
         [ClientRpc]
@@ -62,6 +71,19 @@ namespace GameSelection
         private void UpdateScoreClientRpc(string str, int index)
         {
             score[index].text = str;
+        }
+
+        private void UpdateIcon(int index)
+        {
+            UpdateIconClientRpc(index);
+        }
+
+        [ClientRpc]
+        private void UpdateIconClientRpc(int index)
+        {
+            var gameUI = GameSelectionSingleton.Instance.GetGamesUI();
+            icon.gameObject.SetActive(true);
+            icon.sprite = gameUI[index].icon;
         }
     }
 }
