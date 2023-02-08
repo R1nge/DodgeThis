@@ -1,4 +1,5 @@
-﻿using Unity.Netcode;
+﻿using System;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -6,9 +7,20 @@ namespace InGameMenu
 {
     public class InGameUI : MonoBehaviour
     {
-        //TODO: make singleton???
-        
+        private static InGameUI Instance { get; set; }
+
         [SerializeField] private GameObject inGameUI;
+
+        private void Awake()
+        {
+            if (Instance != null)
+            {
+                throw new Exception("Multiple LobbySingleton defined!");
+            }
+
+            DontDestroyOnLoad(gameObject);
+            Instance = this;
+        }
 
         private void Update()
         {
@@ -35,6 +47,7 @@ namespace InGameMenu
             var netManager = NetworkManager.Singleton;
             netManager.Shutdown();
             SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
+            Close();
         }
     }
 }
