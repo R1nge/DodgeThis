@@ -8,9 +8,18 @@ namespace FallingEyeBalls
     public class EyeBallsPlayerDataUI : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI nickname,amountText;
+        private EyeBallsPlayerData _playerData;
+
+        private void Awake()
+        {
+            _playerData = GetComponent<EyeBallsPlayerData>();
+            _playerData.OnScoreChangedEvent += UpdateScoreServerRpc;
+            _playerData.OnNicknameChangedEvent += UpdateNicknameServerRpc;
+            _playerData.OnLocalScoreChangedEvent += UpdateScore;
+        }
 
         [ServerRpc]
-        public void UpdateNicknameServerRpc(NetworkString str)
+        private void UpdateNicknameServerRpc(NetworkString str)
         {
             nickname.text = str;
             UpdateNicknameClientRpc(str);
@@ -19,10 +28,10 @@ namespace FallingEyeBalls
         [ClientRpc]
         private void UpdateNicknameClientRpc(NetworkString str) => nickname.text = str;
 
-        public void UpdateScore(int value) => amountText.text = value.ToString();
+        private void UpdateScore(int value) => amountText.text = value.ToString();
 
         [ServerRpc]
-        public void UpdateScoreServerRpc(int value)
+        private void UpdateScoreServerRpc(int value)
         {
             amountText.text = value.ToString();
             UpdateScoreClientRpc(value);
@@ -30,5 +39,12 @@ namespace FallingEyeBalls
 
         [ClientRpc]
         private void UpdateScoreClientRpc(int value) => amountText.text = value.ToString();
+
+        private void OnDestroy()
+        {
+            _playerData.OnScoreChangedEvent -= UpdateScoreServerRpc;
+            _playerData.OnNicknameChangedEvent -= UpdateNicknameServerRpc;
+            _playerData.OnLocalScoreChangedEvent -= UpdateScore;
+        }
     }
 }

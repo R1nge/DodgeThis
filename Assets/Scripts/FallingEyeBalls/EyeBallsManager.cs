@@ -10,15 +10,15 @@ namespace FallingEyeBalls
 {
     public class EyeBallsManager : NetworkBehaviour
     {
-        private EyeBallsManagerUI _eyeBallsManagerUI;
         private EyeBallsSpawner _eyeBallsSpawner;
         private PlayerSpawnerEyeBalls _playerSpawnerEyeBalls;
         private GameState _gameState;
         private EyeColors _eyeColor;
 
+        public event Action<NetworkString> OnEyeColorChangedEvent;
+
         private void Awake()
         {
-            _eyeBallsManagerUI = GetComponent<EyeBallsManagerUI>();
             _eyeBallsSpawner = FindObjectOfType<EyeBallsSpawner>();
             _playerSpawnerEyeBalls = FindObjectOfType<PlayerSpawnerEyeBalls>();
             _gameState = FindObjectOfType<GameState>();
@@ -30,7 +30,7 @@ namespace FallingEyeBalls
         public override void OnNetworkSpawn()
         {
             if (!IsServer) return;
-            _eyeBallsManagerUI.UpdateTextServerRpc(_eyeColor.ToString());
+            OnEyeColorChangedEvent?.Invoke(_eyeColor.ToString());
         }
 
         private void Validate()

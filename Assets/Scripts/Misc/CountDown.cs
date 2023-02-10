@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Shared;
 using Unity.Netcode;
 using UnityEngine;
@@ -8,30 +9,21 @@ namespace Misc
     public class CountDown : NetworkBehaviour
     {
         [SerializeField] private int timer;
-        private CountDownUI _countDownUI;
         private NetworkVariable<int> _timer;
         private GameState _gameState;
 
+        public event Action<int> OnTimeChangedEvent;
+
         private void Awake()
         {
-            _countDownUI = FindObjectOfType<CountDownUI>();
             _gameState = FindObjectOfType<GameState>();
             _timer = new NetworkVariable<int>(timer);
-            _timer.OnValueChanged += (_, newValue) => { _countDownUI.UpdateUI(newValue); };
-            _countDownUI.UpdateUI(_timer.Value);
-            NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
-        }
-
-        private void OnClientConnected(ulong obj)
-        {
-            if (_timer.Value <= 0)
-            {
-                _countDownUI.Hide();
-            }
+            _timer.OnValueChanged += (_, newValue) => { OnTimeChangedEvent?.Invoke(newValue); };
         }
 
         private void Start()
         {
+            OnTimeChangedEvent?.Invoke(_timer.Value);
             if (!IsServer) return;
             StartCoroutine(Count());
         }
@@ -46,13 +38,6 @@ namespace Misc
             }
 
             _gameState.StartGameServerRpc();
-        }
-
-        public override void OnDestroy()
-        {
-            base.OnDestroy();
-            if (NetworkManager.Singleton == null) return;
-            NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnected;
         }
     }
 }

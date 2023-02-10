@@ -1,22 +1,23 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Shared;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 namespace GameSelection
 {
     public class SelectRandomGame : NetworkBehaviour
     {
         private bool _sceneLoaded;
-        private SelectRandomGameUI _gameUI;
+        public event Action<int> OnGameSelectedEvent;
 
         private void Awake()
         {
             NetworkManager.Singleton.OnClientDisconnectCallback += Disconnect;
             if (NetworkManager.Singleton.SceneManager == null) return;
             NetworkManager.Singleton.SceneManager.OnLoadComplete += SceneManagerOnOnLoadComplete;
-            _gameUI = GetComponent<SelectRandomGameUI>();
         }
 
         private void SceneManagerOnOnLoadComplete(ulong clientid, string scenename, LoadSceneMode loadscenemode)
@@ -54,7 +55,7 @@ namespace GameSelection
             {
                 if (games[selectedGame].Title == gameUI[i].title)
                 {
-                    _gameUI.UpdateUI(i);
+                    OnGameSelectedEvent?.Invoke(i);
                 }
             }
 

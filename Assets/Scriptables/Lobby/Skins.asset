@@ -20,9 +20,7 @@ MonoBehaviour:
   - {fileID: 4192047551339863338, guid: 3216a50ec198dae44bf4b7c28a704840, type: 3}
   skins:
   - {fileID: 3664974926069940850, guid: e9d2f42ba4ebc374f9d96130550a986e, type: 3}
-  - {fileID: 6534485603258865391, guid: 9ef9f8c862ea76e4a8fae5646ff5c260, type: 3}
-  - {fileID: 3620512579202771849, guid: fad6c60d8b82d824d8977f3b89654866, type: 3}
+  - {fileID: 9200233148713851254, guid: 96362e9f534c915469fc1dd435d37846, type: 3}
   skinLobbyOffset:
-  - {x: 0, y: -0.9, z: 0}
   - {x: 0, y: -0.9, z: 0}
   - {x: 0, y: -0.9, z: 0}

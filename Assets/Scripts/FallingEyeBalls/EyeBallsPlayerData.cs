@@ -1,4 +1,5 @@
-﻿using Shared;
+﻿using System;
+using Shared;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -8,14 +9,17 @@ namespace FallingEyeBalls
     {
         private int _localScore;
         private NetworkVariable<int> _currentScore;
-        private EyeBallsPlayerDataUI _playerDataUI;
         private GameState _gameState;
+
+        public event Action<NetworkString> OnNicknameChangedEvent;
+        public event Action<int> OnScoreChangedEvent;
+
+        public event Action<int> OnLocalScoreChangedEvent;
 
         private void Awake()
         {
             _currentScore = new NetworkVariable<int>();
             _currentScore.OnValueChanged += OnScoreChanged;
-            _playerDataUI = FindObjectOfType<EyeBallsPlayerDataUI>();
             _gameState = FindObjectOfType<GameState>();
             _gameState.OnGameEnd += SetScore;
         }
@@ -33,7 +37,7 @@ namespace FallingEyeBalls
             for (int i = 0; i < players.Count; i++)
             {
                 if (players[i].ClientId != rpcParams.Receive.SenderClientId) continue;
-                _playerDataUI.UpdateNicknameServerRpc(players[i].Nickname);
+                OnNicknameChangedEvent?.Invoke(players[i].Nickname);
                 UpdateNicknamesClientRpc(players[i].Nickname);
             }
         }
@@ -41,10 +45,10 @@ namespace FallingEyeBalls
         [ClientRpc]
         private void UpdateNicknamesClientRpc(NetworkString s)
         {
-            _playerDataUI.UpdateNicknameServerRpc(s);
+            OnNicknameChangedEvent?.Invoke(s);
         }
 
-        private void OnScoreChanged(int _, int newValue) => _playerDataUI.UpdateScoreServerRpc(newValue);
+        private void OnScoreChanged(int _, int newValue) => OnScoreChangedEvent?.Invoke(newValue);
 
         public int CurrentScore => _currentScore.Value;
 
@@ -60,7 +64,7 @@ namespace FallingEyeBalls
         private void IncreaseScoreLocally()
         {
             _localScore++;
-            _playerDataUI.UpdateScore(_localScore);
+            OnLocalScoreChangedEvent?.Invoke(_localScore);
         }
 
         private void SetScore()

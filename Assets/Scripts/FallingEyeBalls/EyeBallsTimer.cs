@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Shared;
 using Unity.Netcode;
 using UnityEngine;
@@ -9,13 +10,13 @@ namespace FallingEyeBalls
     {
         [SerializeField] private int startTime;
         private NetworkVariable<int> _currentTime;
-        private EyeBallsTimerUI _eyeBallsTimerUI;
         private GameState _gameState;
         private YieldInstruction _yield;
 
+        public event Action<int> OnTimeChangedEvent;
+
         private void Awake()
         {
-            _eyeBallsTimerUI = GetComponent<EyeBallsTimerUI>();
             _gameState = FindObjectOfType<GameState>();
             _gameState.OnGameStarted += OnGameStarted;
             _yield = new WaitForSeconds(1f);
@@ -29,7 +30,7 @@ namespace FallingEyeBalls
             StartCoroutine(Timer_c());
         }
 
-        private void OnValueChanged(int _, int newValue) => _eyeBallsTimerUI.UpdateUIServerRpc(newValue);
+        private void OnValueChanged(int _, int newValue) => OnTimeChangedEvent?.Invoke(newValue);
 
         private IEnumerator Timer_c()
         {

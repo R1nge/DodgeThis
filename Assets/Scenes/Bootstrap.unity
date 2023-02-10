@@ -153,7 +153,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &237964080
 MonoBehaviour:
@@ -184,7 +184,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1251013243138848839, guid: bd7c53c224af44e4fb0e9d39b24ca235, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1251013243138848839, guid: bd7c53c224af44e4fb0e9d39b24ca235, type: 3}
       propertyPath: m_AnchorMax.x
@@ -553,6 +553,11 @@ MonoBehaviour:
       SourcePrefabToOverride: {fileID: 0}
       SourceHashToOverride: 0
       OverridingTargetPrefab: {fileID: 0}
+    - Override: 0
+      Prefab: {fileID: 9200233148713851254, guid: 96362e9f534c915469fc1dd435d37846, type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 0
+      OverridingTargetPrefab: {fileID: 0}
     TickRate: 64
     ClientConnectionBufferTimeout: 10
     ConnectionApproval: 1
@@ -703,7 +708,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2046144391
 PrefabInstance:
@@ -718,7 +723,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 660717051090771871, guid: 2811519e837f89a43a35edcfb4d614f5, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 660717051090771871, guid: 2811519e837f89a43a35edcfb4d614f5, type: 3}
       propertyPath: m_LocalPosition.x

@@ -1,4 +1,5 @@
-﻿using Shared;
+﻿using System;
+using Shared;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
@@ -11,8 +12,15 @@ namespace GameSelection
         [SerializeField] private TextMeshProUGUI title, description;
         [SerializeField] private TextMeshProUGUI[] score, nickname;
         [SerializeField] private Image icon;
+        private SelectRandomGame _selectRandomGame;
 
-        public void UpdateUI(int index)
+        private void Awake()
+        {
+            _selectRandomGame = FindObjectOfType<SelectRandomGame>();
+            _selectRandomGame.OnGameSelectedEvent += UpdateUI;
+        }
+
+        private void UpdateUI(int index)
         {
             if (IsServer)
             {
@@ -84,6 +92,13 @@ namespace GameSelection
             var gameUI = GameSelectionSingleton.Instance.GetGamesUI();
             icon.gameObject.SetActive(true);
             icon.sprite = gameUI[index].icon;
+        }
+
+        public override void OnDestroy()
+        {
+            base.OnDestroy();
+            if (_selectRandomGame == null) return;
+            _selectRandomGame.OnGameSelectedEvent -= UpdateUI;
         }
     }
 }
