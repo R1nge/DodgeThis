@@ -28,6 +28,7 @@ namespace GameSelection
                 var gameUI = GameSelectionSingleton.Instance.GetGamesUI();
                 UpdateTitle(gameUI[index]);
                 UpdateIcon(index);
+                UpdateDescription(index);
                 EnablePlayersUI();
                 UpdateScore();
                 UpdateNickname();
@@ -114,6 +115,19 @@ namespace GameSelection
             var gameUI = GameSelectionSingleton.Instance.GetGamesUI();
             icon.gameObject.SetActive(true);
             icon.sprite = gameUI[index].icon;
+        }
+
+        private void UpdateDescription(int index)
+        {
+            var desctiptionStr = GameSelectionSingleton.Instance.GetGamesUI()[index].description;
+            description.text = desctiptionStr;
+            UpdateDescriptionClientRpc(desctiptionStr);
+        }
+
+        [ClientRpc]
+        private void UpdateDescriptionClientRpc(string descriptionStr)
+        {
+            description.text = descriptionStr;
         }
 
         public override void OnDestroy()

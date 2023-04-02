@@ -1,6 +1,4 @@
-﻿using System;
-using TMPro;
-using Unity.Netcode;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,11 +20,9 @@ namespace GameSelection
         public void UpdateSlotInfo(GamesUI ui)
         {
             title.text = ui.title;
-            //TODO: show description
             //description.text = ui.description;
             preview.texture = ui.preview.texture;
             icon.texture = ui.icon.texture;
-    
         }
         
         public void AddButtonListener(int index)
@@ -44,14 +40,5 @@ namespace GameSelection
             gameObject.SetActive(false);
             _index--;
         }
-        //
-        // [ClientRpc]
-        // private void SelectClientRpc(int index)
-        // {
-        //     _index = index;
-        //     GameSelectionSingleton.Instance.SelectGameServerRpc(_index);
-        //     gameObject.SetActive(false);
-        //     _index--;
-        // }
     }
 }
