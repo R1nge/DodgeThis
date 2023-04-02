@@ -11,6 +11,7 @@ namespace GameSelection
     {
         [SerializeField] private TextMeshProUGUI title, description;
         [SerializeField] private TextMeshProUGUI[] score, nickname;
+        [SerializeField] private GameObject[] playersUI;
         [SerializeField] private Image icon;
         private SelectRandomGame _selectRandomGame;
 
@@ -27,6 +28,7 @@ namespace GameSelection
                 var gameUI = GameSelectionSingleton.Instance.GetGamesUI();
                 UpdateTitle(gameUI[index]);
                 UpdateIcon(index);
+                EnablePlayersUI();
                 UpdateScore();
                 UpdateNickname();
             }
@@ -40,6 +42,26 @@ namespace GameSelection
 
         [ClientRpc]
         private void UpdateUIClientRpc(string str) => title.text = str;
+
+        private void EnablePlayersUI()
+        {
+            var players = LobbySingleton.Instance.GetPlayersList();
+            for (int i = 0; i < players.Count; i++)
+            {
+                playersUI[i].SetActive(true);
+            }
+
+            EnablePlayersUIClientRpc(players.Count);
+        }
+
+        [ClientRpc]
+        private void EnablePlayersUIClientRpc(int playerCount)
+        {
+            for (int i = 0; i < playerCount; i++)
+            {
+                playersUI[i].SetActive(true);
+            }
+        }
 
         private void UpdateNickname()
         {

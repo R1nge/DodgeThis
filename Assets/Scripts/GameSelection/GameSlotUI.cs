@@ -22,6 +22,7 @@ namespace GameSelection
         public void UpdateSlotInfo(GamesUI ui)
         {
             title.text = ui.title;
+            //TODO: show description
             //description.text = ui.description;
             preview.texture = ui.preview.texture;
             icon.texture = ui.icon.texture;

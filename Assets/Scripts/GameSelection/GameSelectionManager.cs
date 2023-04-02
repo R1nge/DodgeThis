@@ -3,6 +3,7 @@ using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace GameSelection
 {
@@ -12,6 +13,7 @@ namespace GameSelection
         [SerializeField] private GameObject slot;
         [SerializeField] private int maxSelectedGames;
         [SerializeField] private TextMeshProUGUI gameSelectLeft;
+        [SerializeField] private Button start;
         private List<GameObject> _slots;
         private int _selectedGames;
 
@@ -29,6 +31,8 @@ namespace GameSelection
                 {
                     SpawnMinigamesUI(i);
                 }
+
+                start.gameObject.SetActive(true);
             }
         }
 

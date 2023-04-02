@@ -11,6 +11,7 @@ namespace GameSelection
     public class SelectRandomGame : NetworkBehaviour
     {
         private bool _sceneLoaded;
+        private int _playersLoaded;
         public event Action<int> OnGameSelectedEvent;
 
         private void Awake()
@@ -23,6 +24,7 @@ namespace GameSelection
         private void SceneManagerOnOnLoadComplete(ulong clientid, string scenename, LoadSceneMode loadscenemode)
         {
             if (!IsServer) return;
+            _playersLoaded++;
             if (_sceneLoaded) return;
             SelectGame();
         }
@@ -71,7 +73,13 @@ namespace GameSelection
 
         private IEnumerator ChangeLevel_c(string level)
         {
-            yield return new WaitForSeconds(10);
+            while (_playersLoaded < LobbySingleton.Instance.GetPlayersList().Count)
+            {
+                yield return new WaitForSeconds(.1f);
+            }
+
+            yield return new WaitForSeconds(5);
+
             NetworkManager.Singleton.SceneManager.LoadScene(level, LoadSceneMode.Single);
         }
 

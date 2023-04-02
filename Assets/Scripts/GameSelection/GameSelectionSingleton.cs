@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,13 +9,14 @@ namespace GameSelection
     {
         public static GameSelectionSingleton Instance { get; private set; }
         [SerializeField] private GamesUI[] gamesUI;
-        [SerializeField] private List<Games> games, selectedGames;
+        private readonly List<Games> _games = new();
+        private List<Games> _selectedGames = new();
 
         private void Awake()
         {
             for (int i = 0; i < gamesUI.Length; i++)
             {
-                games.Add(new Games(
+                _games.Add(new Games(
                     gamesUI[i].title,
                     gamesUI[i].sceneName,
                     false,
@@ -45,39 +45,39 @@ namespace GameSelection
 
         public void SelectGame(int index)
         {
-            if (!games[index].IsSelected)
+            if (!_games[index].IsSelected)
             {
-                games[index] = new Games
+                _games[index] = new Games
                 {
                     Title = gamesUI[index].title,
                     IsSelected = true,
-                    SceneName = games[index].SceneName,
+                    SceneName = _games[index].SceneName,
                     HasBeenPlayed = false
                 };
 
-                selectedGames.Add(games[index]);
+                _selectedGames.Add(_games[index]);
             }
         }
 
         public void ResetSelectedGames()
         {
-            for (int i = 0; i < games.Count; i++)
+            for (int i = 0; i < _games.Count; i++)
             {
-                games[i] = new Games
+                _games[i] = new Games
                 {
                     IsSelected = false,
-                    SceneName = games[i].SceneName,
+                    SceneName = _games[i].SceneName,
                     HasBeenPlayed = false
                 };
             }
 
-            selectedGames = new List<Games>();
+            _selectedGames = new List<Games>();
         }
 
         public GamesUI[] GetGamesUI() => gamesUI;
 
-        public List<Games> GetGames() => games;
+        public List<Games> GetGames() => _games;
 
-        public List<Games> GetSelectedGames() => selectedGames;
+        public List<Games> GetSelectedGames() => _selectedGames;
     }
 }
