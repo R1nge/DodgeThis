@@ -4,7 +4,7 @@ using Unity.Netcode;
 namespace Shared
 {
     [Serializable]
-    public struct PlayerState : INetworkSerializable, IEquatable<PlayerState>
+    public struct PlayerState : INetworkSerializable, IEquatable<PlayerState>, IComparable<PlayerState>
     {
         public ulong ClientId;
         public NetworkString Nickname;
@@ -46,6 +46,19 @@ namespace Shared
         public override int GetHashCode()
         {
             return HashCode.Combine(ClientId, Nickname, SkinIndex, IsReady, Score, IsAlive);
+        }
+
+        public int CompareTo(PlayerState other)
+        {
+            var clientIdComparison = ClientId.CompareTo(other.ClientId);
+            if (clientIdComparison != 0) return clientIdComparison;
+            var skinIndexComparison = SkinIndex.CompareTo(other.SkinIndex);
+            if (skinIndexComparison != 0) return skinIndexComparison;
+            var isReadyComparison = IsReady.CompareTo(other.IsReady);
+            if (isReadyComparison != 0) return isReadyComparison;
+            var scoreComparison = Score.CompareTo(other.Score);
+            if (scoreComparison != 0) return scoreComparison;
+            return IsAlive.CompareTo(other.IsAlive);
         }
     }
 }

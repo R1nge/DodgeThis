@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Linq;
 using Shared;
 using TMPro;
 using Unity.Netcode;
@@ -69,9 +69,10 @@ namespace GameSelection
             if (IsServer)
             {
                 var players = LobbySingleton.Instance.GetPlayersList();
+                var playersByScore = players.OrderByDescending(x => x.Score).ToArray();
                 for (int i = 0; i < players.Count; i++)
                 {
-                    var nick = players[i].Nickname;
+                    var nick = playersByScore[i].Nickname;
                     nickname[i].text = nick;
                     UpdateNicknameClientRpc(nick, i);
                 }
@@ -89,9 +90,10 @@ namespace GameSelection
             if (IsServer)
             {
                 var players = LobbySingleton.Instance.GetPlayersList();
+                var playersByScore = players.OrderByDescending(x => x.Score).ToArray();
                 for (int i = 0; i < players.Count; i++)
                 {
-                    var scoreStr = players[i].Score.ToString();
+                    var scoreStr = playersByScore[i].Score.ToString();
                     score[i].text = scoreStr;
                     UpdateScoreClientRpc(scoreStr, i);
                 }
