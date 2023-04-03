@@ -102,9 +102,12 @@ MonoBehaviour:
     m_InternalValue: 8
   rotationSpeed:
     m_InternalValue: 720
-  jumpSpeed: 8
-  gravity: 20
-  canJump: 1
+  jumpSpeed:
+    m_InternalValue: 8
+  gravity:
+    m_InternalValue: 0.5
+  canJump:
+    m_InternalValue: 1
 --- !u!114 &4192047551339863340
 MonoBehaviour:
   m_ObjectHideFlags: 0

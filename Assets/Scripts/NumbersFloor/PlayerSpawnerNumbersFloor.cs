@@ -4,11 +4,9 @@ using UnityEngine;
 
 namespace NumbersFloor
 {
-    public class PlayerSpawnerNumbersFloor : NetworkBehaviour
+    public class PlayerSpawnerNumbersFloor : PlayerSpawner
     {
-        [SerializeField] private Skin skins;
-
-        private void Awake()
+        protected override void Awake()
         {
             NetworkManager.Singleton.OnClientConnectedCallback += SpawnPlayer;
         }
@@ -25,7 +23,7 @@ namespace NumbersFloor
             }
         }
 
-        private void SpawnPlayer(ulong ID)
+        protected override void SpawnPlayer(ulong ID)
         {
             if (!IsServer) return;
             var pos = new Vector3(Random.Range(-3, 5), 2, Random.Range(-5, 4));
@@ -33,12 +31,13 @@ namespace NumbersFloor
             {
                 if (ID == LobbySingleton.Instance.GetPlayersList()[i].ClientId)
                 {
-                    var controller = Instantiate(skins.GetController(3), pos, Quaternion.identity);
-                    controller.GetComponent<NetworkObject>().SpawnWithOwnership(ID, true);
-                    controller.transform.position = pos;
-                    var skin = Instantiate(skins.GetSkin(LobbySingleton.Instance.GetPlayersList()[i].SkinIndex), pos + skins.GetOffset(i), Quaternion.identity);
+                    var controllerInst = Instantiate(controller, pos, Quaternion.identity);
+                    controllerInst.GetComponent<NetworkObject>().SpawnWithOwnership(ID, true);
+                    controllerInst.transform.position = pos;
+                    var skin = Instantiate(skins.GetSkin(LobbySingleton.Instance.GetPlayersList()[i].SkinIndex),
+                        pos + skins.GetOffset(i), Quaternion.identity);
                     skin.GetComponent<NetworkObject>().SpawnWithOwnership(ID, true);
-                    skin.transform.parent = controller.transform;
+                    skin.transform.parent = controllerInst.transform;
                     skin.transform.localPosition = skins.GetOffset(i);
                 }
             }

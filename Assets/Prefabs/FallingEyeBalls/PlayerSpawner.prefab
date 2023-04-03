@@ -45,7 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d94a2774096e438797db4f372ad93966, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skins: {fileID: 11400000, guid: 23f44bed9285823468e2daac6dd07120, type: 2}
+  controller: {fileID: 0}
   player: {fileID: 6941573938973730643, guid: b30de2359bfa5be4889b690d45deecb8, type: 3}
+  spawnPositions: []
 --- !u!114 &1801508332668634337
 MonoBehaviour:
   m_ObjectHideFlags: 0

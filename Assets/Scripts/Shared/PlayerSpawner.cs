@@ -6,6 +6,7 @@ namespace Shared
     public abstract class PlayerSpawner : NetworkBehaviour
     {
         [SerializeField] protected Skin skins;
+        [SerializeField] protected GameObject controller;
         private GameState _gameState;
 
         protected virtual void Awake()

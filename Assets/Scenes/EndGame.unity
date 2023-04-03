@@ -865,6 +865,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skins: {fileID: 11400000, guid: 23f44bed9285823468e2daac6dd07120, type: 2}
+  controller: {fileID: 4192047551339863338, guid: 23e37580afc2a084d87f59a0a0c8da2b, type: 3}
   positions:
   - {fileID: 834534582}
   - {fileID: 127051679}

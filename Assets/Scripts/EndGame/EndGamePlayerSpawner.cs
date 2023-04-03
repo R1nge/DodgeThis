@@ -24,7 +24,6 @@ namespace EndGame
                 if (ID == sorted[i].ClientId)
                 {
                     _lastPosition = i % 4;
-                    var controller = skins.GetController(4);
                     var controllerPos = positions[_lastPosition].position;
                     var controllerRot = Quaternion.Euler(0, 180, 0);
                     var controllerInst = Instantiate(controller, controllerPos, controllerRot);

@@ -105,7 +105,7 @@ MonoBehaviour:
   jumpSpeed:
     m_InternalValue: 8
   gravity:
-    m_InternalValue: 20
+    m_InternalValue: 0.5
   canJump:
     m_InternalValue: 1
 --- !u!114 &4192047551339863340

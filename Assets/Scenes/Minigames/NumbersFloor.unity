@@ -1000,10 +1000,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerSpawnerNumbersFloor
       objectReference: {fileID: 0}
-    - target: {fileID: 4470436208989201070, guid: 5450a827942c69043af2be2a4fed3757, type: 3}
-      propertyPath: skins
-      value: 
-      objectReference: {fileID: 11400000, guid: 23f44bed9285823468e2daac6dd07120, type: 2}
     - target: {fileID: 4470436208989201071, guid: 5450a827942c69043af2be2a4fed3757, type: 3}
       propertyPath: m_RootOrder
       value: 3
